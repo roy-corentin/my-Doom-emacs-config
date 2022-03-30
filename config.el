@@ -1,86 +1,73 @@
-;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
+;; clients, file templates and snippets. It is optional.
 (setq user-full-name "John Doe"
       user-mail-address "john@doe.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
+;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;; - `doom-font' -- the primary font to use
+;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
+;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-;;(set-face-attribute 'default nil
-;; :family "JetBrains Mono"
-;; :weight 'medium)
-
-;;(setq doom-font (font-spec :family "JetBrains Mono" :size 1 :weight 'bold))
+;; See 'C-h v doom-font' for documentation and more examples of what they
+;; accept. For example:
+;;
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 (setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'medium))
 
 ;; enable bold and italic
 (after! doom-themes
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t))
+      (setq doom-themes-enable-bold t)
+      (setq doom-themes-enable-italic t))
 
 ;; keyword in Italic for example "for"
 (custom-set-faces!
   '(font-lock-keyword-face :slant italic))
 
+;; add icon in treemacs
+(setq doom-themes-treemacs-theme "doom-colors")
+
+;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
+;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
+;; refresh your font settings. If Emacs still can't find your font, it likely
+;; wasn't installed correctly. Font issues are rarely Doom issues!
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;;(setq doom-theme 'doom-one)
 (setq doom-theme 'doom-one)
 
 ;; set transparency
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
 (add-to-list 'default-frame-alist '(alpha 97 97))
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-(setq org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "CANCELED(c)" "DONE(d)")))
-(setq org-todo-keyword-faces
-      '(("TODO" :foreground "#7c7c75", :weight normal :underline t)
-        ("WAITING" :foreground "#9f7efe" :weight normal :underline t)
-        ("INPROGRESS" :foreground "#0098dd",:weight normal :underline t)
-        ("DONE" :foreground "#50#a14f" :weight normal :underline t)
-        ("CANCELED" :foreground "#ff6480" :weight normal :underline t)))
-
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-(map! :leader
-      :desc "Un/Comment region"
-      "/" #'comment-or-uncomment-region)
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
 
-(require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
+;; company
+;; (require 'company-tabnine)
+;; (add-to-list 'company-backends #'company-tabnine)
 (setq company-idle-delay 0)
 (setq company-show-quick-access t)
-
-(setq doom-themes-treemacs-theme "doom-colors")
 
 ;; disabled move backward between different mode
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
-
-;; powerline enable
-;; (require 'powerline-evil)
-;; (powerline-evil-vim-theme)
 
 ;; filter to treemacs
 (after! treemacs
@@ -112,17 +99,25 @@
         "idea"
         ))
 
-;; calc default value
-(setq calc-angle-mode 'rad  ; radians are rad
-      calc-symbolic-mode t) ; keeps expressions like \sqrt{2} irrational for as long as possible
+;; completion pyton
+(require 'lsp-python-ms)
+(setq lsp-python-ms-auto-install-server t)
+(add-hook 'python-mode-hook #'lsp) ; or lsp-deferred
 
-;; use LaTeX
-;; (package! calctex :recipe (:host github :repo "johnbcoughlin/calctex"
-;;                            :files ("*.el" "calctex/*.el" "calctex-contrib/*.el" "org-calctex/*.el" "vendor"))
-;;   :pin "67a2e76847a9ea9eff1f8e4eb37607f84b380ebb")
-
-
-;; Here are some additional functions/macros that could help you configure Doom:
+;; Whenever you reconfigure a package, make sure to wrap your config in an
+;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;;
+;;   (after! PACKAGE
+;;     (setq x y))
+;;
+;; The exceptions to this rule:
+;;
+;;   - Setting file/directory variables (like `org-directory')
+;;   - Setting variables which explicitly tell you to set them before their
+;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+;;   - Setting doom variables (which start with 'doom-' or '+').
+;;
+;; Here are some additional functions/macros that will help you configure Doom.
 ;;
 ;; - `load!' for loading external *.el files relative to this one
 ;; - `use-package!' for configuring packages
@@ -131,10 +126,15 @@
 ;;   this file. Emacs searches the `load-path' when you load packages with
 ;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
-;;
+
+(map! :map `local "C-<up>" #'evil-mc-make-cursor-move-prev-line)
+(map! :map `local "C-<down>" #'evil-mc-make-cursor-move-next-line)
+
 ;; To get information about any of these functions/macros, move the cursor over
 ;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
 ;; This will open documentation for it, including demos of how they are used.
-;;
+;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+;; etc).
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+;;
 ;; they are implemented.
