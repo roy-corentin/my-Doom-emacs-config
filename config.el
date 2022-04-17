@@ -59,15 +59,46 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
+;; (setq fancy-splash-image "~/Pictures/Fox.png")
+(setq fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; company
 ;; (require 'company-tabnine)
 ;; (add-to-list 'company-backends #'company-tabnine)
-(setq company-idle-delay 0)
+(setq company-idle-delay 0
+      company-minimum-prefix-length 1)
 (setq company-show-quick-access t)
 
 ;; disabled move backward between different mode
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
+
+;; Previous and next buffer
+(map! :ni "C-," #'previous-buffer)
+(map! :ni "C-;" #'next-buffer)
+
+;; Drag stuff
+(map! "C-M-k" #'drag-stuff-up)
+(map! "C-M-j" #'drag-stuff-down)
+
+;; Add .html.erb tp lsp
+; lsp ui sideline
+;; (setq lsp-ui-sideline-enable t)
+;; (setq lsp-ui-sideline-show-hover t)
+;; (setq lsp-ui-sideline-show-code-actions t)
+;; (setq lsp-ui-sideline-delay 2)
+;; (setq lsp-ui-sideline-update-mode t)
+
+;; (after! lsp-mode
+;;         (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
+;;         ;; (setq lsp-ui-sideline-enable t)
+;;         (setq lsp-ui-sideline-show-hover t)
+;;         (setq lsp-ui-sideline-show-code-actions t)
+;;         (setq lsp-ui-sideline-delay 2)
+;;         ;; (setq lsp-ui-sideline-update-mode t)
+;; )
+;; Disable line numbers for some modes
+(dolist (mode '(org-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; filter to treemacs
 (after! treemacs
@@ -100,9 +131,13 @@
         ))
 
 ;; completion pyton
-(require 'lsp-python-ms)
-(setq lsp-python-ms-auto-install-server t)
-(add-hook 'python-mode-hook #'lsp) ; or lsp-deferred
+;; (require 'lsp-python-ms)
+;; (setq lsp-python-ms-auto-install-server t)
+;; (add-hook 'python-mode-hook #'lsp) ; or lsp-deferred
+
+;; clock sound for org timer
+;; (after! org
+;;   (setq org-clock-sound "PATH"))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -127,9 +162,6 @@
 ;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
 
-(map! :map `local "C-<up>" #'evil-mc-make-cursor-move-prev-line)
-(map! :map `local "C-<down>" #'evil-mc-make-cursor-move-next-line)
-
 ;; To get information about any of these functions/macros, move the cursor over
 ;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
 ;; This will open documentation for it, including demos of how they are used.
@@ -138,3 +170,4 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;;
 ;; they are implemented.
+;; (load (expand-file-name "rails-settings.el" doom-private-dir))
