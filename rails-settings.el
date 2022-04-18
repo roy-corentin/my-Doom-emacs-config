@@ -125,7 +125,7 @@
 
   (map! :map ruby-mode-map :desc "split or join if/unless" :localleader "i" #'otavio/swap-if-unless-ruby))
 
-Add parameters
+;; Add parameters
 (after! ruby-mode
   (defun ruby-add-parameter--with-existing-parameters (args)
     (interactive)
@@ -150,3 +150,141 @@ Add parameters
             (ruby-add-parameter--without-existing-parameters args))))))
 
   (map! :mode ruby-mode :localleader :desc "Add parameter to def" "a" #'ruby-add-parameter))
+
+;; Method Refactor
+(after! ruby-mode
+  (defun ruby-extract-function ()
+    (interactive)
+    (let* ((function-name (read-string "Method name? "))
+           (has-private (ruby-new-method-from-symbol-at-point-verify-private))
+           (args (read-string "Arguments without paranthesis (leave blank for no parameters): ")))
+
+      (when (not (string= function-name ""))
+        (call-interactively 'evil-change)
+        (call-interactively 'evil-normal-state)
+        (ruby-extract-function--create-function function-name args has-private)
+        (ruby-extract-function--insert-function function-name args))))
+
+  (defun ruby-extract-function--insert-function (function-name args)
+    (when (not (eq (point) (point-at-eol)))
+      (evil-forward-char))
+    (insert function-name)
+    (when (not (string= args ""))
+      (insert "(" args ")"))
+    (evil-indent (point-at-bol) (point-at-eol)))
+
+  (defun ruby-extract-function--create-function (function-name args has-private)
+    (save-excursion
+      (if (and has-private (yes-or-no-p "private found, create method after private?"))
+          (progn
+            (search-forward "private\n" (point-max) t)
+            (+evil/insert-newline-below 1)
+            (forward-line 1))
+        (progn
+          (+evil/next-end-of-method)
+          (when (not (string= (string (following-char)) "\n"))
+            (+evil/insert-newline-above 1))
+          (+evil/insert-newline-below 1)
+          (forward-line 1)))
+      (insert "def " function-name)
+      (when (not (string= args ""))
+        (insert "(" args ")"))
+      (evil-indent (point-at-bol) (point-at-eol)) (+evil/insert-newline-below 1) (forward-line 1)
+      (insert "end") (evil-indent (point-at-bol) (point-at-eol))
+      (+evil/insert-newline-above 1) (+evil/insert-newline-below 1)
+      (forward-line -1)
+      (evil-paste-after 1)
+      (forward-line -1)
+      (when (string= (string (following-char)) "\n") (delete-char 1))
+      (+evil/reselect-paste)
+      (call-interactively 'evil-indent)))
+
+  (map! :mode ruby-mode :localleader :desc "Extract Function" "m" #'ruby-extract-function))
+
+;; Create method at point
+(after! ruby-mode
+  (defun ruby-new-method-from-symbol-at-point ()
+    (interactive)
+    (better-jumper-set-jump)
+    (when (looking-at-p "\\sw\\|\\s_")
+      (forward-sexp 1))
+    (forward-sexp -1)
+    (let* ((variable-start-point (point))
+           (variable-end-point nil)
+           (variable-name (save-excursion (forward-sexp 1) (setq variable-end-point (point)) (buffer-substring-no-properties variable-start-point (point))))
+           (has-arguments (save-excursion (goto-char variable-end-point) (looking-at-p "(")))
+           (has-private (ruby-new-method-from-symbol-at-point-verify-private))
+           (arguments (ruby-new-method-from-symbol-at-point--get-arguments has-arguments variable-end-point)))
+      (ruby-new-method-from-symbol-at-point--create-method variable-name (string-join (remove nil arguments) ", ") has-private)))
+
+  (defun ruby-new-method-from-symbol-at-point-verify-private ()
+    (save-excursion
+      (search-forward "private\n" (point-max) t)))
+
+  (defun ruby-new-method-from-symbol-at-point--create-method (function-name args has-private)
+    (if (and has-private (yes-or-no-p "private found, create method after private?"))
+        (progn
+          (goto-char (point-min))
+          (search-forward "private\n" (point-max))
+          (+evil/insert-newline-below 1)
+          (forward-line 1))
+      (progn
+        (+evil/next-end-of-method)
+        (when (not (string= (string (following-char)) "\n"))
+          (+evil/insert-newline-above 1))
+        (+evil/insert-newline-below 1)
+        (forward-line 1)))
+    (insert "def " function-name)
+    (when (not (string= args ""))
+      (insert "(" args ")"))
+    (evil-indent (point-at-bol) (point-at-eol)) (+evil/insert-newline-below 1) (forward-line 1)
+    (insert "end") (evil-indent (point-at-bol) (point-at-eol))
+    (+evil/insert-newline-below 1)
+    (forward-line -1) (goto-char (point-at-eol)) (newline-and-indent)
+    (when (featurep 'evil)
+      (evil-insert 1))
+    (message "Method created!  Pro Tip:  Use C-o (normal mode) to jump back to the method usage."))
+
+  (defun ruby-new-method-from-symbol-at-point--get-arguments (has-arguments variable-end-point)
+    (when has-arguments
+      (let* ((start-args-point nil)
+             (end-args-point nil)
+             (args-raw nil)
+             )
+        (save-excursion (goto-char variable-end-point) (evil-forward-word-begin) (setq start-args-point (point)) (evil-backward-word-end)
+                        (evil-jump-item)
+                        (setq end-args-point (point)))
+        (setq args-raw (buffer-substring-no-properties start-args-point end-args-point))
+        (mapcar
+         (lambda (argument)
+           (if (string-match-p "(...)" argument)
+               (read-string (concat "name for " argument " argument:  "))
+             (ruby-new-method-from-symbol-at-point--verify-exist argument))
+           ) (mapcar 'string-trim (split-string (replace-regexp-in-string "(.*)" "(...)" args-raw) ","))))))
+
+  (defun ruby-new-method-from-symbol-at-point--verify-exist (argument)
+    (save-excursion
+      (if (or (search-backward-regexp (concat "def " argument "\\(\(\\|$\\)") (point-min) t)
+              (search-forward-regexp (concat "def " argument "\\(\(\\|$\\)") (point-max) t))
+          nil
+        (if (eq 0 (length (let ((case-fold-search nil))
+                            (remove "" (split-string argument "[a-z]+\\(_[a-z]+\\)*")))))
+            (if (or (string= argument "false")
+                    (string= argument "true"))
+                (read-string (concat "name for " argument " boolean:  ")) argument)
+          (read-string (concat "name for " argument " expression:  "))))))
+
+  (map! :mode ruby-mode :localleader :desc "New method from text at point" "n" #'ruby-new-method-from-symbol-at-point))
+
+;; tailwindcss config
+(use-package! lsp-tailwindcss
+  :after lsp-mode
+  :init
+  (setq lsp-tailwindcss-add-on-mode t)
+  :config
+  (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html"))
+  (setq lsp-tailwindcss-major-modes '(web-mode css-mode rjsx-mode typescript-tsx-mode)
+        lsp-tailwindcss-emmet-completions (featurep 'emmet-mode)))
+
+(set-docsets! '(web-mode css-mode rjsx-mode typescript-tsx-mode)
+              :add "Tailwind_CSS")
