@@ -1,5 +1,6 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
+(package! project :pin "125a1a8d15f998cd495ef6a6b981b1a0e201bd2f") ; Feb 23
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or

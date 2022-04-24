@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Corentin Roy"
+      user-mail-address "corentin.roy02@laposte.net")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -24,6 +24,7 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 (setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'medium))
+;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 12 :weight 'medium))
 
 ;; enable bold and italic
 (after! doom-themes
@@ -37,6 +38,7 @@
 ;; add icon in treemacs
 (setq doom-themes-treemacs-theme "doom-colors")
 
+
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -46,6 +48,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-solarized-dark)
 
 ;; set transparency
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
@@ -66,7 +69,13 @@
 ;; (add-to-list 'company-backends #'company-tabnine)
 (setq company-idle-delay 0
       company-minimum-prefix-length 1)
-(setq company-show-quick-access t)
+(setq company-tooltip-margin 3)
+(setq company-format-margin-function 'company-text-icons-margin)
+(setq company-text-icons-add-background t)
+(custom-set-faces
+ '(company-tooltip
+   ((t (:background "#57666a" )))))
+
 
 ;; disabled move backward between different mode
 (setq evil-move-beyond-eol t)
@@ -81,13 +90,6 @@
 (map! "C-M-j" #'drag-stuff-down)
 
 ;; Add .html.erb tp lsp
-; lsp ui sideline
-;; (setq lsp-ui-sideline-enable t)
-;; (setq lsp-ui-sideline-show-hover t)
-;; (setq lsp-ui-sideline-show-code-actions t)
-;; (setq lsp-ui-sideline-delay 2)
-;; (setq lsp-ui-sideline-update-mode t)
-
 (after! lsp-mode
         (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
         (setq lsp-ui-sideline-show-code-actions t)
@@ -131,6 +133,16 @@
 (setq lsp-python-ms-auto-install-server t)
 (add-hook 'python-mode-hook #'lsp) ; or lsp-deferred
 
+;; Black for python format
+(use-package! python-black
+  :demand t
+  :after python
+  :config
+  (add-hook! 'python-mode-hook #'python-black-on-save-mode)
+  (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
+  (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
+  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
+)
 ;; clock sound for org timer
 ;; (after! org
 ;;   (setq org-clock-sound "PATH"))
@@ -189,7 +201,24 @@
 
 (use-package visual-fill-column
   :hook (org-mode . efs/org-mode-visual-fill))
-;;
+
+(setq org-image-actual-width nil)
+
+;;treemacs config
+(use-package treemacs
+  :ensure t
+  :defer t
+  :config
+  (progn
+    (treemacs-follow-mode t))
+)
+
+(use-package prettier
+  :after js2-mode
+  :init
+  (add-hook 'js2-mode-hook 'prettier-mode)
+  (add-hook 'web-mode-hook 'prettier-mode))
+
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -221,4 +250,4 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;;
 ;; they are implemented.
-;; (load (expand-file-name "rails-settings.el" doom-private-dir))
+(load (expand-file-name "rails-settings.el" doom-private-dir))
