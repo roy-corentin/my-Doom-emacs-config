@@ -206,7 +206,6 @@
 
 ;;treemacs config
 (use-package treemacs
-  :ensure t
   :defer t
   :config
   (progn
@@ -218,6 +217,23 @@
   :init
   (add-hook 'js2-mode-hook 'prettier-mode)
   (add-hook 'web-mode-hook 'prettier-mode))
+
+;; add web-mode for react
+(add-to-list 'auto-mode-alist '("/some/react/path/.*\\.js[x]?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("/some/react/path/.*\\.ts[x]?\\'" . web-mode))
+
+;; org-roam
+(use-package org-roam
+  :ensure t
+
+  :custom
+  (org-roam-directory "~/RoamNotes")
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-setup))
+
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
