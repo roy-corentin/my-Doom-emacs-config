@@ -224,7 +224,7 @@
 
 ;; org-roam
 (use-package org-roam
-  :ensure t
+  ;; :ensure t
 
   :custom
   (org-roam-directory "~/RoamNotes")
