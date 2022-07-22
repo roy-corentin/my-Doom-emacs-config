@@ -234,6 +234,9 @@
   :config
   (org-roam-setup))
 
+;; typescript react config
+(setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
+(setq-hook! 'typescript-mode-hook +format-with-lsp nil)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
