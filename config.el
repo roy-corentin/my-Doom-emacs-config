@@ -65,8 +65,8 @@
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; company
-;; (require 'company-tabnine)
-;; (add-to-list 'company-backends #'company-tabnine)
+(require 'company-tabnine)
+(add-to-list 'company-backends #'company-tabnine)
 (setq company-idle-delay 0
       company-minimum-prefix-length 1)
 (setq company-tooltip-margin 3)
@@ -223,16 +223,22 @@
 (add-to-list 'auto-mode-alist '("/some/react/path/.*\\.ts[x]?\\'" . web-mode))
 
 ;; org-roam
-(use-package org-roam
-  ;; :ensure t
+;; (after! org
+;;         (setq org-roam-directory "~/Documents/org/roam/")
+;;         (setq org-roam-index-file "~/Documents/org/roam/index.org"))
+(after! org
+        (setq org-roam-directory "~/RoamNotes")
+        (setq org-roam-index-file "~/RoamNotes/index.org"))
+;; (use-package org-roam
+;;   ;; :ensure t
 
-  :custom
-  (org-roam-directory "~/RoamNotes")
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert))
-  :config
-  (org-roam-setup))
+;;   :custom
+;;   (org-roam-directory "~/RoamNotes")
+;;   :bind (("C-c n l" . org-roam-buffer-toggle)
+;;          ("C-c n f" . org-roam-node-find)
+;;          ("C-c n i" . org-roam-node-insert))
+;;   :config
+;;   (org-roam-setup))
 
 ;; typescript react config
 (setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
