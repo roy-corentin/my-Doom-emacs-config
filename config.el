@@ -180,6 +180,7 @@
 (after! org
         (setq org-roam-directory "~/RoamNotes")
         (setq org-roam-index-file "~/RoamNotes/index.org"))
+
 ;; (use-package org-roam
 ;;   ;; :ensure t
 
