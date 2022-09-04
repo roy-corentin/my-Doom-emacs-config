@@ -1,29 +1,9 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Corentin Roy"
       user-mail-address "corentin.roy02@laposte.net")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 12 :weight 'medium))
+(setq doom-font (font-spec :family "JetBrainsMono NF" :size 12 :weight 'medium))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 12 :weight 'medium))
 
 ;; enable bold and italic
@@ -35,36 +15,17 @@
 (custom-set-faces!
   '(font-lock-keyword-face :slant italic))
 
-;; add icon in treemacs
-(setq doom-themes-treemacs-theme "doom-colors")
-
-
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-solarized-dark)
 
-;; set transparency
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
 (add-to-list 'default-frame-alist '(alpha 97 97))
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
 
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
-;; company
+
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
 (setq company-idle-delay 0
@@ -76,7 +37,6 @@
  '(company-tooltip
    ((t (:background "#57666a" )))))
 
-
 ;; disabled move backward between different mode
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
@@ -85,76 +45,28 @@
 (map! :ni "C-," #'previous-buffer)
 (map! :ni "C-;" #'next-buffer)
 
-;; Drag stuff
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
-;; Add .html.erb tp lsp
 (after! lsp-mode
         (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
         (setq lsp-ui-sideline-show-code-actions t)
 )
-;; Disable line numbers for some modes
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
+
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-;; filter to treemacs
-(after! treemacs
-  (defvar treemacs-file-ignore-extensions '()
-    "File extension which `treemacs-ignore-filter' will ensure are ignored")
-  (defvar treemacs-file-ignore-globs '()
-    "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
-  (defvar treemacs-file-ignore-regexps '()
-    "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
-  (defun treemacs-file-ignore-generate-regexps ()
-    "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
-    (setq treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
-  (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
-  (defun treemacs-ignore-filter (file full-path)
-    "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
-    (or (member (file-name-extension file) treemacs-file-ignore-extensions)
-        (let ((ignore-file nil))
-          (dolist (regexp treemacs-file-ignore-regexps ignore-file)
-            (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
-  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
-
-(setq treemacs-file-ignore-extensions
-      '(;; C/C++
-        "o"
-        "gcna"
-        "gcdo"
-        ;; other
-        "vscode"
-        "idea"
-        ))
-
-;; completion pyton
-(require 'lsp-python-ms)
-(setq lsp-python-ms-auto-install-server t)
-(add-hook 'python-mode-hook #'lsp) ; or lsp-deferred
-
-;; Black for python format
-(use-package! python-black
-  :demand t
-  :after python
-  :config
-  (add-hook! 'python-mode-hook #'python-black-on-save-mode)
-  (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
-  (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
-  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
-)
-;; clock sound for org timer
 ;; (after! org
 ;;   (setq org-clock-sound "PATH"))
-
-
-;; org mode config
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
   (visual-line-mode 1))
-
 
 (defun efs/org-font-setup ()
   ;; Replace list hyphen with dot
@@ -204,12 +116,56 @@
 
 (setq org-image-actual-width nil)
 
-;;treemacs config
+(after! treemacs
+  (defvar treemacs-file-ignore-extensions '()
+    "File extension which `treemacs-ignore-filter' will ensure are ignored")
+  (defvar treemacs-file-ignore-globs '()
+    "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
+  (defvar treemacs-file-ignore-regexps '()
+    "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
+  (defun treemacs-file-ignore-generate-regexps ()
+    "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
+    (setq treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
+  (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
+  (defun treemacs-ignore-filter (file full-path)
+    "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
+    (or (member (file-name-extension file) treemacs-file-ignore-extensions)
+        (let ((ignore-file nil))
+          (dolist (regexp treemacs-file-ignore-regexps ignore-file)
+            (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
+  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
+
+(setq treemacs-file-ignore-extensions
+      '(;; C/C++
+        "o"
+        "gcna"
+        "gcdo"
+        ;; other
+        "vscode"
+        "idea"
+        ))
+
 (use-package treemacs
   :defer t
   :config
   (progn
     (treemacs-follow-mode t))
+)
+
+(setq doom-themes-treemacs-theme "doom-colors")
+
+(require 'lsp-python-ms)
+(setq lsp-python-ms-auto-install-server t)
+(add-hook 'python-mode-hook #'lsp) ; or lsp-deferred
+
+(use-package! python-black
+  :demand t
+  :after python
+  :config
+  (add-hook! 'python-mode-hook #'python-black-on-save-mode)
+  (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
+  (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
+  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
 )
 
 (use-package prettier
@@ -218,14 +174,9 @@
   (add-hook 'js2-mode-hook 'prettier-mode)
   (add-hook 'web-mode-hook 'prettier-mode))
 
-;; add web-mode for react
 (add-to-list 'auto-mode-alist '("/some/react/path/.*\\.js[x]?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("/some/react/path/.*\\.ts[x]?\\'" . web-mode))
 
-;; org-roam
-;; (after! org
-;;         (setq org-roam-directory "~/Documents/org/roam/")
-;;         (setq org-roam-index-file "~/Documents/org/roam/index.org"))
 (after! org
         (setq org-roam-directory "~/RoamNotes")
         (setq org-roam-index-file "~/RoamNotes/index.org"))
@@ -240,39 +191,7 @@
 ;;   :config
 ;;   (org-roam-setup))
 
-;; typescript react config
 (setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
 (setq-hook! 'typescript-mode-hook +format-with-lsp nil)
 
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;;
-;; they are implemented.
 (load (expand-file-name "rails-settings.el" doom-private-dir))

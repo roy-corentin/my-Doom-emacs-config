@@ -6,6 +6,7 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
 
+(package! company-tabnine)
 (package! lsp-tailwindcss)
 (package! lsp-ruby)
 (package! python-black)

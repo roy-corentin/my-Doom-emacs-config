@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(ispell-dictionary nil)
  '(package-selected-packages
-   '(company-tabnine prettier python-black org-bullets org-roam lsp-tailwindcss projectile nose irony flx-ido cmake-mode)))
+   '(dired-posframe flycheck-posframe posframe csv-mode adoc-mode company-tabnine prettier python-black org-bullets org-roam lsp-tailwindcss projectile nose irony flx-ido cmake-mode)))
 ;;  '(package-selected-packages
 ;;    '(projectile-rails projectile python-black lsp-python-ms vterm lsp-mode))
 ;;  '(safe-local-variable-values '((checkdoc-package-keywords-flag))))
