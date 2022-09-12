@@ -247,13 +247,6 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 #+end_src
 
 * Python
-** completion pyton
-#+begin_src elisp
-(require 'lsp-python-ms)
-(setq lsp-python-ms-auto-install-server t)
-(add-hook 'python-mode-hook #'lsp)
-#+end_src
-
 ** Black for python format
 #+begin_src elisp
 (use-package! python-black
