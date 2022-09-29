@@ -14,7 +14,7 @@
 (package! org-roam)
 (package! prettier)
 (package! all-the-icons)
-
+(package! csv)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

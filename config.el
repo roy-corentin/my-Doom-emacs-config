@@ -21,7 +21,7 @@
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
 (add-to-list 'default-frame-alist '(alpha 97 97))
 
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type `relative)
 
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
@@ -164,11 +164,11 @@
   (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
 )
 
-(use-package prettier
-  :after js2-mode
-  :init
-  (add-hook 'js2-mode-hook 'prettier-mode)
-  (add-hook 'web-mode-hook 'prettier-mode))
+;; (use-package prettier
+;;   :after js2-mode
+;;   :init
+;;   (add-hook 'js2-mode-hook 'prettier-mode)
+;;   (add-hook 'web-mode-hook 'prettier-mode))
 
 (add-to-list 'auto-mode-alist '("/some/react/path/.*\\.js[x]?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("/some/react/path/.*\\.ts[x]?\\'" . web-mode))

@@ -69,7 +69,7 @@ available. You can either set `doom-theme' or manually load a theme with the
 This determines the style of line numbers in effect. If set to `nil', line
 numbers are disabled. For relative line numbers, set this to `relative'.
 #+begin_src elisp
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type `relative)
 #+end_src
 
 * Splash Screen
@@ -262,11 +262,11 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 
 * Prettier
 #+begin_src elisp
-(use-package prettier
-  :after js2-mode
-  :init
-  (add-hook 'js2-mode-hook 'prettier-mode)
-  (add-hook 'web-mode-hook 'prettier-mode))
+;; (use-package prettier
+;;   :after js2-mode
+;;   :init
+;;   (add-hook 'js2-mode-hook 'prettier-mode)
+;;   (add-hook 'web-mode-hook 'prettier-mode))
 #+end_src
 
 * Add web-mode for react
