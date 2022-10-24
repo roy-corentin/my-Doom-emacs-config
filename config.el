@@ -3,7 +3,7 @@
 
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-(setq doom-font (font-spec :family "JetBrainsMono NF" :size 12 :weight 'medium))
+(setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 12 :weight 'medium))
 
 ;; enable bold and italic
@@ -24,7 +24,8 @@
 (setq display-line-numbers-type `relative)
 
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
-(setq fancy-splash-image "~/Pictures/Doom_Logo.png")
+;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
+(setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
