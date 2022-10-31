@@ -15,7 +15,8 @@
 (custom-set-faces!
   '(font-lock-keyword-face :slant italic))
 
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-monokai-machine)
+;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-solarized-dark)
 
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
