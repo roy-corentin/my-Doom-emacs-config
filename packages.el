@@ -15,6 +15,9 @@
 (package! prettier)
 (package! all-the-icons)
 (package! csv-mode)
+(package! all-the-icons-dired)
+(package! dired-open)
+(package! peep-dired)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

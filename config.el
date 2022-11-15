@@ -1,6 +1,100 @@
 (setq user-full-name "Corentin Roy"
       user-mail-address "corentin.roy02@laposte.net")
 
+;; Using garbage magic hack.
+ (use-package gcmh
+   :config
+   (gcmh-mode 1))
+;; Setting garbage collection threshold
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6)
+
+;; Profile emacs startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "*** Emacs loaded in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+
+;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
+
+;; Silence compiler warnings as they can be pretty disruptive
+(if (boundp 'comp-deferred-compilation)
+    (setq comp-deferred-compilation nil)
+    (setq native-comp-deferred-compilation nil))
+;; In noninteractive sessions, prioritize non-byte-compiled source files to
+;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
+;; to skip the mtime checks on every *.elc file.
+(setq load-prefer-newer noninteractive)
+
+(use-package all-the-icons)
+
+;; (use-package dashboard
+;;   :init      ;; tweak dashboard config before loading it
+;;   (setq dashboard-set-heading-icons t)
+;;   (setq dashboard-set-file-icons t)
+;;   (setq dashboard-banner-logo-title "Emacs Is More Than A Text Editor!")
+;;   ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+;;   ;; (setq dashboard-startup-banner "~/.emacs.d/emacs-dash.png")  ;; use custom image as banner
+;;   (setq dashboard-center-content nil) ;; set to 't' for centered content
+;;   (setq dashboard-items '((recents . 5)
+;;                           (agenda . 5 )
+;;                           (bookmarks . 3)
+;;                           (projects . 3)
+;;                           (registers . 3)))
+;;   :config
+;;   (dashboard-setup-startup-hook)
+;;   (dashboard-modify-heading-icons '((recents . "file-text")
+;; 			      (bookmarks . "book"))))
+
+;; (setq fancy-splash-image "~/Pictures/Fox.png")
+;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
+(setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
+
+;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+
+;; (use-package elfeed
+;;   :config
+;;   (setq elfeed-search-feed-face ":foreground #fff :weight bold"
+;;         elfeed-feeds (quote
+;;                        (("https://www.reddit.com/r/linux.rss" reddit linux)
+;;                         ("https://www.reddit.com/r/commandline.rss" reddit commandline)
+;;                         ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
+;;                         ("https://www.reddit.com/r/emacs.rss" reddit emacs)
+;;                         ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
+;;                         ("https://hackaday.com/blog/feed/" hackaday linux)
+;;                         ("https://opensource.com/feed" opensource linux)
+;;                         ("https://linux.softpedia.com/backend.xml" softpedia linux)
+;;                         ("https://itsfoss.com/feed/" itsfoss linux)
+;;                         ("https://www.zdnet.com/topic/linux/rss.xml" zdnet linux)
+;;                         ("https://www.phoronix.com/rss.php" phoronix linux)
+;;                         ("http://feeds.feedburner.com/d0od" omgubuntu linux)
+;;                         ("https://www.computerworld.com/index.rss" computerworld linux)
+;;                         ("https://www.networkworld.com/category/linux/index.rss" networkworld linux)
+;;                         ("https://www.techrepublic.com/rssfeeds/topic/open-source/" techrepublic linux)
+;;                         ("https://betanews.com/feed" betanews linux)
+;;                         ("http://lxer.com/module/newswire/headlines.rss" lxer linux)
+;;                         ("https://distrowatch.com/news/dwd.xml" distrowatch linux)))))
+
+;; (use-package elfeed-goodies
+;;   :init
+;;   (elfeed-goodies/setup)
+;;   :config
+;;   (setq elfeed-goodies/entry-pane-size 0.5))
+
+;; (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
+;; (evil-define-key 'normal elfeed-show-mode-map
+;;   (kbd "J") 'elfeed-goodies/split-show-next
+;;   (kbd "K") 'elfeed-goodies/split-show-prev)
+;; (evil-define-key 'normal elfeed-search-mode-map
+;;   (kbd "J") 'elfeed-goodies/split-show-next
+;;   (kbd "K") 'elfeed-goodies/split-show-prev)
+
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
+
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
@@ -13,7 +107,15 @@
 
 ;; keyword in Italic for example "for"
 (custom-set-faces!
+  '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
+
+(set-face-attribute 'font-lock-comment-face nil :foreground "#5B6268" :slant 'italic)
+(set-face-attribute 'font-lock-function-name-face nil :foreground "#c678dd" :slant 'italic)
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "#dcaeea" :slant 'italic)
+
+;; changes certain keywords to symbols, such as lamda!
+(setq global-prettify-symbols-mode t)
 
 (setq doom-theme 'doom-monokai-machine)
 ;; (setq doom-theme 'doom-one)
@@ -23,10 +125,6 @@
 (add-to-list 'default-frame-alist '(alpha 97 97))
 
 (setq display-line-numbers-type `relative)
-
-;; (setq fancy-splash-image "~/Pictures/Fox.png")
-;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
-(setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
@@ -39,11 +137,37 @@
  '(company-tooltip
    ((t (:background "#57666a" )))))
 
+;; (use-package all-the-icons-dired)
+;; (use-package dired-open)
+;; (use-package peep-dired)
+
+;; (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
+;;                "d d" '(dired :which-key "Open dired")
+;;                "d j" '(dired-jump :which-key "Dired jump to current")
+;;                "d p" '(peep-dired :which-key "Peep-dired"))
+
+;; (with-eval-after-load 'dired
+;;   ;;(define-key dired-mode-map (kbd "M-p") 'peep-dired)
+;;   (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+;;   (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+;;   (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+;;   (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
+
+;; (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+;; ;; Get file icons in dired
+;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;; ;; With dired-open plugin, you can launch external programs for certain extensions
+;; ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
+;; (setq dired-open-extensions '(("gif" . "sxiv")
+;;                               ("jpg" . "sxiv")
+;;                               ("png" . "sxiv")
+;;                               ("mkv" . "mpv")
+;;                               ("mp4" . "mpv")))
+
 ;; disabled move backward between different mode
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
 
-;; Previous and next buffer
 (map! :ni "C-," #'previous-buffer)
 (map! :ni "C-;" #'next-buffer)
 
@@ -67,7 +191,7 @@
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
-  (variable-pitch-mode 1)
+  ;; (variable-pitch-mode 1)
   (visual-line-mode 1))
 
 (defun efs/org-font-setup ()
@@ -99,7 +223,7 @@
 (use-package org
   :hook (org-mode . efs/org-mode-setup)
   :config
-  (setq org-ellipsis " ▾")
+  (setq org-ellipsis " ▼ ")
   (efs/org-font-setup))
 
 (use-package org-bullets
@@ -108,15 +232,35 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(defun efs/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
+;; (defun efs/org-mode-visual-fill ()
+;;   (setq visual-fill-column-width 100
+;;         visual-fill-column-center-text t)
+;;   (visual-fill-column-mode 1))
 
-(use-package visual-fill-column
-  :hook (org-mode . efs/org-mode-visual-fill))
+;; (use-package visual-fill-column
+;;   :hook (org-mode . efs/org-mode-visual-fill))
 
 (setq org-image-actual-width nil)
+
+(after! org
+        (setq org-roam-directory "~/RoamNotes")
+        (setq org-roam-index-file "~/RoamNotes/index.org"))
+
+;; (use-package org-roam
+;;   ;; :ensure t
+
+;;   :custom
+;;   (org-roam-directory "~/RoamNotes")
+;;   :bind (("C-c n l" . org-roam-buffer-toggle)
+;;          ("C-c n f" . org-roam-node-find)
+;;          ("C-c n i" . org-roam-node-insert))
+;;   :config
+;;   (org-roam-setup))
+
+(setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
+(setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
+(setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
+(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 
 (after! treemacs
   (defvar treemacs-file-ignore-extensions '()
@@ -174,21 +318,6 @@
 
 (add-to-list 'auto-mode-alist '("/some/react/path/.*\\.js[x]?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("/some/react/path/.*\\.ts[x]?\\'" . web-mode))
-
-(after! org
-        (setq org-roam-directory "~/RoamNotes")
-        (setq org-roam-index-file "~/RoamNotes/index.org"))
-
-;; (use-package org-roam
-;;   ;; :ensure t
-
-;;   :custom
-;;   (org-roam-directory "~/RoamNotes")
-;;   :bind (("C-c n l" . org-roam-buffer-toggle)
-;;          ("C-c n f" . org-roam-node-find)
-;;          ("C-c n i" . org-roam-node-insert))
-;;   :config
-;;   (org-roam-setup))
 
 (setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
 (setq-hook! 'typescript-mode-hook +format-with-lsp nil)

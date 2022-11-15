@@ -4,6 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ispell-dictionary nil)
+ '(org-safe-remote-resources
+   '("\\`https://fniessen\\.github\\.io/org-html-themes/org/theme-readtheorg\\.setup\\'"))
  '(package-selected-packages
    '(csv-mode csv dired-posframe flycheck-posframe posframe adoc-mode company-tabnine prettier python-black org-bullets org-roam lsp-tailwindcss projectile nose irony flx-ido cmake-mode)))
 ;;  '(package-selected-packages
@@ -15,5 +17,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(company-tooltip ((t (:background "#57666a"))))
+ '(font-lock-comment-face ((t (:slant italic))))
  '(font-lock-keyword-face ((t (:slant italic)))))
 (put 'customize-variable 'disabled nil)
