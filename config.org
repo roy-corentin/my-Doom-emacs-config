@@ -1,4 +1,4 @@
-#+TITLE: JilkoniX GNU Emacs Config
+#+TITLE: JilkoniX Doom Emacs Config
 #+AUTHOR Corentin ROY (JilkoniX)
 #+PROPERTY: header-args :tangle config.el
 #+STARTUP: showeverything
@@ -27,7 +27,7 @@
   - [[#keybindings-to-open-dired][Keybindings To Open Dired]]
   - [[#keybindings-within-dired][Keybindings Within Dired]]
   - [[#keybindings-for-peep-dired-mode][Keybindings For Peep-Dired-Mode]]
-- [[#move-between-mode][MOVE BETWEEN MODE]]
+- [[#cursor][CURSOR]]
 - [[#move-between-buffer][MOVE BETWEEN BUFFER]]
 - [[#drag-stuff][DRAG STUFF]]
 - [[#htmlerb][HTML.ERB]]
@@ -37,8 +37,12 @@
   - [[#clock-sound-for-org-timer][Clock sound for org timer]]
   - [[#defining-a-few-things][Defining A Few Things]]
   - [[#enabling-org-bullets][Enabling Org Bullets]]
+  - [[#fancy-priority][Fancy Priority]]
   - [[#center-org-mode][Center Org Mode]]
+  - [[#keyword-todo][Keyword TODO]]
 - [[#org-roam][ORG-ROAM]]
+- [[#org-present][ORG-PRESENT]]
+  - [[#installation][Installation]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
   - [[#filter-to-treemacs][Filter To Treemacs]]
@@ -55,8 +59,7 @@
 - [[#informations][INFORMATIONS]]
 
 * INIT
- Place your private configuration here! Remember, you do not need to run 'doom
- sync' after modifying this file!
+ Place your private configuration here! Remember, you do not need to run 'doom sync' after modifying this file!
 
 
  Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -64,21 +67,22 @@
 #+begin_src elisp
 (setq user-full-name "Corentin Roy"
       user-mail-address "corentin.roy02@laposte.net")
-
 #+end_src
 
 * ABOUT THIS CONFIG
-This is my personal Doom Emacs config. I use Doom emacs for all my project so I need some configuration to be exactly like I want
+This is my personal Doom Emacs config. I use Doom Emacs for all my project so I need some configuration to be exactly like I want
 
 * STARTUP PERFORMANCE
-  This section is where it make emacs faster to load.
+  This section is where it make Emacs faster to load.
+
 ** Garbage collection
 Makes startup faster by reducing the frequency of garbage collection
+
 #+begin_src emacs-lisp
 ;; Using garbage magic hack.
- (use-package gcmh
-   :config
-   (gcmh-mode 1))
+(use-package gcmh
+  :config
+  (gcmh-mode 1))
 ;; Setting garbage collection threshold
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
@@ -99,12 +103,13 @@ Makes startup faster by reducing the frequency of garbage collection
 ;; Silence compiler warnings as they can be pretty disruptive
 (if (boundp 'comp-deferred-compilation)
     (setq comp-deferred-compilation nil)
-    (setq native-comp-deferred-compilation nil))
+  (setq native-comp-deferred-compilation nil))
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
 ;; to skip the mtime checks on every *.elc file.
 (setq load-prefer-newer noninteractive)
 #+end_src
+
 * ALL THE ICONS
 This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
 
@@ -156,42 +161,36 @@ This setting ensures that emacsclient always opens on *dashboard* rather than *s
 An RSS newsfeed reader for Emacs.
 
 #+begin_src emacs-lisp
-;; (use-package elfeed
-;;   :config
-;;   (setq elfeed-search-feed-face ":foreground #fff :weight bold"
-;;         elfeed-feeds (quote
-;;                        (("https://www.reddit.com/r/linux.rss" reddit linux)
-;;                         ("https://www.reddit.com/r/commandline.rss" reddit commandline)
-;;                         ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
-;;                         ("https://www.reddit.com/r/emacs.rss" reddit emacs)
-;;                         ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
-;;                         ("https://hackaday.com/blog/feed/" hackaday linux)
-;;                         ("https://opensource.com/feed" opensource linux)
-;;                         ("https://linux.softpedia.com/backend.xml" softpedia linux)
-;;                         ("https://itsfoss.com/feed/" itsfoss linux)
-;;                         ("https://www.zdnet.com/topic/linux/rss.xml" zdnet linux)
-;;                         ("https://www.phoronix.com/rss.php" phoronix linux)
-;;                         ("http://feeds.feedburner.com/d0od" omgubuntu linux)
-;;                         ("https://www.computerworld.com/index.rss" computerworld linux)
-;;                         ("https://www.networkworld.com/category/linux/index.rss" networkworld linux)
-;;                         ("https://www.techrepublic.com/rssfeeds/topic/open-source/" techrepublic linux)
-;;                         ("https://betanews.com/feed" betanews linux)
-;;                         ("http://lxer.com/module/newswire/headlines.rss" lxer linux)
-;;                         ("https://distrowatch.com/news/dwd.xml" distrowatch linux)))))
+  (setq elfeed-search-feed-face ":foreground #fff :weight bold"
+        elfeed-feeds (quote
+                      (("https://www.reddit.com/r/linux.rss" reddit linux)
+                       ("https://www.reddit.com/r/commandline.rss" reddit commandline)
+                       ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
+                       ("https://www.reddit.com/r/emacs.rss" reddit emacs)
+                       ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
+                       ("https://hackaday.com/blog/feed/" hackaday linux)
+                       ("https://opensource.com/feed" opensource linux)
+                       ("https://linux.softpedia.com/backend.xml" softpedia linux)
+                       ("https://itsfoss.com/feed/" itsfoss linux)
+                       ("https://www.zdnet.com/topic/linux/rss.xml" zdnet linux)
+                       ("https://www.phoronix.com/rss.php" phoronix linux)
+                       ("http://feeds.feedburner.com/d0od" omgubuntu linux)
+                       ("https://www.computerworld.com/index.rss" computerworld linux)
+                       ("https://www.networkworld.com/category/linux/index.rss" networkworld linux)
+                       ("https://www.techrepublic.com/rssfeeds/topic/open-source/" techrepublic linux)
+                       ("https://betanews.com/feed" betanews linux)
+                       ("http://lxer.com/module/newswire/headlines.rss" lxer linux)
+                       ("https://distrowatch.com/news/dwd.xml" distrowatch linux))))
 
-;; (use-package elfeed-goodies
-;;   :init
-;;   (elfeed-goodies/setup)
-;;   :config
-;;   (setq elfeed-goodies/entry-pane-size 0.5))
+  (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
+  (evil-define-key 'normal elfeed-show-mode-map
+    (kbd "J") 'elfeed-goodies/split-show-next
+    (kbd "K") 'elfeed-goodies/split-show-prev)
+  (evil-define-key 'normal elfeed-search-mode-map
+    (kbd "J") 'elfeed-goodies/split-show-next
+    (kbd "K") 'elfeed-goodies/split-show-prev)
 
-;; (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
-;; (evil-define-key 'normal elfeed-show-mode-map
-;;   (kbd "J") 'elfeed-goodies/split-show-next
-;;   (kbd "K") 'elfeed-goodies/split-show-prev)
-;; (evil-define-key 'normal elfeed-search-mode-map
-;;   (kbd "J") 'elfeed-goodies/split-show-next
-;;   (kbd "K") 'elfeed-goodies/split-show-prev)
+  (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
 #+end_src
 
 * EMOJIS
@@ -216,13 +215,14 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 #+begin_src elisp
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-(setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
+;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'medium))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 12 :weight 'medium))
 
 ;; enable bold and italic
 (after! doom-themes
-      (setq doom-themes-enable-bold t)
-      (setq doom-themes-enable-italic t))
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t))
 
 ;; keyword in Italic for example "for"
 (custom-set-faces!
@@ -234,7 +234,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "#dcaeea" :slant 'italic)
 
 ;; changes certain keywords to symbols, such as lamda!
-(setq global-prettify-symbols-mode t)
+;; (setq global-prettify-symbols-mode t)
 #+end_src
 
 
@@ -300,42 +300,32 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 ** Keybindings For Peep-Dired-Mode
 | COMMAND              | DESCRIPTION                                | KEYBINDING |
 |----------------------+--------------------------------------------+------------|
-| peep-dired           | /Toggle previews within dired/             | SPC d p    |
+| peep-dired           | /Toggle previews within dired/             | M p        |
 | peep-dired-next-file | /Move to next file in peep-dired-mode/     | j          |
 | peep-dired-prev-file | /Move to previous file in peep-dired-mode/ | k          |
 
 #+begin_src emacs-lisp
-;; (use-package all-the-icons-dired)
-;; (use-package dired-open)
-;; (use-package peep-dired)
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "M-p") 'peep-dired)
+  (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+  (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+  (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+  (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
 
-;; (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
-;;                "d d" '(dired :which-key "Open dired")
-;;                "d j" '(dired-jump :which-key "Dired jump to current")
-;;                "d p" '(peep-dired :which-key "Peep-dired"))
-
-;; (with-eval-after-load 'dired
-;;   ;;(define-key dired-mode-map (kbd "M-p") 'peep-dired)
-;;   (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
-;;   (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-;;   (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-;;   (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
-
-;; (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
-;; ;; Get file icons in dired
-;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 ;; ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
-;; (setq dired-open-extensions '(("gif" . "sxiv")
-;;                               ("jpg" . "sxiv")
-;;                               ("png" . "sxiv")
-;;                               ("mkv" . "mpv")
-;;                               ("mp4" . "mpv")))
+(setq dired-open-extensions '(("gif" . "sxiv")
+                              ("jpg" . "sxiv")
+                              ("png" . "sxiv")
+                              ("mkv" . "mpv")
+                              ("mp4" . "mpv")))
 #+end_src
 
-* MOVE BETWEEN MODE
+* CURSOR
+Disable the cursor going back off when switch between Insert an Normal mode
+
 #+begin_src elisp
-;; disabled move backward between different mode
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
 #+end_src
@@ -354,20 +344,20 @@ Move previous and next buffer
 #+end_src
 
 * HTML.ERB
-Add .html.erb to lsp-mode
+Add file format '.html.erb' to lsp-mode
 
 #+begin_src elisp
 (after! lsp-mode
-        (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-        (setq lsp-ui-sideline-show-code-actions t)
-)
+  (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
+  (setq lsp-ui-sideline-show-code-actions t)
+  )
 #+end_src
 
 * ORG
 ** Org location
+If you use `org' and don't want your org files in the default location below,
+change `org-directory'. It must be set before org loads!
 #+begin_src elisp
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 #+end_src
 
@@ -421,7 +411,6 @@ Add .html.erb to lsp-mode
   :config
   (setq org-ellipsis " ▼ ")
   (efs/org-font-setup))
-
 #+end_src
 
 ** Enabling Org Bullets
@@ -433,7 +422,27 @@ Org-bullets gives us attractive bullets rather than asterisks.
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+#+end_src
 
+** Fancy Priority
+Org-fancy-priorities give us some prettier priorities
+
+#+begin_src elisp
+(use-package org-fancy-priorities
+  :hook
+  (org-mode . org-fancy-priorities-mode)
+  :config
+  (setq org-fancy-priorities-list '((?A . "❗")
+                                    (?B . "⬆")
+                                    (?C . "⬇")
+                                    (?D . "☕")
+                                    (?1 . "⚡")
+                                    (?2 . "⮬")
+                                    (?3 . "⮮")
+                                    (?4 . "☕")
+                                    (?I . "Important"))))
+  ;; default customization
+  ;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
 #+end_src
 
 ** Center Org Mode
@@ -451,6 +460,23 @@ Center document as a word file
 (setq org-image-actual-width nil)
 #+end_src
 
+** Keyword TODO
+Use custom TODO keywords
+
+#+begin_src elisp
+(setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+      '((sequence
+         "TODO(t)"           ; A task that is ready to be tackled
+         "MAYBE(m)"          ; A task that is not sure to be
+         "STARTED(s)"        ; A task taht is alreade started
+         "WAITING(w)"        ; Something is holding up this task
+         "PROJ(p)"           ; A project that contains other tasks
+         "BUG(b)"            ; A task stoped by a bug (I hate bugs)
+         "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+         "DONE(d)"           ; Task has been completed
+         "CANCELLED(c)" )))  ; Task has been cancelled
+#+end_src
+
 * ORG-ROAM
 Example of basic config org-raom
  - (after! org
@@ -459,8 +485,8 @@ Example of basic config org-raom
 
 #+begin_src elisp
 (after! org
-        (setq org-roam-directory "~/RoamNotes")
-        (setq org-roam-index-file "~/RoamNotes/index.org"))
+  (setq org-roam-directory "~/RoamNotes")
+  (setq org-roam-index-file "~/RoamNotes/index.org"))
 #+end_src
 
 Shortcut for org-roam
@@ -475,6 +501,14 @@ Shortcut for org-roam
 ;;          ("C-c n i" . org-roam-node-insert))
 ;;   :config
 ;;   (org-roam-setup))
+#+end_src
+
+* ORG-PRESENT
+** Installation
+
+#+begin_src elisp
+;; (unless (package-installed-p 'org-present')
+;;   (package-install 'org-present'))
 #+end_src
 
 * MOUSE SCROLLING
@@ -527,7 +561,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   :config
   (progn
     (treemacs-follow-mode t))
-)
+  )
 #+end_src
 
 ** Add Icon In Treemacs
@@ -546,7 +580,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
   (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
   (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
-)
+  )
 #+end_src
 
 * PRETTIER
@@ -572,20 +606,22 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 #+end_src
 
 * CONFIGURATION DAP FOR PYTHON
-# #+begin_src elisp
-# (dap-debug
-#  (list :type "python"
-#        :args ""
-#        :cwd nil
-#        :module nil
-#        :justMyCode :json-false
-#        :debugOptions ["DebugStdLib" "ShowReturnValue" "RedirectOutput" ]
-#        :program "/home/kyoncho/.temp/test.py"
-#        :request "launch"
-#        :name "Python :: Run Configuration"))
-# #+end_src
+#+begin_src elisp
+;; (dap-debug
+;;  (list :type "python"
+;;        :args ""
+;;        :cwd nil
+;;        :module nil
+;;        :justMyCode :json-false
+;;        :debugOptions ["DebugStdLib" "ShowReturnValue" "RedirectOutput" ]
+;;        :program "/home/kyoncho/.temp/test.py"
+;;        :request "launch"
+;;        :name "Python :: Run Configuration"))
+#+end_src
 
 * IMPORT OTHER CONFIG
+Use external rails config, for snippet and method to navigate easily in rails project
+
 #+begin_src elisp
 (load (expand-file-name "rails-settings.el" doom-private-dir))
 #+end_src

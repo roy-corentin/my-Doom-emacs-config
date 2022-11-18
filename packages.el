@@ -18,6 +18,8 @@
 (package! all-the-icons-dired)
 (package! dired-open)
 (package! peep-dired)
+(package! elfeed)
+(package! org-fancy-priorities)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

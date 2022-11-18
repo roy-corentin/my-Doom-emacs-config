@@ -2,9 +2,9 @@
       user-mail-address "corentin.roy02@laposte.net")
 
 ;; Using garbage magic hack.
- (use-package gcmh
-   :config
-   (gcmh-mode 1))
+(use-package gcmh
+  :config
+  (gcmh-mode 1))
 ;; Setting garbage collection threshold
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
@@ -23,7 +23,7 @@
 ;; Silence compiler warnings as they can be pretty disruptive
 (if (boundp 'comp-deferred-compilation)
     (setq comp-deferred-compilation nil)
-    (setq native-comp-deferred-compilation nil))
+  (setq native-comp-deferred-compilation nil))
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
 ;; to skip the mtime checks on every *.elc file.
@@ -55,55 +55,50 @@
 
 ;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
-;; (use-package elfeed
-;;   :config
-;;   (setq elfeed-search-feed-face ":foreground #fff :weight bold"
-;;         elfeed-feeds (quote
-;;                        (("https://www.reddit.com/r/linux.rss" reddit linux)
-;;                         ("https://www.reddit.com/r/commandline.rss" reddit commandline)
-;;                         ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
-;;                         ("https://www.reddit.com/r/emacs.rss" reddit emacs)
-;;                         ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
-;;                         ("https://hackaday.com/blog/feed/" hackaday linux)
-;;                         ("https://opensource.com/feed" opensource linux)
-;;                         ("https://linux.softpedia.com/backend.xml" softpedia linux)
-;;                         ("https://itsfoss.com/feed/" itsfoss linux)
-;;                         ("https://www.zdnet.com/topic/linux/rss.xml" zdnet linux)
-;;                         ("https://www.phoronix.com/rss.php" phoronix linux)
-;;                         ("http://feeds.feedburner.com/d0od" omgubuntu linux)
-;;                         ("https://www.computerworld.com/index.rss" computerworld linux)
-;;                         ("https://www.networkworld.com/category/linux/index.rss" networkworld linux)
-;;                         ("https://www.techrepublic.com/rssfeeds/topic/open-source/" techrepublic linux)
-;;                         ("https://betanews.com/feed" betanews linux)
-;;                         ("http://lxer.com/module/newswire/headlines.rss" lxer linux)
-;;                         ("https://distrowatch.com/news/dwd.xml" distrowatch linux)))))
+  (setq elfeed-search-feed-face ":foreground #fff :weight bold"
+        elfeed-feeds (quote
+                      (("https://www.reddit.com/r/linux.rss" reddit linux)
+                       ("https://www.reddit.com/r/commandline.rss" reddit commandline)
+                       ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
+                       ("https://www.reddit.com/r/emacs.rss" reddit emacs)
+                       ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
+                       ("https://hackaday.com/blog/feed/" hackaday linux)
+                       ("https://opensource.com/feed" opensource linux)
+                       ("https://linux.softpedia.com/backend.xml" softpedia linux)
+                       ("https://itsfoss.com/feed/" itsfoss linux)
+                       ("https://www.zdnet.com/topic/linux/rss.xml" zdnet linux)
+                       ("https://www.phoronix.com/rss.php" phoronix linux)
+                       ("http://feeds.feedburner.com/d0od" omgubuntu linux)
+                       ("https://www.computerworld.com/index.rss" computerworld linux)
+                       ("https://www.networkworld.com/category/linux/index.rss" networkworld linux)
+                       ("https://www.techrepublic.com/rssfeeds/topic/open-source/" techrepublic linux)
+                       ("https://betanews.com/feed" betanews linux)
+                       ("http://lxer.com/module/newswire/headlines.rss" lxer linux)
+                       ("https://distrowatch.com/news/dwd.xml" distrowatch linux))))
 
-;; (use-package elfeed-goodies
-;;   :init
-;;   (elfeed-goodies/setup)
-;;   :config
-;;   (setq elfeed-goodies/entry-pane-size 0.5))
+  (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
+  (evil-define-key 'normal elfeed-show-mode-map
+    (kbd "J") 'elfeed-goodies/split-show-next
+    (kbd "K") 'elfeed-goodies/split-show-prev)
+  (evil-define-key 'normal elfeed-search-mode-map
+    (kbd "J") 'elfeed-goodies/split-show-next
+    (kbd "K") 'elfeed-goodies/split-show-prev)
 
-;; (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
-;; (evil-define-key 'normal elfeed-show-mode-map
-;;   (kbd "J") 'elfeed-goodies/split-show-next
-;;   (kbd "K") 'elfeed-goodies/split-show-prev)
-;; (evil-define-key 'normal elfeed-search-mode-map
-;;   (kbd "J") 'elfeed-goodies/split-show-next
-;;   (kbd "K") 'elfeed-goodies/split-show-prev)
+  (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
 
 (use-package emojify
   :hook (after-init . global-emojify-mode))
 
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-(setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
+;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'medium))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 12 :weight 'medium))
 
 ;; enable bold and italic
 (after! doom-themes
-      (setq doom-themes-enable-bold t)
-      (setq doom-themes-enable-italic t))
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t))
 
 ;; keyword in Italic for example "for"
 (custom-set-faces!
@@ -115,7 +110,7 @@
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "#dcaeea" :slant 'italic)
 
 ;; changes certain keywords to symbols, such as lamda!
-(setq global-prettify-symbols-mode t)
+;; (setq global-prettify-symbols-mode t)
 
 (setq doom-theme 'doom-monokai-machine)
 ;; (setq doom-theme 'doom-one)
@@ -137,34 +132,22 @@
  '(company-tooltip
    ((t (:background "#57666a" )))))
 
-;; (use-package all-the-icons-dired)
-;; (use-package dired-open)
-;; (use-package peep-dired)
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "M-p") 'peep-dired)
+  (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+  (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+  (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+  (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
 
-;; (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
-;;                "d d" '(dired :which-key "Open dired")
-;;                "d j" '(dired-jump :which-key "Dired jump to current")
-;;                "d p" '(peep-dired :which-key "Peep-dired"))
-
-;; (with-eval-after-load 'dired
-;;   ;;(define-key dired-mode-map (kbd "M-p") 'peep-dired)
-;;   (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
-;;   (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-;;   (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-;;   (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
-
-;; (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
-;; ;; Get file icons in dired
-;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 ;; ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
-;; (setq dired-open-extensions '(("gif" . "sxiv")
-;;                               ("jpg" . "sxiv")
-;;                               ("png" . "sxiv")
-;;                               ("mkv" . "mpv")
-;;                               ("mp4" . "mpv")))
+(setq dired-open-extensions '(("gif" . "sxiv")
+                              ("jpg" . "sxiv")
+                              ("png" . "sxiv")
+                              ("mkv" . "mpv")
+                              ("mp4" . "mpv")))
 
-;; disabled move backward between different mode
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
 
@@ -175,12 +158,10 @@
 (map! "C-M-j" #'drag-stuff-down)
 
 (after! lsp-mode
-        (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-        (setq lsp-ui-sideline-show-code-actions t)
-)
+  (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
+  (setq lsp-ui-sideline-show-code-actions t)
+  )
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
 (dolist (mode '(org-mode-hook))
@@ -232,6 +213,22 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
+(use-package org-fancy-priorities
+  :hook
+  (org-mode . org-fancy-priorities-mode)
+  :config
+  (setq org-fancy-priorities-list '((?A . "❗")
+                                    (?B . "⬆")
+                                    (?C . "⬇")
+                                    (?D . "☕")
+                                    (?1 . "⚡")
+                                    (?2 . "⮬")
+                                    (?3 . "⮮")
+                                    (?4 . "☕")
+                                    (?I . "Important"))))
+  ;; default customization
+  ;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
+
 ;; (defun efs/org-mode-visual-fill ()
 ;;   (setq visual-fill-column-width 100
 ;;         visual-fill-column-center-text t)
@@ -242,9 +239,21 @@
 
 (setq org-image-actual-width nil)
 
+(setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+      '((sequence
+         "TODO(t)"           ; A task that is ready to be tackled
+         "MAYBE(m)"          ; A task that is not sure to be
+         "STARTED(s)"        ; A task taht is alreade started
+         "WAITING(w)"        ; Something is holding up this task
+         "PROJ(p)"           ; A project that contains other tasks
+         "BUG(b)"            ; A task stoped by a bug (I hate bugs)
+         "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+         "DONE(d)"           ; Task has been completed
+         "CANCELLED(c)" )))  ; Task has been cancelled
+
 (after! org
-        (setq org-roam-directory "~/RoamNotes")
-        (setq org-roam-index-file "~/RoamNotes/index.org"))
+  (setq org-roam-directory "~/RoamNotes")
+  (setq org-roam-index-file "~/RoamNotes/index.org"))
 
 ;; (use-package org-roam
 ;;   ;; :ensure t
@@ -256,6 +265,9 @@
 ;;          ("C-c n i" . org-roam-node-insert))
 ;;   :config
 ;;   (org-roam-setup))
+
+;; (unless (package-installed-p 'org-present')
+;;   (package-install 'org-present'))
 
 (setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
@@ -296,7 +308,7 @@
   :config
   (progn
     (treemacs-follow-mode t))
-)
+  )
 
 (setq doom-themes-treemacs-theme "doom-colors")
 
@@ -308,7 +320,7 @@
   (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
   (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
   (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
-)
+  )
 
 ;; (use-package prettier
 ;;   :after js2-mode
@@ -321,5 +333,16 @@
 
 (setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
 (setq-hook! 'typescript-mode-hook +format-with-lsp nil)
+
+;; (dap-debug
+;;  (list :type "python"
+;;        :args ""
+;;        :cwd nil
+;;        :module nil
+;;        :justMyCode :json-false
+;;        :debugOptions ["DebugStdLib" "ShowReturnValue" "RedirectOutput" ]
+;;        :program "/home/kyoncho/.temp/test.py"
+;;        :request "launch"
+;;        :name "Python :: Run Configuration"))
 
 (load (expand-file-name "rails-settings.el" doom-private-dir))
