@@ -217,15 +217,15 @@
   :hook
   (org-mode . org-fancy-priorities-mode)
   :config
-  (setq org-fancy-priorities-list '((?A . "❗")
-                                    (?B . "⬆")
-                                    (?C . "⬇")
-                                    (?D . "☕")
-                                    (?1 . "⚡")
-                                    (?2 . "⮬")
-                                    (?3 . "⮮")
-                                    (?4 . "☕")
-                                    (?I . "Important"))))
+  (setq org-fancy-priorities-list '((?A . "[ ‼ ]")
+                                    (?B . "[ ❗ ]")
+                                    (?C . "[ ♨ ]")
+                                    (?D . "[ ☕ ]")
+                                    (?1 . "[ ⚡ ]")
+                                    (?2 . "[ ⮬ ]")
+                                    (?3 . "[ ⮮ ]")
+                                    (?4 . "[ ☕ ]")
+                                    (?I . "[ IMPORTANT ]"))))
   ;; default customization
   ;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
 
