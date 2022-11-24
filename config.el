@@ -172,7 +172,7 @@
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
-  ;; (variable-pitch-mode 1)
+  ;; (variable-pitch-mode 1) ;; Center text in the middle
   (visual-line-mode 1))
 
 (defun efs/org-font-setup ()
@@ -217,15 +217,15 @@
   :hook
   (org-mode . org-fancy-priorities-mode)
   :config
-  (setq org-fancy-priorities-list '((?A . "[ ‼ ]")
-                                    (?B . "[ ❗ ]")
-                                    (?C . "[ ♨ ]")
-                                    (?D . "[ ☕ ]")
-                                    (?1 . "[ ⚡ ]")
-                                    (?2 . "[ ⮬ ]")
-                                    (?3 . "[ ⮮ ]")
-                                    (?4 . "[ ☕ ]")
-                                    (?I . "[ IMPORTANT ]"))))
+  (setq org-fancy-priorities-list '((?A . "[‼]")
+                                    (?B . "[❗]")
+                                    (?C . "[♨]")
+                                    (?D . "[☕]")
+                                    (?1 . "[⚡]")
+                                    (?2 . "[⮬]")
+                                    (?3 . "[⮮]")
+                                    (?4 . "[☕]")
+                                    (?I . "[IMPORTANT]"))))
   ;; default customization
   ;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
 

@@ -7,7 +7,7 @@
  '(org-safe-remote-resources
    '("\\`https://fniessen\\.github\\.io/org-html-themes/org/theme-readtheorg\\.setup\\'"))
  '(package-selected-packages
-   '(csv-mode csv dired-posframe flycheck-posframe posframe adoc-mode company-tabnine prettier python-black org-bullets org-roam lsp-tailwindcss projectile nose irony flx-ido cmake-mode)))
+   '(dw csv-mode csv dired-posframe flycheck-posframe posframe adoc-mode company-tabnine prettier python-black org-bullets org-roam lsp-tailwindcss projectile nose irony flx-ido cmake-mode)))
 ;;  '(package-selected-packages
 ;;    '(projectile-rails projectile python-black lsp-python-ms vterm lsp-mode))
 ;;  '(safe-local-variable-values '((checkdoc-package-keywords-flag))))

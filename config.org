@@ -98,6 +98,7 @@ Makes startup faster by reducing the frequency of garbage collection
 
 ;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
 #+end_src
+
 ** Native Compil
 #+begin_src emacs-lisp
 ;; Silence compiler warnings as they can be pretty disruptive
@@ -268,6 +269,7 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 #+end_src
 
 * COMPANY
+
 #+begin_src elisp
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
@@ -332,12 +334,15 @@ Disable the cursor going back off when switch between Insert an Normal mode
 
 * MOVE BETWEEN BUFFER
 Move previous and next buffer
+
 #+begin_src elisp
 (map! :ni "C-," #'previous-buffer)
 (map! :ni "C-;" #'next-buffer)
 #+end_src
 
 * DRAG STUFF
+To deplace a complete line
+
 #+begin_src elisp
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
@@ -377,7 +382,7 @@ change `org-directory'. It must be set before org loads!
 #+begin_src elisp
 (defun efs/org-mode-setup ()
   (org-indent-mode)
-  ;; (variable-pitch-mode 1)
+  ;; (variable-pitch-mode 1) ;; Center text in the middle
   (visual-line-mode 1))
 
 (defun efs/org-font-setup ()
@@ -432,15 +437,15 @@ Org-fancy-priorities give us some prettier priorities
   :hook
   (org-mode . org-fancy-priorities-mode)
   :config
-  (setq org-fancy-priorities-list '((?A . "[ ‼ ]")
-                                    (?B . "[ ❗ ]")
-                                    (?C . "[ ♨ ]")
-                                    (?D . "[ ☕ ]")
-                                    (?1 . "[ ⚡ ]")
-                                    (?2 . "[ ⮬ ]")
-                                    (?3 . "[ ⮮ ]")
-                                    (?4 . "[ ☕ ]")
-                                    (?I . "[ IMPORTANT ]"))))
+  (setq org-fancy-priorities-list '((?A . "[‼]")
+                                    (?B . "[❗]")
+                                    (?C . "[♨]")
+                                    (?D . "[☕]")
+                                    (?1 . "[⚡]")
+                                    (?2 . "[⮬]")
+                                    (?3 . "[⮮]")
+                                    (?4 . "[☕]")
+                                    (?I . "[IMPORTANT]"))))
   ;; default customization
   ;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
 #+end_src
