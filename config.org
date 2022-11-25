@@ -439,8 +439,8 @@ Org-fancy-priorities give us some prettier priorities
   :config
   (setq org-fancy-priorities-list '((?A . "[‼]")
                                     (?B . "[❗]")
-                                    (?C . "[♨]")
-                                    (?D . "[☕]")
+                                    (?C . "[☕]")
+                                    (?D . "[♨]")
                                     (?1 . "[⚡]")
                                     (?2 . "[⮬]")
                                     (?3 . "[⮮]")
@@ -451,7 +451,7 @@ Org-fancy-priorities give us some prettier priorities
 #+end_src
 
 ** Center Org Mode
-Center document as a word file
+Center document like a word file
 
 #+begin_src elisp
 ;; (defun efs/org-mode-visual-fill ()
