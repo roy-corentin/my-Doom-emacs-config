@@ -20,6 +20,7 @@
 (package! peep-dired)
 (package! elfeed)
 (package! org-fancy-priorities)
+(package! org-gcal)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

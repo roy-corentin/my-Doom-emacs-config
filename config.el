@@ -219,8 +219,8 @@
   :config
   (setq org-fancy-priorities-list '((?A . "[‼]")
                                     (?B . "[❗]")
-                                    (?C . "[♨]")
-                                    (?D . "[☕]")
+                                    (?C . "[☕]")
+                                    (?D . "[♨]")
                                     (?1 . "[⚡]")
                                     (?2 . "[⮬]")
                                     (?3 . "[⮮]")
@@ -239,17 +239,44 @@
 
 (setq org-image-actual-width nil)
 
-(setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
-      '((sequence
-         "TODO(t)"           ; A task that is ready to be tackled
-         "MAYBE(m)"          ; A task that is not sure to be
-         "STARTED(s)"        ; A task taht is alreade started
-         "WAITING(w)"        ; Something is holding up this task
-         "PROJ(p)"           ; A project that contains other tasks
-         "BUG(b)"            ; A task stoped by a bug (I hate bugs)
-         "|"                 ; The pipe necessary to separate "active" states and "inactive" states
-         "DONE(d)"           ; Task has been completed
-         "CANCELLED(c)" )))  ; Task has been cancelled
+(after! org
+    (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+        '((sequence
+            "TODO(t)"             ; A task that is ready to be tackled
+            "IN-PROGRESS(i)"      ; A task that is in progress
+            "HOLD(h)"             ; Something is holding up this task
+            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+            "DONE(d)"             ; Task has been completed
+            "CANCELLED(c)" )      ; Task has been cancelled
+          (sequence
+            "🚩TODO(f)"           ; A task that is ready to be tackled
+            "👷🏻IN-PROGRESS(w)"    ; A task that is in progress
+            "🔒HOLD(l)"           ; Something is holding up this task
+            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+            "✔DONE(e)"           ; Task has been completed
+            "❌CANCELLED(x)" )
+          (sequence
+           "[ ](T)"               ; A task that is ready tobe tackled
+           "[-](I)"               ; A task that is already started
+           "[?](H)"               ; A task that is holding up by a reason ?
+           "|"                    ; The pipe necessary to separate "active" states and "inactive" states
+           "[X](D)" ))))          ; Tash has been completed
+
+(after! org
+  (setq org-todo-keyword-faces
+    '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
+      ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
+      ("[?]" . org-warning)
+      ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
+
+(after! org
+    (setq org-agenda-custom-commands
+        '(("c" "Simple agenda view"
+            ((tags "PRIORITY=\"A\""
+                    ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                    (org-agenda-overriding-header "High-priority unfinished tasks:")))
+            (agenda "")
+            (alltodo ""))))))
 
 (after! org
   (setq org-roam-directory "~/RoamNotes")
@@ -268,6 +295,11 @@
 
 ;; (unless (package-installed-p 'org-present')
 ;;   (package-install 'org-present'))
+
+(setq org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
+(require 'org-gcal)
 
 (setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time

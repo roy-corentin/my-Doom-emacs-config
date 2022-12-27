@@ -40,9 +40,12 @@
   - [[#fancy-priority][Fancy Priority]]
   - [[#center-org-mode][Center Org Mode]]
   - [[#keyword-todo][Keyword TODO]]
+- [[#org-agenda][ORG-AGENDA]]
+  - [[#view][View]]
 - [[#org-roam][ORG-ROAM]]
 - [[#org-present][ORG-PRESENT]]
   - [[#installation][Installation]]
+- [[#org-gcal][ORG-GCAL]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
   - [[#filter-to-treemacs][Filter To Treemacs]]
@@ -358,6 +361,15 @@ Add file format '.html.erb' to lsp-mode
   )
 #+end_src
 
+Desactivate format on save for this format
+
+#+begin_src elisp
+(add-hook! 'web-mode
+  (if (equal ".*\\.html\\.erb$" (file-name-nondirectory buffer-file-name))
+      (setq +format-with :none)
+    ))
+#+end_src
+
 * ORG
 ** Org location
 If you use `org' and don't want your org files in the default location below,
@@ -469,17 +481,58 @@ Center document like a word file
 Use custom TODO keywords
 
 #+begin_src elisp
-(setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
-      '((sequence
-         "TODO(t)"           ; A task that is ready to be tackled
-         "MAYBE(m)"          ; A task that is not sure to be
-         "STARTED(s)"        ; A task taht is alreade started
-         "WAITING(w)"        ; Something is holding up this task
-         "PROJ(p)"           ; A project that contains other tasks
-         "BUG(b)"            ; A task stoped by a bug (I hate bugs)
-         "|"                 ; The pipe necessary to separate "active" states and "inactive" states
-         "DONE(d)"           ; Task has been completed
-         "CANCELLED(c)" )))  ; Task has been cancelled
+(after! org
+    (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+        '((sequence
+            "TODO(t)"             ; A task that is ready to be tackled
+            "IN-PROGRESS(i)"      ; A task that is in progress
+            "HOLD(h)"             ; Something is holding up this task
+            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+            "DONE(d)"             ; Task has been completed
+            "CANCELLED(c)" )      ; Task has been cancelled
+          (sequence
+            "🚩TODO(f)"           ; A task that is ready to be tackled
+            "👷🏻IN-PROGRESS(w)"    ; A task that is in progress
+            "🔒HOLD(l)"           ; Something is holding up this task
+            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+            "✔DONE(e)"           ; Task has been completed
+            "❌CANCELLED(x)" )
+          (sequence
+           "[ ](T)"               ; A task that is ready tobe tackled
+           "[-](I)"               ; A task that is already started
+           "[?](H)"               ; A task that is holding up by a reason ?
+           "|"                    ; The pipe necessary to separate "active" states and "inactive" states
+           "[X](D)" ))))          ; Tash has been completed
+
+#+end_src
+
+Configure style of TODO keywords
+
+#+begin_src elisp
+(after! org
+  (setq org-todo-keyword-faces
+    '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
+      ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
+      ("[?]" . org-warning)
+      ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
+#+end_src
+
+* ORG-AGENDA
+** View
+Change agenda view:
+    - At top, the #A Priority
+    - In the middle the week view
+    - At the bottom list todo task
+
+#+begin_src elisp
+(after! org
+    (setq org-agenda-custom-commands
+        '(("c" "Simple agenda view"
+            ((tags "PRIORITY=\"A\""
+                    ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                    (org-agenda-overriding-header "High-priority unfinished tasks:")))
+            (agenda "")
+            (alltodo ""))))))
 #+end_src
 
 * ORG-ROAM
@@ -514,6 +567,15 @@ Shortcut for org-roam
 #+begin_src elisp
 ;; (unless (package-installed-p 'org-present')
 ;;   (package-install 'org-present'))
+#+end_src
+* ORG-GCAL
+Synchronize google calendar with org
+
+#+begin_src elisp
+(setq org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
+(require 'org-gcal)
 #+end_src
 
 * MOUSE SCROLLING
