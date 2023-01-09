@@ -51,7 +51,29 @@
 
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
-(setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
+;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
+
+(defvar +fl/splashcii-query ""
+  "The query to search on asciiur.com")
+
+(defun +fl/splashcii ()
+  (split-string (with-output-to-string
+                  (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
+                "\n" t))
+
+(defun +fl/doom-banner ()
+  (let ((point (point)))
+    (mapc (lambda (line)
+            (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+                                'face 'doom-dashboard-banner) " ")
+            (insert "\n"))
+          (+fl/splashcii))
+    (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0) ?\n))))
+
+;; override the first doom dashboard function
+(setcar (nthcdr 0 +doom-dashboard-functions) #'+fl/doom-banner)
+
+(setq +fl/splashcii-query "halloween")
 
 ;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
@@ -112,8 +134,8 @@
 ;; changes certain keywords to symbols, such as lamda!
 ;; (setq global-prettify-symbols-mode t)
 
-(setq doom-theme 'doom-monokai-machine)
-;; (setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-monokai-machine)
+(setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-solarized-dark)
 
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
@@ -161,6 +183,11 @@
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
   (setq lsp-ui-sideline-show-code-actions t)
   )
+
+(add-hook! 'web-mode
+  (if (equal ".*\\.html\\.erb$" (file-name-nondirectory buffer-file-name))
+      (setq +format-with :none)
+    ))
 
 (setq org-directory "~/org/")
 
@@ -219,15 +246,15 @@
   :config
   (setq org-fancy-priorities-list '((?A . "[‼]")
                                     (?B . "[❗]")
-                                    (?C . "[♨]")
-                                    (?D . "[☕]")
+                                    (?C . "[☕]")
+                                    (?D . "[♨]")
                                     (?1 . "[⚡]")
                                     (?2 . "[⮬]")
                                     (?3 . "[⮮]")
                                     (?4 . "[☕]")
                                     (?I . "[IMPORTANT]"))))
-  ;; default customization
-  ;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
+;; default customization
+;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
 
 ;; (defun efs/org-mode-visual-fill ()
 ;;   (setq visual-fill-column-width 100
@@ -239,17 +266,44 @@
 
 (setq org-image-actual-width nil)
 
-(setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
-      '((sequence
-         "TODO(t)"           ; A task that is ready to be tackled
-         "MAYBE(m)"          ; A task that is not sure to be
-         "STARTED(s)"        ; A task taht is alreade started
-         "WAITING(w)"        ; Something is holding up this task
-         "PROJ(p)"           ; A project that contains other tasks
-         "BUG(b)"            ; A task stoped by a bug (I hate bugs)
-         "|"                 ; The pipe necessary to separate "active" states and "inactive" states
-         "DONE(d)"           ; Task has been completed
-         "CANCELLED(c)" )))  ; Task has been cancelled
+(after! org
+  (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+        '((sequence
+           "TODO(t)"             ; A task that is ready to be tackled
+           "IN-PROGRESS(i)"      ; A task that is in progress
+           "HOLD(h)"             ; Something is holding up this task
+           "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+           "DONE(d)"             ; Task has been completed
+           "CANCELLED(c)" )      ; Task has been cancelled
+          (sequence
+           "🚩TODO(f)"           ; A task that is ready to be tackled
+           "👷🏻IN-PROGRESS(w)"    ; A task that is in progress
+           "🔒HOLD(l)"           ; Something is holding up this task
+           "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+           "✔DONE(e)"           ; Task has been completed
+           "❌CANCELLED(x)" )
+          (sequence
+           "[ ](T)"               ; A task that is ready tobe tackled
+           "[-](I)"               ; A task that is already started
+           "[?](H)"               ; A task that is holding up by a reason ?
+           "|"                    ; The pipe necessary to separate "active" states and "inactive" states
+           "[X](D)" ))))          ; Tash has been completed
+
+(after! org
+  (setq org-todo-keyword-faces
+    '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight bold )) ("HOLD" . org-warning)
+      ("[ ]" . (:foreground "#82b66a" :weight bold)) ("[-]" . (:foreground "#b7a1f5" :weight bold ))
+      ("[?]" . org-warning)
+      ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
+
+(after! org
+    (setq org-agenda-custom-commands
+        '(("c" "Simple agenda view"
+            ((tags "PRIORITY=\"A\""
+                    ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                    (org-agenda-overriding-header "High-priority unfinished tasks:")))
+            (agenda "")
+            (alltodo ""))))))
 
 (after! org
   (setq org-roam-directory "~/RoamNotes")
@@ -268,6 +322,11 @@
 
 ;; (unless (package-installed-p 'org-present')
 ;;   (package-install 'org-present'))
+
+(setq org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
+      org-gcal-client-secret "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"
+      org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
+(require 'org-gcal)
 
 (setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
@@ -322,27 +381,26 @@
   (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
   )
 
-;; (use-package prettier
-;;   :after js2-mode
-;;   :init
-;;   (add-hook 'js2-mode-hook 'prettier-mode)
-;;   (add-hook 'web-mode-hook 'prettier-mode))
+(add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 
-(add-to-list 'auto-mode-alist '("/some/react/path/.*\\.js[x]?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("/some/react/path/.*\\.ts[x]?\\'" . web-mode))
+(use-package web-mode
+  :custom
+  (web-mode-markup-indent-offset 2)
+  (web-mode-css-indent-offset 2)
+  (web-mode-code-indent-offset 2))
 
-(setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
-(setq-hook! 'typescript-mode-hook +format-with-lsp nil)
+;; Enables the given minor mode for the current buffer it it matches regex
+;; my-pair is a cons cell (regular-expression . minor-mode)
+;; (defun enable-minor-mode (my-pair)
+;;   (if buffer-file-name ; If we are visiting a file,
+;;       ;; and the filename matches our regular expression,
+;;       (if (string-match (car my-pair) buffer-file-name)
+;;           (funcall (cdr my-pair))))) ; enable the minor mode
 
-;; (dap-debug
-;;  (list :type "python"
-;;        :args ""
-;;        :cwd nil
-;;        :module nil
-;;        :justMyCode :json-false
-;;        :debugOptions ["DebugStdLib" "ShowReturnValue" "RedirectOutput" ]
-;;        :program "/home/kyoncho/.temp/test.py"
-;;        :request "launch"
-;;        :name "Python :: Run Configuration"))
+;; (add-hook 'web-mode-hook #'(lambda ()
+;;                             (enable-minor-mode '("\\.jsx?\\'" . prettier-rc)),
+;;                             (enable-minor-mode '("\\.tsx?\\'" . prettier-rc))))
+(add-hook 'web-mode-hook 'prettier-rc-mode)
 
 (load (expand-file-name "rails-settings.el" doom-private-dir))
