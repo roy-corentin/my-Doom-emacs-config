@@ -1,0 +1,10 @@
+#+title: Readme
+
+* PRESENTATION
+    Here is my personal configuration for [[https://github.com/doomemacs/doomemacs][Doom Emacs]], that I use daily
+It needs to be improved and optimized to be more clear. I'm still working on it
+
+* TODOLIST
+** TODO RJSX Minor mode for extension "jsx" and "tsx" only
+** TODO Prettier-rc Minor mode for extension "jsx" and "tsx" only
+** TODO Disable format on save for extension "html.erb"
