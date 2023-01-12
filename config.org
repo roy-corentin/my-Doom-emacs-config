@@ -151,38 +151,68 @@ Emacs Dashboard is an extensible startup screen showing you recent files, bookma
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
+(setq fancy-splash-image "~/Pictures/blackhole-lines.svg")
 #+end_src
 
 *** Random Ascii Art
 #+begin_src  elisp
-(defvar +fl/splashcii-query ""
-  "The query to search on asciiur.com")
+;; (defvar +fl/splashcii-query ""
+;;   "The query to search on asciiur.com")
 
-(defun +fl/splashcii ()
-  (split-string (with-output-to-string
-                  (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
-                "\n" t))
+;; (defun +fl/splashcii ()
+;;   (split-string (with-output-to-string
+;;                   (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
+;;                 "\n" t))
 
-(defun +fl/doom-banner ()
-  (let ((point (point)))
-    (mapc (lambda (line)
-            (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                                'face 'doom-dashboard-banner) " ")
-            (insert "\n"))
-          (+fl/splashcii))
-    (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0) ?\n))))
+;; (defun +fl/doom-banner ()
+;;   (let ((point (point)))
+;;     (mapc (lambda (line)
+;;             (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+;;                                 'face 'doom-dashboard-banner) " ")
+;;             (insert "\n"))
+;;           (+fl/splashcii))
+;;     (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0) ?\n))))
 
-;; override the first doom dashboard function
-(setcar (nthcdr 0 +doom-dashboard-functions) #'+fl/doom-banner)
+;; ;; override the first doom dashboard function
+;; (setcar (nthcdr 0 +doom-dashboard-functions) #'+fl/doom-banner)
 
-(setq +fl/splashcii-query "halloween")
+;; (setq +fl/splashcii-query "halloween")
+#+end_src
+
+*** Custom Ascii Art
+#+begin_src elisp
+;; (defun custom_banner ()
+;;   (let* ((banner '("   ________                             "
+;;                    "   \______ \   ____   ____   _____      "
+;;                    "    |    |  \ /  _ \ /  _ \ /     \     "
+;;                    "    |    `   (  <_> |  <_> )  Y Y  \    "
+;;                    "   /_______  /\____/ \____/|__|_|  /    "
+;;                    "           \/                    \/     "
+;;                    "___________                             "
+;;                    "\_   _____/ _____ _____    ____   ______"
+;;                    " |    __)_ /     \\__  \ _/ ___\ /  ___/"
+;;                    " |        \  Y Y  \/ __ \\  \___ \___ \ "
+;;                    "/_______  /__|_|  (____  /\___  >____  >"
+;;                    "        \/      \/     \/     \/     \/ "))
+;;          (longest-line (apply #'max (mapcar #'length banner))))
+;;     (put-text-property
+;;      (point)
+;;      (dolist (line banner (point))
+;;        (insert (+doom-dashboard--center
+;;                 +doom-dashboard--width
+;;                 (concat line (make-string (max 0 (- longest-line (length line))) 32)))
+;;                "\n"))
+;;      'face 'doom-dashboard-banner)))
+
+;; (setq +doom-dashboard-ascii-banner-fn #'custom_banner)
 #+end_src
 
 ** Dashboard in Emacsclient
 This setting ensures that emacsclient always opens on *dashboard* rather than *scratch*.
 
 #+begin_src emacs-lisp
-;; (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
 #+end_src
 
 * ELFEED
@@ -245,7 +275,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
 (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'medium))
-;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 12 :weight 'medium))
+;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
 
 ;; enable bold and italic
 (after! doom-themes
