@@ -5,6 +5,9 @@
 It needs to be improved and optimized to be more clear. I'm still working on it
 
 * TODOLIST
-** TODO RJSX Minor mode for extension "jsx" and "tsx" only
-** TODO Prettier-rc Minor mode for extension "jsx" and "tsx" only
+** DONE RJSX Minor mode for extension "jsx" and "tsx" only
+** Prettier-Rc Minor mode
+*** DONE Prettier-rc Minor mode for extension "jsx" and "tsx" only
+*** DONE Add function to chech extension
 ** TODO Disable format on save for extension "html.erb"
+** TODO If centaur-tabs change value of mapping C-, and C-;

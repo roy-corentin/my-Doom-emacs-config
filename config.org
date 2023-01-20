@@ -56,7 +56,15 @@
 - [[#react][REACT]]
   - [[#add-web-mode-to-react][Add Web Mode To React]]
 - [[#custom-web-mode][CUSTOM WEB-MODE]]
-  - [[#prettier-rc][Prettier-Rc]]
+- [[#rjsx-minor-mode][RJSX MINOR MODE]]
+  - [[#with-a-lambda-to-compare-extension][With A Lambda To Compare Extension]]
+- [[#prettier-rc][PRETTIER-RC]]
+  - [[#with-method-to-compare-extension-bug][With Method To Compare Extension (BUG)]]
+  - [[#with-a-lambda-to-compare-extension-1][With A Lambda To Compare Extension]]
+  - [[#add-it-to-web-mode][Add It To Web Mode]]
+- [[#centaur-tabs][CENTAUR-TABS]]
+- [[#format-on-save][FORMAT ON SAVE]]
+  - [[#disable-format-on-save-for-web-mode][Disable format on save for web-mode]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#informations][INFORMATIONS]]
 
@@ -104,13 +112,13 @@ Makes startup faster by reducing the frequency of garbage collection
 ** Native Compil
 #+begin_src emacs-lisp
 ;; Silence compiler warnings as they can be pretty disruptive
-(if (boundp 'comp-deferred-compilation)
-    (setq comp-deferred-compilation nil)
-  (setq native-comp-deferred-compilation nil))
+;; (if (boundp 'comp-deferred-compilation)
+;;     (setq comp-deferred-compilation nil)
+;;   (setq native-comp-deferred-compilation nil))
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
 ;; to skip the mtime checks on every *.elc file.
-(setq load-prefer-newer noninteractive)
+;; (setq load-prefer-newer noninteractive)
 #+end_src
 
 * ALL THE ICONS
@@ -274,7 +282,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'medium))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
 
 ;; enable bold and italic
@@ -282,7 +290,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t))
 
-;; keyword in Italic for example "for"
+;; comment and keyword in Italic for example "for"
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
@@ -314,8 +322,8 @@ available. You can either set `doom-theme' or manually load a theme with the
 
 ** Set Transparency
 #+begin_src elisp
-(set-frame-parameter (selected-frame) 'alpha '(97 97))
-(add-to-list 'default-frame-alist '(alpha 97 97))
+(set-frame-parameter (selected-frame) 'alpha '(85 85))
+(add-to-list 'default-frame-alist '(alpha 85 85))
 #+end_src
 
 * LINE SETUP
@@ -398,7 +406,7 @@ Move previous and next buffer
 #+end_src
 
 * DRAG STUFF
-To deplace a complete line
+To move a complete line
 
 #+begin_src elisp
 (map! "C-M-k" #'drag-stuff-up)
@@ -415,11 +423,11 @@ Add file format '.html.erb' to lsp-mode
   )
 #+end_src
 
-Desactivate format on save for this format
+Disable format on save for this format
 
 #+begin_src elisp
 (add-hook! 'web-mode
-  (if (equal ".*\\.html\\.erb$" (file-name-nondirectory buffer-file-name))
+  (if (equal ".*\\erb\\" (file-name-nondirectory buffer-file-name))
       (setq +format-with :none)
     ))
 #+end_src
@@ -440,8 +448,8 @@ change `org-directory'. It must be set before org loads!
 
 ** Clock sound for org timer
 #+begin_src elisp
-;; (after! org
-;;   (setq org-clock-sound "PATH"))
+(after! org
+  (setq org-clock-sound "~/Music/ding.wav"))
 #+end_src
 
 ** Defining A Few Things
@@ -718,10 +726,26 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
-
 #+end_src
 
-** Prettier-Rc
+* RJSX MINOR MODE
+** With A Lambda To Compare Extension
+#+begin_src elisp
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string= (file-name-extension buffer-file-name) "jsx")
+              (rjsx-minor-mode +1))))
+
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string= (file-name-extension buffer-file-name) "tsx")
+              (rjsx-minor-mode +1))))
+#+end_src
+
+* PRETTIER-RC
+Add prettier to jsx and tsx files
+
+** With Method To Compare Extension (BUG)
 #+begin_src elisp
 ;; Enables the given minor mode for the current buffer it it matches regex
 ;; my-pair is a cons cell (regular-expression . minor-mode)
@@ -732,9 +756,41 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 ;;           (funcall (cdr my-pair))))) ; enable the minor mode
 
 ;; (add-hook 'web-mode-hook #'(lambda ()
-;;                             (enable-minor-mode '("\\.jsx?\\'" . prettier-rc)),
-;;                             (enable-minor-mode '("\\.tsx?\\'" . prettier-rc))))
-(add-hook 'web-mode-hook 'prettier-rc-mode)
+;;                             (enable-minor-mode '("\\.jsx\\'" . prettier-rc)),
+;;                             (enable-minor-mode '("\\.tsx\\'" . prettier-rc))))
+#+end_src
+
+** With A Lambda To Compare Extension
+#+begin_src elisp
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string= (file-name-extension buffer-file-name) "jsx")
+              (prettier-rc-mode +1))))
+
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string= (file-name-extension buffer-file-name) "tsx")
+              (prettier-rc-mode +1))))
+#+end_src
+
+** Add It To Web Mode
+#+begin_src elisp
+;; (add-hook 'web-mode-hook 'prettier-rc-mode)
+#+end_src
+
+* CENTAUR-TABS
+To fix centaur tabs in emacsclient
+
+#+begin_src elisp
+(after! centaur-tabs
+  (setq centaur-tabs-set-bar 'right))
+#+end_src
+
+* FORMAT ON SAVE
+** Disable format on save for web-mode
+#+begin_src elisp
+(setq +format-on-save-enabled-modes
+      '(not web-mode))
 #+end_src
 
 * IMPORT OTHER CONFIG
@@ -742,6 +798,7 @@ Use external rails config, for snippet and method to navigate easily in rails pr
 
 #+begin_src elisp
 (load (expand-file-name "rails-settings.el" doom-private-dir))
+(load (expand-file-name "slang-mode.el" doom-private-dir))
 #+end_src
 
 * INFORMATIONS

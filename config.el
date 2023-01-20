@@ -21,13 +21,13 @@
 ;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
 
 ;; Silence compiler warnings as they can be pretty disruptive
-(if (boundp 'comp-deferred-compilation)
-    (setq comp-deferred-compilation nil)
-  (setq native-comp-deferred-compilation nil))
+;; (if (boundp 'comp-deferred-compilation)
+;;     (setq comp-deferred-compilation nil)
+;;   (setq native-comp-deferred-compilation nil))
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
 ;; to skip the mtime checks on every *.elc file.
-(setq load-prefer-newer noninteractive)
+;; (setq load-prefer-newer noninteractive)
 
 (use-package all-the-icons)
 
@@ -141,7 +141,7 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'medium))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
 
 ;; enable bold and italic
@@ -149,7 +149,7 @@
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t))
 
-;; keyword in Italic for example "for"
+;; comment and keyword in Italic for example "for"
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
@@ -165,8 +165,8 @@
 (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-solarized-dark)
 
-(set-frame-parameter (selected-frame) 'alpha '(97 97))
-(add-to-list 'default-frame-alist '(alpha 97 97))
+(set-frame-parameter (selected-frame) 'alpha '(85 85))
+(add-to-list 'default-frame-alist '(alpha 85 85))
 
 (setq display-line-numbers-type `relative)
 
@@ -212,7 +212,7 @@
   )
 
 (add-hook! 'web-mode
-  (if (equal ".*\\.html\\.erb$" (file-name-nondirectory buffer-file-name))
+  (if (equal ".*\\erb\\" (file-name-nondirectory buffer-file-name))
       (setq +format-with :none)
     ))
 
@@ -221,8 +221,8 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-;; (after! org
-;;   (setq org-clock-sound "PATH"))
+(after! org
+  (setq org-clock-sound "~/Music/ding.wav"))
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
@@ -417,6 +417,16 @@
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
 
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string= (file-name-extension buffer-file-name) "jsx")
+              (rjsx-minor-mode +1))))
+
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string= (file-name-extension buffer-file-name) "tsx")
+              (rjsx-minor-mode +1))))
+
 ;; Enables the given minor mode for the current buffer it it matches regex
 ;; my-pair is a cons cell (regular-expression . minor-mode)
 ;; (defun enable-minor-mode (my-pair)
@@ -426,8 +436,26 @@
 ;;           (funcall (cdr my-pair))))) ; enable the minor mode
 
 ;; (add-hook 'web-mode-hook #'(lambda ()
-;;                             (enable-minor-mode '("\\.jsx?\\'" . prettier-rc)),
-;;                             (enable-minor-mode '("\\.tsx?\\'" . prettier-rc))))
-(add-hook 'web-mode-hook 'prettier-rc-mode)
+;;                             (enable-minor-mode '("\\.jsx\\'" . prettier-rc)),
+;;                             (enable-minor-mode '("\\.tsx\\'" . prettier-rc))))
+
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string= (file-name-extension buffer-file-name) "jsx")
+              (prettier-rc-mode +1))))
+
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (string= (file-name-extension buffer-file-name) "tsx")
+              (prettier-rc-mode +1))))
+
+;; (add-hook 'web-mode-hook 'prettier-rc-mode)
+
+(after! centaur-tabs
+  (setq centaur-tabs-set-bar 'right))
+
+(setq +format-on-save-enabled-modes
+      '(not web-mode))
 
 (load (expand-file-name "rails-settings.el" doom-private-dir))
+(load (expand-file-name "slang-mode.el" doom-private-dir))
