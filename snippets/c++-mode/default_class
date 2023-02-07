@@ -1,0 +1,23 @@
+# -*- mode: snippet -*-
+# name: default class
+# uuid:
+# key: dcls
+# condition: t
+# desc: Snippet to create a default class in C++
+# --
+class ${1:Name}
+{
+public:
+$1();
+~$1() noexecpt;
+
+$1(const $1& other) = default;
+$1($1&& other) noexcept = default;
+$1& operator=(const $1& other) = delete;
+$1& operator=($1&& other) noexcept = delete;
+
+
+protected:
+private:
+
+};

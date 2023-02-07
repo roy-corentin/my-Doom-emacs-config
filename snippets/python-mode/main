@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: main
+# uuid:
+# key: main
+# condition: t
+# --
+if __name__ == "__main__":
