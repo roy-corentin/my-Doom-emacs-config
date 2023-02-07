@@ -23,6 +23,8 @@
 (package! org-gcal)
 (package! prettier-rc)
 (package! lsp-haskell)
+(unpin! org-roam)
+(package! org-roam-ui)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

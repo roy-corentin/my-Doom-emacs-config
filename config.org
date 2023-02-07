@@ -43,6 +43,7 @@
 - [[#org-agenda][ORG-AGENDA]]
   - [[#view][View]]
 - [[#org-roam][ORG-ROAM]]
+  - [[#org-roam-ui][Org-Roam UI]]
 - [[#org-present][ORG-PRESENT]]
   - [[#installation][Installation]]
 - [[#org-gcal][ORG-GCAL]]
@@ -609,6 +610,39 @@ Example of basic config org-raom
   (setq org-roam-index-file "~/RoamNotes/index.org"))
 #+end_src
 
+** Org-Roam UI
+#+begin_src elisp
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
+;; (use-package org-roam-ui
+;;   :straight
+;;     (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+;;     :after org-roam
+;; ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;; ;;         a hookable mode anymore, you're advised to pick something yourself
+;; ;;         if you don't care about startup time, use
+;; ;;  :hook (after-init . org-roam-ui-mode)
+;;     :config
+;;     (setq org-roam-ui-sync-theme t
+;;           org-roam-ui-follow t
+;;           org-roam-ui-update-on-save t
+;;           org-roam-ui-open-on-start t))
+
+#+end_src
+
 Shortcut for org-roam
 #+begin_src elisp
 ;; (use-package org-roam
@@ -630,6 +664,7 @@ Shortcut for org-roam
 ;; (unless (package-installed-p 'org-present')
 ;;   (package-install 'org-present'))
 #+end_src
+
 * ORG-GCAL
 Synchronize google calendar with org
 
