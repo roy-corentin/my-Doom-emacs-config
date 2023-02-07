@@ -22,6 +22,7 @@
 (package! org-fancy-priorities)
 (package! org-gcal)
 (package! prettier-rc)
+(package! lsp-haskell)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
