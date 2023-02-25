@@ -67,7 +67,7 @@
 - [[#format-on-save][FORMAT ON SAVE]]
   - [[#disable-format-on-save-for-web-mode][Disable format on save for web-mode]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
-- [[#informations][INFORMATIONS]]
+- [[#information][INFORMATION]]
 
 * INIT
  Place your private configuration here! Remember, you do not need to run 'doom sync' after modifying this file!
@@ -133,6 +133,7 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
 Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
 
 ** Configuring Dashboard
+If you use the package dashboard
 
 #+begin_src emacs-lisp
 ;; (use-package dashboard
@@ -476,7 +477,7 @@ change `org-directory'. It must be set before org loads!
   ;; Set faces for heading levels
   (dolist (face '((org-level-1 . 1.2)
                   (org-level-2 . 1.1)
-                  (org-level-3 . 1.05)
+                  (org-level-3 . 1.0)
                   (org-level-4 . 1.0)
                   (org-level-5 . 1.1)
                   (org-level-6 . 1.1)
@@ -533,7 +534,7 @@ Org-fancy-priorities give us some prettier priorities
 #+end_src
 
 ** Center Org Mode
-Center document like a word file
+Center Org File just like a Word file
 
 #+begin_src elisp
 ;; (defun efs/org-mode-visual-fill ()
@@ -819,7 +820,7 @@ Use external rails config, for snippet and method to navigate easily in rails pr
 (load (expand-file-name "slang-mode.el" doom-user-dir))
 #+end_src
 
-* INFORMATIONS
+* INFORMATION
  Whenever you reconfigure a package, make sure to wrap your config in an
  `after!' block, otherwise Doom's defaults may override your settings. E.g.
 
