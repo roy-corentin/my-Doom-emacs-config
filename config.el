@@ -340,43 +340,21 @@
     :after org-roam)
 
 (use-package! org-roam-ui
+;; To get from the repo
+;;   :straight
+;;     (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
     :after org-roam ;; or :after org
 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
 ;;         a hookable mode anymore, you're advised to pick something yourself
 ;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
+    :hook (after-init . org-roam-ui-mode)
     :config
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 
-;; (use-package org-roam-ui
-;;   :straight
-;;     (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
-;;     :after org-roam
-;; ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;; ;;         a hookable mode anymore, you're advised to pick something yourself
-;; ;;         if you don't care about startup time, use
-;; ;;  :hook (after-init . org-roam-ui-mode)
-;;     :config
-;;     (setq org-roam-ui-sync-theme t
-;;           org-roam-ui-follow t
-;;           org-roam-ui-update-on-save t
-;;           org-roam-ui-open-on-start t))
-
-;; (use-package org-roam
-;;   ;; :ensure t
-
-;;   :custom
-;;   (org-roam-directory "~/RoamNotes")
-;;   :bind (("C-c n l" . org-roam-buffer-toggle)
-;;          ("C-c n f" . org-roam-node-find)
-;;          ("C-c n i" . org-roam-node-insert))
-;;   :config
-;;   (org-roam-setup))
-
-;; (unless (package-installed-p 'org-present')
+;; (unless (package-installed-p org-present)
 ;;   (package-install 'org-present'))
 
 (setq org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
