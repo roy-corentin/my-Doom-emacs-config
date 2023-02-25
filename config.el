@@ -472,5 +472,5 @@
 (setq +format-on-save-enabled-modes
       '(not web-mode))
 
-(load (expand-file-name "rails-settings.el" doom-private-dir))
-(load (expand-file-name "slang-mode.el" doom-private-dir))
+(load (expand-file-name "rails-settings.el" doom-user-dir))
+(load (expand-file-name "slang-mode.el" doom-user-dir))
