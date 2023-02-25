@@ -182,6 +182,9 @@
    ((t (:background "#57666a" )))))
 
 (with-eval-after-load 'dired
+  (map! :leader
+        (:prefix-map ("d" . "dired")
+         :desc "Dired Jump Directory" "d" #'dired-jump))
   (define-key dired-mode-map (kbd "M-p") 'peep-dired)
   (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
   (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package

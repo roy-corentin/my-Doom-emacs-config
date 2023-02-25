@@ -350,18 +350,17 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 #+end_src
 
 * FILE MANAGER (DIRED)
-Dired is the file manager within Emacs.  Below, I setup keybindings for image previews (peep-dired).  I've chosen the format of 'SPC d' plus 'key'.
+Dired is the file manager within Emacs.  Below, I setup keybindings for image previews (peep-dired).
 
 ** Keybindings To Open Dired
 | COMMAND    | DESCRIPTION                          | KEYBINDING |
 |------------+--------------------------------------+------------|
-| dired      | /Open dired file manager/            | SPC d d    |
-| dired-jump | /Jump to current directory in dired/ | SPC d j    |
+| dired-jump | /Jump to current directory in dired/ | SPC d d    |
 
 ** Keybindings Within Dired
 | COMMAND            | DESCRIPTION                                   | KEYBINDING |
 |--------------------+-----------------------------------------------+------------|
-| dired-view-file    | /View file in dired/                          | SPC d v    |
+| dired-view-file    | /View file in dired/                          | g o        |
 | dired-up-directory | /Go up in directory tree/                     | h          |
 | dired-find-file    | /Go down in directory tree (or open if file)/ | l          |
 
@@ -374,6 +373,9 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'dired
+  (map! :leader
+        (:prefix-map ("d" . "dired")
+         :desc "Dired Jump Directory" "d" #'dired-jump))
   (define-key dired-mode-map (kbd "M-p") 'peep-dired)
   (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
   (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
