@@ -206,6 +206,11 @@
 (map! :ni "C-," #'previous-buffer)
 (map! :ni "C-;" #'next-buffer)
 
+(eval-after-load 'centaur-tabs
+    (map! :ni "C-," #'centaur-tabs-backward))
+(eval-after-load 'centaur-tabs
+    (map! :ni "C-;" #'centaur-tabs-forward))
+
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
