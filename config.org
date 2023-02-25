@@ -119,7 +119,7 @@ Makes startup faster by reducing the frequency of garbage collection
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
 ;; to skip the mtime checks on every *.elc file.
-;; (setq load-prefer-newer noninteractive)
+(setq load-prefer-newer noninteractive)
 #+end_src
 
 * ALL THE ICONS
