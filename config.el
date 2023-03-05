@@ -140,8 +140,9 @@
 
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
+;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
+(setq doom-font (font-spec :family "JetBrainsMonoMedium Nerd Font Mono" :size 13 :weight 'light))
+;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
 
 ;; enable bold and italic
