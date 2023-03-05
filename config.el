@@ -469,6 +469,9 @@
 (after! centaur-tabs
   (setq centaur-tabs-set-bar 'right))
 
+(map! :leader
+      :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
+
 (setq +format-on-save-enabled-modes
       '(not web-mode))
 

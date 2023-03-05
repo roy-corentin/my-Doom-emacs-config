@@ -64,6 +64,8 @@
   - [[#with-a-lambda-to-compare-extension-1][With A Lambda To Compare Extension]]
   - [[#add-it-to-web-mode][Add It To Web Mode]]
 - [[#centaur-tabs][CENTAUR-TABS]]
+  - [[#to-fix-centaur-tabs-in-emacsclient][To fix centaur tabs in emacsclient]]
+  - [[#add-custom-map][Add Custom map]]
 - [[#format-on-save][FORMAT ON SAVE]]
   - [[#disable-format-on-save-for-web-mode][Disable format on save for web-mode]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
@@ -798,11 +800,19 @@ Add prettier to jsx and tsx files
 #+end_src
 
 * CENTAUR-TABS
-To fix centaur tabs in emacsclient
+** To fix centaur tabs in emacsclient
 
 #+begin_src elisp
 (after! centaur-tabs
   (setq centaur-tabs-set-bar 'right))
+#+end_src
+
+** Add Custom map
+Keymap to turn on/off centaur tabs
+
+#+begin_src elisp
+(map! :leader
+      :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
 #+end_src
 
 * FORMAT ON SAVE
