@@ -135,7 +135,7 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
 Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
 
 ** Configuring Dashboard
-If you use the package dashboard
+If you use the package 'dashboard'
 
 #+begin_src emacs-lisp
 ;; (use-package dashboard
@@ -749,6 +749,9 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
+
+(eval-after-load "web-mode"
+  '(setq web-mode-tag-auto-close-style 2))
 #+end_src
 
 * RJSX MINOR MODE

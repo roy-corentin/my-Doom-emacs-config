@@ -434,6 +434,9 @@
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
 
+(eval-after-load "web-mode"
+  '(setq web-mode-tag-auto-close-style 2))
+
 (add-hook 'find-file-hook
           (lambda ()
             (when (string= (file-name-extension buffer-file-name) "jsx")
