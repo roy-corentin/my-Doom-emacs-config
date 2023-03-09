@@ -20,9 +20,13 @@
 (package! peep-dired)
 (package! elfeed)
 (package! org-fancy-priorities)
-(package! org-gcal)
 (package! prettier-rc)
 (package! lsp-haskell)
+
+;; OrgRoam GCalendar
+(package! org-gcal)
+
+;; To use OrgRoam-UI, need last version of OrgRoam so unpin and add OrgRoamUi
 (unpin! org-roam)
 (package! org-roam-ui)
 
