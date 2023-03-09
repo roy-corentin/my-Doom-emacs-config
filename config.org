@@ -66,6 +66,8 @@
 - [[#centaur-tabs][CENTAUR-TABS]]
   - [[#to-fix-centaur-tabs-in-emacsclient][To fix centaur tabs in emacsclient]]
   - [[#add-custom-map][Add Custom map]]
+- [[#magit-stats][Magit-Stats]]
+- [[#crystal][CRYSTAL]]
 - [[#format-on-save][FORMAT ON SAVE]]
   - [[#disable-format-on-save-for-web-mode][Disable format on save for web-mode]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
@@ -818,6 +820,25 @@ Keymap to turn on/off centaur tabs
 #+begin_src elisp
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
+#+end_src
+
+* Magit-Stats
+#+begin_src elisp
+;; (require 'magit-stats)
+#+end_src
+
+* CRYSTAL
+At the moment, lsp-mode only knows about scry as the Crystal language server.
+So, to get it working with crystalline we need to configure lsp-mode to look for crystalline.
+#+begin_src elisp
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-language-id-configuration
+               '(crystal-mode . "crystal"))
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("crystalline"))
+                    :activation-fn (lsp-activate-on "crystal")
+                    :priority '1
+                    :server-id 'crystalline)))
 #+end_src
 
 * FORMAT ON SAVE
