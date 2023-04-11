@@ -144,7 +144,7 @@
                   (org-level-6 . 1.0)
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
+    (set-face-attribute (car face) nil :font "Cantarell" :weight `semi-bold :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -364,7 +364,7 @@
             (when (string= (file-name-extension buffer-file-name) "tsx")
               (prettier-rc-mode +1))))
 
-;; (add-hook 'web-mode-hook 'prettier-rc-mode)
+(add-hook 'web-mode-hook 'prettier-rc-mode)
 
 (after! centaur-tabs
   (setq centaur-tabs-set-bar 'right))

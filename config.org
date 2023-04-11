@@ -359,7 +359,7 @@ change `org-directory'. It must be set before org loads!
                   (org-level-6 . 1.0)
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
+    (set-face-attribute (car face) nil :font "Cantarell" :weight `semi-bold :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -690,7 +690,7 @@ Add prettier to jsx and tsx files
 
 *** Add It To Web Mode
 #+begin_src elisp
-;; (add-hook 'web-mode-hook 'prettier-rc-mode)
+(add-hook 'web-mode-hook 'prettier-rc-mode)
 #+end_src
 
 * CENTAUR-TABS
