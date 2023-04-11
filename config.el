@@ -20,86 +20,15 @@
 
 ;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
 
-;; Silence compiler warnings as they can be pretty disruptive
-;; (if (boundp 'comp-deferred-compilation)
-;;     (setq comp-deferred-compilation nil)
-;;   (setq native-comp-deferred-compilation nil))
-;; In noninteractive sessions, prioritize non-byte-compiled source files to
-;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
-;; to skip the mtime checks on every *.elc file.
+;; Prefer newer files
 (setq load-prefer-newer noninteractive)
 
 (use-package all-the-icons)
-
-;; (use-package dashboard
-;;   :init      ;; tweak dashboard config before loading it
-;;   (setq dashboard-set-heading-icons t)
-;;   (setq dashboard-set-file-icons t)
-;;   (setq dashboard-banner-logo-title "Emacs Is More Than A Text Editor!")
-;;   ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-;;   ;; (setq dashboard-startup-banner "~/.emacs.d/emacs-dash.png")  ;; use custom image as banner
-;;   (setq dashboard-center-content nil) ;; set to 't' for centered content
-;;   (setq dashboard-items '((recents . 5)
-;;                           (agenda . 5 )
-;;                           (bookmarks . 3)
-;;                           (projects . 3)
-;;                           (registers . 3)))
-;;   :config
-;;   (dashboard-setup-startup-hook)
-;;   (dashboard-modify-heading-icons '((recents . "file-text")
-;; 			      (bookmarks . "book"))))
 
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 (setq fancy-splash-image "~/Pictures/blackhole-lines.svg")
-
-;; (defvar +fl/splashcii-query ""
-;;   "The query to search on asciiur.com")
-
-;; (defun +fl/splashcii ()
-;;   (split-string (with-output-to-string
-;;                   (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
-;;                 "\n" t))
-
-;; (defun +fl/doom-banner ()
-;;   (let ((point (point)))
-;;     (mapc (lambda (line)
-;;             (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-;;                                 'face 'doom-dashboard-banner) " ")
-;;             (insert "\n"))
-;;           (+fl/splashcii))
-;;     (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0) ?\n))))
-
-;; ;; override the first doom dashboard function
-;; (setcar (nthcdr 0 +doom-dashboard-functions) #'+fl/doom-banner)
-
-;; (setq +fl/splashcii-query "halloween")
-
-;; (defun custom_banner ()
-;;   (let* ((banner '("   ________                             "
-;;                    "   \______ \   ____   ____   _____      "
-;;                    "    |    |  \ /  _ \ /  _ \ /     \     "
-;;                    "    |    `   (  <_> |  <_> )  Y Y  \    "
-;;                    "   /_______  /\____/ \____/|__|_|  /    "
-;;                    "           \/                    \/     "
-;;                    "___________                             "
-;;                    "\_   _____/ _____ _____    ____   ______"
-;;                    " |    __)_ /     \\__  \ _/ ___\ /  ___/"
-;;                    " |        \  Y Y  \/ __ \\  \___ \___ \ "
-;;                    "/_______  /__|_|  (____  /\___  >____  >"
-;;                    "        \/      \/     \/     \/     \/ "))
-;;          (longest-line (apply #'max (mapcar #'length banner))))
-;;     (put-text-property
-;;      (point)
-;;      (dolist (line banner (point))
-;;        (insert (+doom-dashboard--center
-;;                 +doom-dashboard--width
-;;                 (concat line (make-string (max 0 (- longest-line (length line))) 32)))
-;;                "\n"))
-;;      'face 'doom-dashboard-banner)))
-
-;; (setq +doom-dashboard-ascii-banner-fn #'custom_banner)
 
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
@@ -108,7 +37,6 @@
         elfeed-feeds (quote
                       (("https://www.reddit.com/r/linux.rss" reddit linux)
                        ("https://www.reddit.com/r/commandline.rss" reddit commandline)
-                       ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
                        ("https://www.reddit.com/r/emacs.rss" reddit emacs)
                        ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
                        ("https://hackaday.com/blog/feed/" hackaday linux)
@@ -141,9 +69,9 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
-(setq doom-font (font-spec :family "JetBrainsMonoMedium Nerd Font Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
 
 ;; enable bold and italic
 (after! doom-themes
@@ -174,9 +102,11 @@
 
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
+
 (setq company-idle-delay 0
       company-minimum-prefix-length 1)
 (setq company-tooltip-margin 3)
+(setq company-require-match nil)
 (setq company-format-margin-function 'company-text-icons-margin)
 (setq company-text-icons-add-background t)
 (custom-set-faces
@@ -216,16 +146,6 @@
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
-(after! lsp-mode
-  (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-  (setq lsp-ui-sideline-show-code-actions t)
-  )
-
-(add-hook! 'web-mode
-  (if (equal ".*\\erb\\" (file-name-nondirectory buffer-file-name))
-      (setq +format-with :none)
-    ))
-
 (setq org-directory "~/org/")
 
 (dolist (mode '(org-mode-hook))
@@ -254,7 +174,7 @@
                   (org-level-6 . 1.0)
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
+    (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -270,6 +190,8 @@
   :config
   (setq org-ellipsis " ▼ ")
   (efs/org-font-setup))
+
+(setq org-image-actual-width nil)
 
 (use-package org-bullets
   :after org
@@ -290,18 +212,6 @@
                                     (?3 . "[⮮]")
                                     (?4 . "[☕]")
                                     (?I . "[IMPORTANT]"))))
-;; default customization
-;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
-
-;; (defun efs/org-mode-visual-fill ()
-;;   (setq visual-fill-column-width 100
-;;         visual-fill-column-center-text t)
-;;   (visual-fill-column-mode 1))
-
-;; (use-package visual-fill-column
-;;   :hook (org-mode . efs/org-mode-visual-fill))
-
-(setq org-image-actual-width nil)
 
 (after! org
     (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
@@ -343,8 +253,16 @@
             (alltodo ""))))))
 
 (after! org
+  :ensure-t
+  :custom
   (setq org-roam-directory "~/RoamNotes")
-  (setq org-roam-index-file "~/RoamNotes/index.org"))
+  (setq org-roam-index-file "~/RoamNotes/index.org")
+  (setq org-roam-capture-templates '(("d" "default" plain "%?"
+                                      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                                                         "#+title: ${title}\n") :unnarrowed t)
+                                     ("p" "problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
+                                      :target (file+head "problems/%<%Y%m%d%H%M%S>-${slug}.org"
+                                                         "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
 
 (use-package! websocket
     :after org-roam)
@@ -359,18 +277,25 @@
 ;;         if you don't care about startup time, use
     :hook (after-init . org-roam-ui-mode)
     :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
-
-;; (unless (package-installed-p org-present)
-;;   (package-install 'org-present'))
+    (setq org-roam-ui-follow t))
+;;    (setq org-roam-ui-sync-theme t
+;;          org-roam-ui-follow t
+;;          org-roam-ui-open-on-start t
+;;          org-roam-ui-update-on-save t)
 
 (setq org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
       org-gcal-client-secret "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"
       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
 (require 'org-gcal)
+
+(require 'ivy)
+(require 'counsel)
+
+(setq ivy-re-builders-alist
+      '((counsel-rg . ivy--regex-plus)
+        (swiper . ivy--regex-plus)
+        (swiper-isearch . ivy--regex-plus)
+        (t . ivy--regex-ignore-order)))
 
 (setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
@@ -428,6 +353,18 @@
 (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 
+(add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
+
+(after! lsp-mode
+  (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
+  (setq lsp-ui-sideline-show-code-actions t)
+  )
+
+(add-hook! 'web-mode
+  (if (equal ".*\\erb\\" (file-name-nondirectory buffer-file-name))
+      (setq +format-with :none)
+    ))
+
 (use-package web-mode
   :custom
   (web-mode-markup-indent-offset 2)
@@ -447,18 +384,6 @@
             (when (string= (file-name-extension buffer-file-name) "tsx")
               (rjsx-minor-mode +1))))
 
-;; Enables the given minor mode for the current buffer it it matches regex
-;; my-pair is a cons cell (regular-expression . minor-mode)
-;; (defun enable-minor-mode (my-pair)
-;;   (if buffer-file-name ; If we are visiting a file,
-;;       ;; and the filename matches our regular expression,
-;;       (if (string-match (car my-pair) buffer-file-name)
-;;           (funcall (cdr my-pair))))) ; enable the minor mode
-
-;; (add-hook 'web-mode-hook #'(lambda ()
-;;                             (enable-minor-mode '("\\.jsx\\'" . prettier-rc)),
-;;                             (enable-minor-mode '("\\.tsx\\'" . prettier-rc))))
-
 (add-hook 'find-file-hook
           (lambda ()
             (when (string= (file-name-extension buffer-file-name) "jsx")
@@ -477,8 +402,6 @@
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
 
-;; (require 'magit-stats)
-
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-language-id-configuration
                '(crystal-mode . "crystal"))
@@ -488,8 +411,5 @@
                     :priority '1
                     :server-id 'crystalline)))
 
-(setq +format-on-save-enabled-modes
-      '(not web-mode))
-
 (load (expand-file-name "rails-settings.el" doom-user-dir))
-(load (expand-file-name "slang-mode.el" doom-user-dir))
+(load (expand-file-name "crystal-settings.el" doom-user-dir))

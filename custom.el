@@ -3,7 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(magit-stats org-inline-anim))
+ '(package-selected-packages
+   '(docker-tramp inf-crystal lsp-tailwindcss magit-stats org-inline-anim))
  '(warning-suppress-log-types '((initialization) (defvaralias))))
 ;;  '(package-selected-packages
 ;;    '(projectile-rails projectile python-black lsp-python-ms vterm lsp-mode))
@@ -17,3 +18,4 @@
  '(font-lock-comment-face ((t (:slant italic))))
  '(font-lock-keyword-face ((t (:slant italic)))))
 (put 'customize-variable 'disabled nil)
+(put 'projectile-ripgrep 'disabled nil)

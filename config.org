@@ -9,10 +9,9 @@
 - [[#about-this-config][ABOUT THIS CONFIG]]
 - [[#startup-performance][STARTUP PERFORMANCE]]
   - [[#garbage-collection][Garbage collection]]
-  - [[#native-compil][Native Compil]]
+  - [[#native-compil-priority][Native Compil Priority]]
 - [[#all-the-icons][ALL THE ICONS]]
 - [[#dashboard][DASHBOARD]]
-  - [[#configuring-dashboard][Configuring Dashboard]]
   - [[#splash-screen][Splash Screen]]
   - [[#dashboard-in-emacsclient][Dashboard in Emacsclient]]
 - [[#elfeed][ELFEED]]
@@ -23,30 +22,32 @@
   - [[#set-transparency][Set Transparency]]
 - [[#line-setup][LINE SETUP]]
 - [[#company][COMPANY]]
+  - [[#add-tabnine-as-company-backends][Add TabNine As Company Backends]]
+  - [[#configuration][Configuration]]
 - [[#file-manager-dired][FILE MANAGER (DIRED)]]
   - [[#keybindings-to-open-dired][Keybindings To Open Dired]]
   - [[#keybindings-within-dired][Keybindings Within Dired]]
   - [[#keybindings-for-peep-dired-mode][Keybindings For Peep-Dired-Mode]]
 - [[#cursor][CURSOR]]
 - [[#move-between-buffer][MOVE BETWEEN BUFFER]]
+  - [[#default][Default]]
+  - [[#centaur-tabs][Centaur Tabs]]
 - [[#drag-stuff][DRAG STUFF]]
-- [[#htmlerb][HTML.ERB]]
 - [[#org][ORG]]
   - [[#org-location][Org location]]
   - [[#disable-line-numbers-for-org-mode][Disable line numbers for Org mode]]
   - [[#clock-sound-for-org-timer][Clock sound for org timer]]
   - [[#defining-a-few-things][Defining A Few Things]]
+  - [[#image][Image]]
   - [[#enabling-org-bullets][Enabling Org Bullets]]
   - [[#fancy-priority][Fancy Priority]]
-  - [[#center-org-mode][Center Org Mode]]
   - [[#keyword-todo][Keyword TODO]]
 - [[#org-agenda][ORG-AGENDA]]
   - [[#view][View]]
 - [[#org-roam][ORG-ROAM]]
   - [[#org-roam-ui][Org-Roam UI]]
-- [[#org-present][ORG-PRESENT]]
-  - [[#installation][Installation]]
 - [[#org-gcal][ORG-GCAL]]
+- [[#search-with-regex][SEARCH WITH REGEX]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
   - [[#filter-to-treemacs][Filter To Treemacs]]
@@ -54,22 +55,17 @@
   - [[#add-icon-in-treemacs][Add Icon In Treemacs]]
 - [[#python][PYTHON]]
   - [[#black-for-python-format][Black For Python Format]]
-- [[#react][REACT]]
-  - [[#add-web-mode-to-react][Add Web Mode To React]]
-- [[#custom-web-mode][CUSTOM WEB-MODE]]
-- [[#rjsx-minor-mode][RJSX MINOR MODE]]
-  - [[#with-a-lambda-to-compare-extension][With A Lambda To Compare Extension]]
-- [[#prettier-rc][PRETTIER-RC]]
-  - [[#with-method-to-compare-extension-bug][With Method To Compare Extension (BUG)]]
-  - [[#with-a-lambda-to-compare-extension-1][With A Lambda To Compare Extension]]
-  - [[#add-it-to-web-mode][Add It To Web Mode]]
-- [[#centaur-tabs][CENTAUR-TABS]]
+- [[#web][WEB]]
+  - [[#react][REACT]]
+  - [[#astro][ASTRO]]
+  - [[#htmlerb][HTML.ERB]]
+  - [[#custom-web-mode][CUSTOM WEB-MODE]]
+  - [[#rjsx-minor-mode][RJSX MINOR MODE]]
+  - [[#prettier-rc][PRETTIER-RC]]
+- [[#centaur-tabs-1][CENTAUR-TABS]]
   - [[#to-fix-centaur-tabs-in-emacsclient][To fix centaur tabs in emacsclient]]
   - [[#add-custom-map][Add Custom map]]
-- [[#magit-stats][Magit-Stats]]
 - [[#crystal][CRYSTAL]]
-- [[#format-on-save][FORMAT ON SAVE]]
-  - [[#disable-format-on-save-for-web-mode][Disable format on save for web-mode]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -114,15 +110,9 @@ Makes startup faster by reducing the frequency of garbage collection
 ;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
 #+end_src
 
-** Native Compil
+** Native Compil Priority
 #+begin_src emacs-lisp
-;; Silence compiler warnings as they can be pretty disruptive
-;; (if (boundp 'comp-deferred-compilation)
-;;     (setq comp-deferred-compilation nil)
-;;   (setq native-comp-deferred-compilation nil))
-;; In noninteractive sessions, prioritize non-byte-compiled source files to
-;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
-;; to skip the mtime checks on every *.elc file.
+;; Prefer newer files
 (setq load-prefer-newer noninteractive)
 #+end_src
 
@@ -136,89 +126,12 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
 * DASHBOARD
 Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
 
-** Configuring Dashboard
-If you use the package 'dashboard'
-
-#+begin_src emacs-lisp
-;; (use-package dashboard
-;;   :init      ;; tweak dashboard config before loading it
-;;   (setq dashboard-set-heading-icons t)
-;;   (setq dashboard-set-file-icons t)
-;;   (setq dashboard-banner-logo-title "Emacs Is More Than A Text Editor!")
-;;   ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-;;   ;; (setq dashboard-startup-banner "~/.emacs.d/emacs-dash.png")  ;; use custom image as banner
-;;   (setq dashboard-center-content nil) ;; set to 't' for centered content
-;;   (setq dashboard-items '((recents . 5)
-;;                           (agenda . 5 )
-;;                           (bookmarks . 3)
-;;                           (projects . 3)
-;;                           (registers . 3)))
-;;   :config
-;;   (dashboard-setup-startup-hook)
-;;   (dashboard-modify-heading-icons '((recents . "file-text")
-;; 			      (bookmarks . "book"))))
-#+end_src
-
 ** Splash Screen
-
 #+begin_src elisp
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 (setq fancy-splash-image "~/Pictures/blackhole-lines.svg")
-#+end_src
-
-*** Random Ascii Art
-#+begin_src  elisp
-;; (defvar +fl/splashcii-query ""
-;;   "The query to search on asciiur.com")
-
-;; (defun +fl/splashcii ()
-;;   (split-string (with-output-to-string
-;;                   (call-process "splashcii" nil standard-output nil +fl/splashcii-query))
-;;                 "\n" t))
-
-;; (defun +fl/doom-banner ()
-;;   (let ((point (point)))
-;;     (mapc (lambda (line)
-;;             (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-;;                                 'face 'doom-dashboard-banner) " ")
-;;             (insert "\n"))
-;;           (+fl/splashcii))
-;;     (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0) ?\n))))
-
-;; ;; override the first doom dashboard function
-;; (setcar (nthcdr 0 +doom-dashboard-functions) #'+fl/doom-banner)
-
-;; (setq +fl/splashcii-query "halloween")
-#+end_src
-
-*** Custom Ascii Art
-#+begin_src elisp
-;; (defun custom_banner ()
-;;   (let* ((banner '("   ________                             "
-;;                    "   \______ \   ____   ____   _____      "
-;;                    "    |    |  \ /  _ \ /  _ \ /     \     "
-;;                    "    |    `   (  <_> |  <_> )  Y Y  \    "
-;;                    "   /_______  /\____/ \____/|__|_|  /    "
-;;                    "           \/                    \/     "
-;;                    "___________                             "
-;;                    "\_   _____/ _____ _____    ____   ______"
-;;                    " |    __)_ /     \\__  \ _/ ___\ /  ___/"
-;;                    " |        \  Y Y  \/ __ \\  \___ \___ \ "
-;;                    "/_______  /__|_|  (____  /\___  >____  >"
-;;                    "        \/      \/     \/     \/     \/ "))
-;;          (longest-line (apply #'max (mapcar #'length banner))))
-;;     (put-text-property
-;;      (point)
-;;      (dolist (line banner (point))
-;;        (insert (+doom-dashboard--center
-;;                 +doom-dashboard--width
-;;                 (concat line (make-string (max 0 (- longest-line (length line))) 32)))
-;;                "\n"))
-;;      'face 'doom-dashboard-banner)))
-
-;; (setq +doom-dashboard-ascii-banner-fn #'custom_banner)
 #+end_src
 
 ** Dashboard in Emacsclient
@@ -237,7 +150,6 @@ An RSS newsfeed reader for Emacs.
         elfeed-feeds (quote
                       (("https://www.reddit.com/r/linux.rss" reddit linux)
                        ("https://www.reddit.com/r/commandline.rss" reddit commandline)
-                       ("https://www.reddit.com/r/distrotube.rss" reddit distrotube)
                        ("https://www.reddit.com/r/emacs.rss" reddit emacs)
                        ("https://www.gamingonlinux.com/article_rss.php" gaming linux)
                        ("https://hackaday.com/blog/feed/" hackaday linux)
@@ -288,9 +200,9 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
-(setq doom-font (font-spec :family "JetBrainsMonoMedium Nerd Font Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
 
 ;; enable bold and italic
 (after! doom-themes
@@ -342,13 +254,20 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 #+end_src
 
 * COMPANY
-
+** Add TabNine As Company Backends
 #+begin_src elisp
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
+#+end_src
+
+** Configuration
++ Show faster and when only one character is pressed
++ Use Text Icon instead of vscode icons
+#+begin_src elisp
 (setq company-idle-delay 0
       company-minimum-prefix-length 1)
 (setq company-tooltip-margin 3)
+(setq company-require-match nil)
 (setq company-format-margin-function 'company-text-icons-margin)
 (setq company-text-icons-add-background t)
 (custom-set-faces
@@ -410,10 +329,16 @@ Disable the cursor going back off when switch between Insert an Normal mode
 * MOVE BETWEEN BUFFER
 Move previous and next buffer
 
+** Default
 #+begin_src elisp
 (map! :ni "C-," #'previous-buffer)
 (map! :ni "C-;" #'next-buffer)
+#+end_src
 
+** Centaur Tabs
+If Centaur Tabs is loaded map this key to switch between tabs instead of buffers
+
+#+begin_src elisp
 (eval-after-load 'centaur-tabs
     (map! :ni "C-," #'centaur-tabs-backward))
 (eval-after-load 'centaur-tabs
@@ -421,30 +346,11 @@ Move previous and next buffer
 #+end_src
 
 * DRAG STUFF
-To move a complete line
+To move a all the line up and down
 
 #+begin_src elisp
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
-#+end_src
-
-* HTML.ERB
-Add file format '.html.erb' to lsp-mode
-
-#+begin_src elisp
-(after! lsp-mode
-  (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-  (setq lsp-ui-sideline-show-code-actions t)
-  )
-#+end_src
-
-Disable format on save for this format
-
-#+begin_src elisp
-(add-hook! 'web-mode
-  (if (equal ".*\\erb\\" (file-name-nondirectory buffer-file-name))
-      (setq +format-with :none)
-    ))
 #+end_src
 
 * ORG
@@ -489,7 +395,7 @@ change `org-directory'. It must be set before org loads!
                   (org-level-6 . 1.0)
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
+    (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -505,6 +411,13 @@ change `org-directory'. It must be set before org loads!
   :config
   (setq org-ellipsis " ▼ ")
   (efs/org-font-setup))
+#+end_src
+
+** Image
+Use the actual width of image in org files
+
+#+begin_src elisp
+(setq org-image-actual-width nil)
 #+end_src
 
 ** Enabling Org Bullets
@@ -535,27 +448,14 @@ Org-fancy-priorities give us some prettier priorities
                                     (?3 . "[⮮]")
                                     (?4 . "[☕]")
                                     (?I . "[IMPORTANT]"))))
-;; default customization
-;; (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
-#+end_src
-
-** Center Org Mode
-Center Org File just like a Word file
-
-#+begin_src elisp
-;; (defun efs/org-mode-visual-fill ()
-;;   (setq visual-fill-column-width 100
-;;         visual-fill-column-center-text t)
-;;   (visual-fill-column-mode 1))
-
-;; (use-package visual-fill-column
-;;   :hook (org-mode . efs/org-mode-visual-fill))
-
-(setq org-image-actual-width nil)
 #+end_src
 
 ** Keyword TODO
-Use custom TODO keywords
+Use custom TODO keywords for Org files.
+Three different sequences:
+    + Text
+    + Emoji + Text
+    + Items
 
 #+begin_src elisp
 (after! org
@@ -584,7 +484,6 @@ Use custom TODO keywords
 #+end_src
 
 Configure style of TODO keywords
-
 #+begin_src elisp
 (after! org
   (setq org-todo-keyword-faces
@@ -613,15 +512,22 @@ Change agenda view:
 #+end_src
 
 * ORG-ROAM
-Example of basic config org-raom
- - (after! org
-          (setq org-roam-directory "~/Documents/org/roam/")
-          (setq org-roam-index-file "~/Documents/org/roam/index.org"))
+Configuration for org-roam:
+ + Private location
+ + New Capture templates
 
 #+begin_src elisp
 (after! org
+  :ensure-t
+  :custom
   (setq org-roam-directory "~/RoamNotes")
-  (setq org-roam-index-file "~/RoamNotes/index.org"))
+  (setq org-roam-index-file "~/RoamNotes/index.org")
+  (setq org-roam-capture-templates '(("d" "default" plain "%?"
+                                      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                                                         "#+title: ${title}\n") :unnarrowed t)
+                                     ("p" "problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
+                                      :target (file+head "problems/%<%Y%m%d%H%M%S>-${slug}.org"
+                                                         "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
 #+end_src
 
 ** Org-Roam UI
@@ -639,20 +545,11 @@ Example of basic config org-raom
 ;;         if you don't care about startup time, use
     :hook (after-init . org-roam-ui-mode)
     :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
-
-#+end_src
-
-* ORG-PRESENT
-** Installation
-Install org-present if not already installed
-
-#+begin_src elisp
-;; (unless (package-installed-p org-present)
-;;   (package-install 'org-present'))
+    (setq org-roam-ui-follow t))
+;;    (setq org-roam-ui-sync-theme t
+;;          org-roam-ui-follow t
+;;          org-roam-ui-open-on-start t
+;;          org-roam-ui-update-on-save t)
 #+end_src
 
 * ORG-GCAL
@@ -663,6 +560,20 @@ Synchronize google calendar with org
       org-gcal-client-secret "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"
       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
 (require 'org-gcal)
+#+end_src
+
+* SEARCH WITH REGEX
+Specify can search via regex
+
+#+begin_src elisp
+(require 'ivy)
+(require 'counsel)
+
+(setq ivy-re-builders-alist
+      '((counsel-rg . ivy--regex-plus)
+        (swiper . ivy--regex-plus)
+        (swiper-isearch . ivy--regex-plus)
+        (t . ivy--regex-ignore-order)))
 #+end_src
 
 * MOUSE SCROLLING
@@ -737,14 +648,41 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   )
 #+end_src
 
-* REACT
-** Add Web Mode To React
+* WEB
+** REACT
+*** Add Web Mode To React
 #+begin_src elisp
 (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 #+end_src
 
-* CUSTOM WEB-MODE
+** ASTRO
+*** Add Web Mode To Astro File
+#+begin_src elisp
+(add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
+#+end_src
+
+** HTML.ERB
+*** Add ERB to lsp-mode
+
+#+begin_src elisp
+(after! lsp-mode
+  (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
+  (setq lsp-ui-sideline-show-code-actions t)
+  )
+#+end_src
+
+*** Add Web Mode to ERB template and disable format on save
+
+#+begin_src elisp
+(add-hook! 'web-mode
+  (if (equal ".*\\erb\\" (file-name-nondirectory buffer-file-name))
+      (setq +format-with :none)
+    ))
+#+end_src
+
+
+** CUSTOM WEB-MODE
 #+begin_src elisp
 (use-package web-mode
   :custom
@@ -756,8 +694,8 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   '(setq web-mode-tag-auto-close-style 2))
 #+end_src
 
-* RJSX MINOR MODE
-** With A Lambda To Compare Extension
+** RJSX MINOR MODE
+*** With A Lambda To Compare Extension
 #+begin_src elisp
 (add-hook 'find-file-hook
           (lambda ()
@@ -770,25 +708,10 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
               (rjsx-minor-mode +1))))
 #+end_src
 
-* PRETTIER-RC
+** PRETTIER-RC
 Add prettier to jsx and tsx files
 
-** With Method To Compare Extension (BUG)
-#+begin_src elisp
-;; Enables the given minor mode for the current buffer it it matches regex
-;; my-pair is a cons cell (regular-expression . minor-mode)
-;; (defun enable-minor-mode (my-pair)
-;;   (if buffer-file-name ; If we are visiting a file,
-;;       ;; and the filename matches our regular expression,
-;;       (if (string-match (car my-pair) buffer-file-name)
-;;           (funcall (cdr my-pair))))) ; enable the minor mode
-
-;; (add-hook 'web-mode-hook #'(lambda ()
-;;                             (enable-minor-mode '("\\.jsx\\'" . prettier-rc)),
-;;                             (enable-minor-mode '("\\.tsx\\'" . prettier-rc))))
-#+end_src
-
-** With A Lambda To Compare Extension
+*** With A Lambda To Compare Extension
 #+begin_src elisp
 (add-hook 'find-file-hook
           (lambda ()
@@ -801,35 +724,30 @@ Add prettier to jsx and tsx files
               (prettier-rc-mode +1))))
 #+end_src
 
-** Add It To Web Mode
+*** Add It To Web Mode
 #+begin_src elisp
 ;; (add-hook 'web-mode-hook 'prettier-rc-mode)
 #+end_src
 
 * CENTAUR-TABS
 ** To fix centaur tabs in emacsclient
-
 #+begin_src elisp
 (after! centaur-tabs
   (setq centaur-tabs-set-bar 'right))
 #+end_src
 
 ** Add Custom map
-Keymap to turn on/off centaur tabs
+Keymap to turn ON/OFF centaur tabs
 
 #+begin_src elisp
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
 #+end_src
 
-* Magit-Stats
-#+begin_src elisp
-;; (require 'magit-stats)
-#+end_src
-
 * CRYSTAL
 At the moment, lsp-mode only knows about scry as the Crystal language server.
 So, to get it working with crystalline we need to configure lsp-mode to look for crystalline.
+
 #+begin_src elisp
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-language-id-configuration
@@ -841,19 +759,12 @@ So, to get it working with crystalline we need to configure lsp-mode to look for
                     :server-id 'crystalline)))
 #+end_src
 
-* FORMAT ON SAVE
-** Disable format on save for web-mode
-#+begin_src elisp
-(setq +format-on-save-enabled-modes
-      '(not web-mode))
-#+end_src
-
 * IMPORT OTHER CONFIG
 Use external rails config, for snippet and method to navigate easily in rails project
 
 #+begin_src elisp
 (load (expand-file-name "rails-settings.el" doom-user-dir))
-(load (expand-file-name "slang-mode.el" doom-user-dir))
+(load (expand-file-name "crystal-settings.el" doom-user-dir))
 #+end_src
 
 * INFORMATION

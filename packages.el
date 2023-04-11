@@ -21,7 +21,6 @@
 (package! elfeed)
 (package! org-fancy-priorities)
 (package! prettier-rc)
-(package! lsp-haskell)
 
 ;; OrgRoam GCalendar
 (package! org-gcal)

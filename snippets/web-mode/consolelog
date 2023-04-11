@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: consolelog
+# uuid:
+# key: log
+# condition: t
+# desc: create the console.log
+# --
+console.log($1)
