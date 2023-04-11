@@ -62,8 +62,9 @@
 
 ;; (setq doom-theme 'doom-solarized-dark)
 ;; (setq doom-theme 'doom-monokai-machine)
-(setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-pine)
+;; (setq doom-theme 'doom-henna)
+;; (setq doom-theme 'doom-one)
+(setq doom-theme 'doom-acario-dark)
 
 (set-frame-parameter (selected-frame) 'alpha '(90 90))
 (add-to-list 'default-frame-alist '(alpha 90 90))
