@@ -328,44 +328,33 @@
 
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-  (setq lsp-ui-sideline-show-code-actions t)
-  )
+  (setq lsp-ui-sideline-show-code-actions t))
 
-(add-hook! 'web-mode
-  (if (equal ".*\\erb\\" (file-name-nondirectory buffer-file-name))
-      (setq +format-with :none)
-    ))
+(add-hook! 'web-mode-hook
+  (when (string-match-p "\\.erb\\'" buffer-file-name)
+    (setq +format-with :none)))
 
 (use-package web-mode
   :custom
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
-  (web-mode-code-indent-offset 2))
+  (web-mode-code-indent-offset 2)
+  :config
+  (setq web-mode-tag-auto-close-style 2))
 
-(eval-after-load "web-mode"
-  '(setq web-mode-tag-auto-close-style 2))
+(defun enable-rjsx-mode ()
+  (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
+            (string-equal "tsx" (file-name-extension buffer-file-name)))
+    (rjsx-minor-mode)))
 
-(add-hook 'find-file-hook
-          (lambda ()
-            (when (string= (file-name-extension buffer-file-name) "jsx")
-              (rjsx-minor-mode +1))))
+(add-hook 'web-mode-hook #'enable-rjsx-mode)
 
-(add-hook 'find-file-hook
-          (lambda ()
-            (when (string= (file-name-extension buffer-file-name) "tsx")
-              (rjsx-minor-mode +1))))
+(defun enable-prettier-mode ()
+  (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
+            (string-equal "tsx" (file-name-extension buffer-file-name)))
+    (prettier-rc-mode)))
 
-(add-hook 'find-file-hook
-          (lambda ()
-            (when (string= (file-name-extension buffer-file-name) "jsx")
-              (prettier-rc-mode +1))))
-
-(add-hook 'find-file-hook
-          (lambda ()
-            (when (string= (file-name-extension buffer-file-name) "tsx")
-              (prettier-rc-mode +1))))
-
-(add-hook 'web-mode-hook 'prettier-rc-mode)
+(add-hook 'web-mode-hook #'enable-prettier-mode)
 
 (after! centaur-tabs
   (setq centaur-tabs-set-bar 'right))
