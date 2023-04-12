@@ -28,9 +28,6 @@
   - [[#keybindings-within-dired][Keybindings Within Dired]]
   - [[#keybindings-for-peep-dired-mode][Keybindings For Peep-Dired-Mode]]
 - [[#cursor][CURSOR]]
-- [[#move-between-buffer][MOVE BETWEEN BUFFER]]
-  - [[#default][Default]]
-  - [[#centaur-tabs][Centaur Tabs]]
 - [[#drag-stuff][DRAG STUFF]]
 - [[#org][ORG]]
   - [[#org-location][Org location]]
@@ -49,9 +46,6 @@
 - [[#search-with-regex][SEARCH WITH REGEX]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
-  - [[#filter-to-treemacs][Filter To Treemacs]]
-  - [[#treemacs-follow-mode][Treemacs Follow Mode]]
-  - [[#add-icon-in-treemacs][Add Icon In Treemacs]]
 - [[#python][PYTHON]]
   - [[#black-for-python-format][Black For Python Format]]
 - [[#web][WEB]]
@@ -61,9 +55,10 @@
   - [[#custom-web-mode][CUSTOM WEB-MODE]]
   - [[#rjsx-minor-mode][RJSX MINOR MODE]]
   - [[#prettier-rc][PRETTIER-RC]]
-- [[#centaur-tabs-1][CENTAUR-TABS]]
+- [[#centaur-tabs][CENTAUR-TABS]]
   - [[#to-fix-centaur-tabs-in-emacsclient][To fix centaur tabs in emacsclient]]
   - [[#add-custom-map][Add Custom map]]
+  - [[#move-between-buffer][Move Between Buffer]]
 - [[#crystal][CRYSTAL]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
@@ -289,25 +284,6 @@ Disable the cursor going back off when switch between Insert an Normal mode
 #+begin_src elisp
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
-#+end_src
-
-* MOVE BETWEEN BUFFER
-Move previous and next buffer
-
-** Default
-#+begin_src elisp
-(map! :ni "C-," #'previous-buffer)
-(map! :ni "C-;" #'next-buffer)
-#+end_src
-
-** Centaur Tabs
-If Centaur Tabs is loaded map this key to switch between tabs instead of buffers
-
-#+begin_src elisp
-(eval-after-load 'centaur-tabs
-    (map! :ni "C-," #'centaur-tabs-backward))
-(eval-after-load 'centaur-tabs
-    (map! :ni "C-;" #'centaur-tabs-forward))
 #+end_src
 
 * DRAG STUFF
@@ -552,51 +528,25 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 #+end_src
 
 * TREEMACS
-** Filter To Treemacs
-#+begin_src elisp
-(after! treemacs
-  (defvar treemacs-file-ignore-extensions '()
-    "File extension which `treemacs-ignore-filter' will ensure are ignored")
-  (defvar treemacs-file-ignore-globs '()
-    "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
-  (defvar treemacs-file-ignore-regexps '()
-    "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
-  (defun treemacs-file-ignore-generate-regexps ()
-    "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
-    (setq treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
-  (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
-  (defun treemacs-ignore-filter (file full-path)
-    "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
-    (or (member (file-name-extension file) treemacs-file-ignore-extensions)
-        (let ((ignore-file nil))
-          (dolist (regexp treemacs-file-ignore-regexps ignore-file)
-            (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
-  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
-
-(setq treemacs-file-ignore-extensions
-      '(;; C/C++
-        "o"
-        "gcna"
-        "gcdo"
-        ;; other
-        "vscode"
-        "idea"
-        ))
-#+end_src
-
-** Treemacs Follow Mode
 #+begin_src elisp
 (use-package treemacs
   :defer t
   :config
-  (progn
-    (treemacs-follow-mode t))
-  )
-#+end_src
+  ;; Add ignored files and file extensions
+  (setq treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
+        treemacs-file-ignore-globs nil)
+  (defun my-treemacs-ignore-filter (file full-path)
+    "Ignore files specified by `treemacs-file-ignore-extensions' and globs."
+    (or (member (file-name-extension file) treemacs-file-ignore-extensions)
+        (cl-loop for glob in treemacs-file-ignore-globs
+                 thereis (file-name-match-glob glob full-path))))
+  (add-to-list 'treemacs-ignored-file-predicates #'my-treemacs-ignore-filter)
 
-** Add Icon In Treemacs
-#+begin_src elisp
-(setq doom-themes-treemacs-theme "doom-colors")
+  ;; Enable follow mode
+  (treemacs-follow-mode t)
+
+  ;; Set treemacs theme
+  (setq doom-themes-treemacs-theme "doom-colors"))
 #+end_src
 
 * PYTHON
@@ -689,6 +639,25 @@ Keymap to turn ON/OFF centaur tabs
 #+begin_src elisp
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
+#+end_src
+
+** Move Between Buffer
+Key mapping to move previous and next buffer with and without centaur-tabs
+
+*** Default
+#+begin_src elisp
+(map! :ni "C-," #'previous-buffer)
+(map! :ni "C-;" #'next-buffer)
+#+end_src
+
+*** Centaur Tabs
+If Centaur Tabs is loaded map this key to switch between tabs instead of buffers
+
+#+begin_src elisp
+(eval-after-load 'centaur-tabs
+    (map! :ni "C-," #'centaur-tabs-backward))
+(eval-after-load 'centaur-tabs
+    (map! :ni "C-;" #'centaur-tabs-forward))
 #+end_src
 
 * CRYSTAL

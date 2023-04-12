@@ -106,14 +106,6 @@
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
 
-(map! :ni "C-," #'previous-buffer)
-(map! :ni "C-;" #'next-buffer)
-
-(eval-after-load 'centaur-tabs
-    (map! :ni "C-," #'centaur-tabs-backward))
-(eval-after-load 'centaur-tabs
-    (map! :ni "C-;" #'centaur-tabs-forward))
-
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
@@ -273,43 +265,24 @@
 (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 
-(after! treemacs
-  (defvar treemacs-file-ignore-extensions '()
-    "File extension which `treemacs-ignore-filter' will ensure are ignored")
-  (defvar treemacs-file-ignore-globs '()
-    "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
-  (defvar treemacs-file-ignore-regexps '()
-    "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
-  (defun treemacs-file-ignore-generate-regexps ()
-    "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
-    (setq treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
-  (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
-  (defun treemacs-ignore-filter (file full-path)
-    "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
-    (or (member (file-name-extension file) treemacs-file-ignore-extensions)
-        (let ((ignore-file nil))
-          (dolist (regexp treemacs-file-ignore-regexps ignore-file)
-            (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
-  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
-
-(setq treemacs-file-ignore-extensions
-      '(;; C/C++
-        "o"
-        "gcna"
-        "gcdo"
-        ;; other
-        "vscode"
-        "idea"
-        ))
-
 (use-package treemacs
   :defer t
   :config
-  (progn
-    (treemacs-follow-mode t))
-  )
+  ;; Add ignored files and file extensions
+  (setq treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
+        treemacs-file-ignore-globs nil)
+  (defun my-treemacs-ignore-filter (file full-path)
+    "Ignore files specified by `treemacs-file-ignore-extensions' and globs."
+    (or (member (file-name-extension file) treemacs-file-ignore-extensions)
+        (cl-loop for glob in treemacs-file-ignore-globs
+                 thereis (file-name-match-glob glob full-path))))
+  (add-to-list 'treemacs-ignored-file-predicates #'my-treemacs-ignore-filter)
 
-(setq doom-themes-treemacs-theme "doom-colors")
+  ;; Enable follow mode
+  (treemacs-follow-mode t)
+
+  ;; Set treemacs theme
+  (setq doom-themes-treemacs-theme "doom-colors"))
 
 (use-package! python-black
   :demand t
@@ -361,6 +334,14 @@
 
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
+
+(map! :ni "C-," #'previous-buffer)
+(map! :ni "C-;" #'next-buffer)
+
+(eval-after-load 'centaur-tabs
+    (map! :ni "C-," #'centaur-tabs-backward))
+(eval-after-load 'centaur-tabs
+    (map! :ni "C-;" #'centaur-tabs-forward))
 
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-language-id-configuration
