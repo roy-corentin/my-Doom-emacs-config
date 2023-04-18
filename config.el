@@ -117,9 +117,23 @@
 (after! org
   (setq org-clock-sound "~/Music/ding.wav"))
 
+;; Load org-faces to make sure we can set appropriate faces
+(require 'org-faces)
+;; Set reusable font name variables
+(defvar my/fixed-width-font "JetBrainsMono Nerd Font"
+  "The font to use for monospaced (fixed width) text.")
+
+(defvar my/variable-width-font "Source Sans Pro"
+  "The font to use for variable-pitch (document) text.")
+
+;; NOTE: These settings might not be ideal for your machine, tweak them as needed!
+;; (set-face-attribute 'default nil :font my/fixed-width-font :weight 'medium :height 90)
+;; (set-face-attribute 'fixed-pitch nil :font my/fixed-width-font :weight 'medium :height 90)
+(set-face-attribute 'variable-pitch nil :font my/variable-width-font :weight 'medium :height 1.1)
+
 (defun efs/org-mode-setup ()
   (org-indent-mode)
-  ;; (variable-pitch-mode 1) ;; Center text in the middle
+  (variable-pitch-mode 1)
   (visual-line-mode 1))
 
 (defun efs/org-font-setup ()
@@ -130,18 +144,20 @@
 
   ;; Set faces for heading levels
   (dolist (face '((org-level-1 . 1.6)
-                  (org-level-2 . 1.3)
-                  (org-level-3 . 1.1)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.0)
-                  (org-level-6 . 1.0)
-                  (org-level-7 . 1.0)
-                  (org-level-8 . 1.0)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight `semi-bold :height (cdr face)))
+                  (org-level-2 . 1.4)
+                  (org-level-3 . 1.3)
+                  (org-level-4 . 1.1)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font my/variable-width-font :weight 'medium :height (cdr face)))
+  ;; Make the document title a bit bigger
+  (set-face-attribute 'org-document-title nil :font my/variable-width-font :weight 'bold :height 1.3)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-code nil   :font my/fixed-width-font :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
@@ -152,6 +168,7 @@
   :hook (org-mode . efs/org-mode-setup)
   :config
   (setq org-ellipsis " ▼ ")
+  (setq org-hide-emphasis-markers t)
   (efs/org-font-setup))
 
 (setq org-image-actual-width nil)
@@ -246,23 +263,16 @@
                                                          "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
 
 (use-package! websocket
-    :after org-roam)
+  :after org-roam)
 
 (use-package! org-roam-ui
-;; To get from the repo
-;;   :straight
-;;     (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
-    :after org-roam ;; or :after org
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-    :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-follow t))
-;;    (setq org-roam-ui-sync-theme t
-;;          org-roam-ui-follow t
-;;          org-roam-ui-open-on-start t
-;;          org-roam-ui-update-on-save t)
+  :after org-roam ;; or :after org
+  ;; :hook (after-init . org-roam-ui-mode) ;; to launch server at start
+  :config
+  (setq org-roam-ui-follow t
+        org-roam-ui-sync-theme t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 (setq org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
       org-gcal-client-secret "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"
@@ -331,7 +341,7 @@
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2)
   :config
-  (setq web-mode-tag-auto-close-style 2))
+  (setq web-mode-tag-auto-close-style 1))
 
 (defun enable-rjsx-mode ()
   (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
