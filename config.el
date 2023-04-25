@@ -66,8 +66,8 @@
 ;; (setq doom-theme 'doom-one)
 (setq doom-theme 'doom-acario-dark)
 
-(set-frame-parameter (selected-frame) 'alpha '(90 . 100))
-(add-to-list 'default-frame-alist '(alpha . (90 . 90)))
+(set-frame-parameter (selected-frame) 'alpha '(90 90))
+(add-to-list 'default-frame-alist '(alpha 90 90))
 
 (setq display-line-numbers-type `relative)
 
