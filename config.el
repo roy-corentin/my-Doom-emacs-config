@@ -285,13 +285,38 @@
   (add-hook 'org-present-after-navigate-functions 'my/org-present-prepare-slide))
 
 (after! org
-    (setq org-agenda-custom-commands
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-custom-commands
         '(("c" "Simple agenda view"
-            ((tags "PRIORITY=\"A\""
-                    ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                    (org-agenda-overriding-header "High-priority unfinished tasks:")))
-            (agenda "")
-            (alltodo ""))))))
+           ((tags-todo "+PRIORITY=\"A\""
+                       ((org-agenda-overriding-header "High-priority unfinished tasks:")))
+            (tags-todo "+PRIORITY=\"B\""
+                       ((org-agenda-overriding-header "Priority unfinished tasks:")))
+            (agenda "" ((org-agenda-prefix-format "%T: %t [ ] ")
+                        (org-agenda-todo-keyword-format "")
+                        (org-agenda-start-on-weekday nil)
+                        (org-deadline-warning-days 60)
+                        (org-agenda-start-day "0d")
+                        (org-agenda-start-with-log-mode nil)
+                        (org-agenda-log-mode-items '(clock))))
+            (alltodo "")
+            (agenda "" ((org-agenda-prefix-format "%T: %t [X] ")
+                        (org-agenda-todo-keyword-format "")
+                        (org-agenda-start-on-weekday nil)
+                        (org-agenda-start-day "0d")
+                        (org-agenda-span 1)
+                        (org-agenda-start-with-log-mode 'only)
+                        (org-agenda-log-mode-items '(closed clock state))
+                        (org-agenda-overriding-header "Today")))))
+          ("d" "Done of the month"
+           ((agenda "" ((org-agenda-prefix-format "%T: %t [X] ")
+                        (org-agenda-todo-keyword-format "")
+                        (org-agenda-start-with-log-mode 'only)
+                        (org-agenda-log-mode-items '(closed clock state))
+                        (org-agenda-time-grid nil)
+                        (org-agenda-span 31)
+                        (org-agenda-start-day "-30d")
+                        (org-agenda-start-on-weekday nil))))))))
 
 (after! org
   :ensure-t
