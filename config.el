@@ -187,7 +187,8 @@
   (setq org-log-done 'time)
   (setq org-default-priority 67)
   (setq org-hide-emphasis-markers t)
-  (efs/org-font-setup))
+  (setq org-hierarchical-todo-statistics nil)
+  (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
 
