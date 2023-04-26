@@ -253,10 +253,10 @@
   (org-overview)
 
   ;; Unfold the current entry
-  (org-show-entry)
+  (org-fold-show-entry)
 
   ;; Show only direct subheadings of the slide but don't expand them
-  (org-show-children))
+  (org-fold-show-children))
 
 (defun my/org-present-start ()
   ;; Tweak font sizes
