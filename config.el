@@ -41,7 +41,7 @@
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'regular))
 
 ;; enable bold and italic
 (after! doom-themes
@@ -165,11 +165,6 @@
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 
-;; (defun org-summary-todo (n-done n-not-done)
-;;   "Switch entry to DONE when all subentries are done, to TODO otherwise."
-;;   (let (org-log-done org-log-states)   ; turn off logging
-;;     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-;;     ;; (org-todo (if (and (= n-not-done 0)(!= org-todo "")) "DONE" "TODO"))))
 (defun org-summary-todo (n-done n-not-done)
   "Switch entry to DONE when all subentries are done, to TODO otherwise.
    Only operates on entries with the TODO keyword."
@@ -177,7 +172,7 @@
         (org-log-states nil)
         (todo-state (org-get-todo-state)))
     (when (member todo-state org-todo-keywords-1) ; only operate on entries with the TODO keyword
-      (let ((new-state (if (= n-not-done 0) "DONE" todo-state)))
+      (let ((new-state (if (= n-not-done 0) "DONE" "TODO")))
         (org-todo new-state)))))
 
 (use-package! org
@@ -330,7 +325,7 @@
                         (org-agenda-overriding-header "Today")))
             (alltodo "")))
           ("d" "Done of the month"
-           ((agenda "" ((org-agenda-prefix-format "%T: %t [X] ")
+           ((agenda "" ((org-agenda-prefix-format "%T: %t\tDONE ")
                         (org-agenda-todo-keyword-format "")
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'todo))
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'todo))
