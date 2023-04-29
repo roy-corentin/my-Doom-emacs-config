@@ -510,5 +510,8 @@
                     :priority '1
                     :server-id 'crystalline)))
 
+(after! lsp-mode
+  (setq lsp-log-io nil))
+
 (load (expand-file-name "rails-settings.el" doom-user-dir))
 (load (expand-file-name "crystal-settings.el" doom-user-dir))

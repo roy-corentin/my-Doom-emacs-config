@@ -6,7 +6,7 @@
  '(auth-source-save-behavior nil)
  '(package-selected-packages
    '(docker-tramp inf-crystal lsp-tailwindcss magit-stats org-inline-anim))
- '(warning-suppress-log-types '((initialization) (defvaralias))))
+ '(warning-suppress-log-types '((lsp-mode) (defvaralias))))
 ;;  '(package-selected-packages
 ;;    '(projectile-rails projectile python-black lsp-python-ms vterm lsp-mode))
 ;;  '(safe-local-variable-values '((checkdoc-package-keywords-flag))))
