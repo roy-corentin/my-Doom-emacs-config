@@ -41,7 +41,8 @@
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'regular))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13 :weigth 'regular))
 
 ;; enable bold and italic
 (after! doom-themes
