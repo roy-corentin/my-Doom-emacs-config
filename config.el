@@ -305,15 +305,15 @@
                        ((org-agenda-overriding-header "High-priority unfinished tasks:")))
             (tags-todo "+PRIORITY=\"B\""
                        ((org-agenda-overriding-header "Priority unfinished tasks:")))
-            (agenda "" ((org-agenda-prefix-format "%T: %t [ ] ")
+            (agenda "" ((org-agenda-prefix-format "%-15T\t%s [ ] ")
                         (org-agenda-todo-keyword-format "")
                         (org-agenda-start-on-weekday nil)
                         (org-deadline-warning-days 60)
                         (org-agenda-start-day "0d")
                         (org-agenda-start-with-log-mode nil)
-                        (org-agenda-log-mode-items '(clock))
+                        (org-agenda-log-mode-items '(state))
                         (org-agenda-overriding-header "Week Todo")))
-            (agenda "" ((org-agenda-prefix-format "%T: %t [X] ")
+            (agenda "" ((org-agenda-prefix-format "%-15:T\t%?-12t [X] ")
                         (org-agenda-todo-keyword-format "")
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
                         (org-agenda-start-on-weekday nil)
@@ -324,7 +324,7 @@
                         (org-agenda-overriding-header "Today")))
             (alltodo "")))
           ("d" "Done of the month"
-           ((agenda "" ((org-agenda-prefix-format "%T: %t\tDONE ")
+           ((agenda "" ((org-agenda-prefix-format "%-15:T\t%t [X] ")
                         (org-agenda-todo-keyword-format "")
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
                         (org-agenda-start-with-log-mode 'only)
@@ -508,7 +508,8 @@
                     :server-id 'crystalline)))
 
 (after! lsp-mode
-  (setq lsp-log-io nil))
+  (setq lsp-log-io nil)
+  (setq lsp-idle-delay 0.500))
 
 (load (expand-file-name "rails-settings.el" doom-user-dir))
 (load (expand-file-name "crystal-settings.el" doom-user-dir))
