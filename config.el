@@ -61,7 +61,6 @@
 ;; changes certain keywords to symbols, such as lamda!
 ;; (setq global-prettify-symbols-mode t)
 
-;; (setq doom-theme 'doom-solarized-dark)
 ;; (setq doom-theme 'doom-monokai-machine)
 ;; (setq doom-theme 'doom-henna)
 ;; (setq doom-theme 'doom-one)
@@ -72,18 +71,18 @@
 
 (setq display-line-numbers-type `relative)
 
-(require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
+;; (require 'company-tabnine)
+;; (add-to-list 'company-backends #'company-tabnine)
 
-(setq company-idle-delay 0
+(setq company-idle-delay 0.1
       company-minimum-prefix-length 1)
-(setq company-tooltip-margin 3)
+(setq company-tooltip-margin 1)
 (setq company-require-match nil)
 (setq company-format-margin-function 'company-text-icons-margin)
 (setq company-text-icons-add-background t)
-(custom-set-faces
- '(company-tooltip
-   ((t (:background "#57666a" )))))
+;; (custom-set-faces
+;;  '(company-tooltip
+;;    ((t (:background "#57666a" )))))
 
 (with-eval-after-load 'dired
   (map! :leader
