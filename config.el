@@ -25,6 +25,10 @@
 
 (use-package all-the-icons)
 
+;; (add-to-list 'load-path "~/.local/share/icons-in-terminal")
+;; (require 'icons-in-terminal)
+;; (insert (icons-in-terminal 'oct_flame)) ; C-h f icons-in-terminal[RET] for more info
+
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
@@ -41,8 +45,8 @@
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13 :weigth 'regular))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'bold)
+      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13 :weigth 'bold))
 
 ;; enable bold and italic
 (after! doom-themes
@@ -71,18 +75,17 @@
 
 (setq display-line-numbers-type `relative)
 
-;; (require 'company-tabnine)
-;; (add-to-list 'company-backends #'company-tabnine)
+(require 'company-tabnine)
+(add-to-list 'company-backends #'company-tabnine)
 
-(setq company-idle-delay 0.1
+(setq company-idle-delay 0
       company-minimum-prefix-length 1)
 (setq company-tooltip-margin 1)
-(setq company-require-match nil)
+;; (setq company-require-match nil)
 (setq company-format-margin-function 'company-text-icons-margin)
 (setq company-text-icons-add-background t)
-;; (custom-set-faces
-;;  '(company-tooltip
-;;    ((t (:background "#57666a" )))))
+(setq company-text-face-extra-attributes '(:weight bold))
+(custom-set-faces '(company-tooltip ((t(:background "#191a1b")))))
 
 (with-eval-after-load 'dired
   (map! :leader
@@ -311,6 +314,7 @@
                         (org-deadline-warning-days 60)
                         (org-agenda-start-day "0d")
                         (org-agenda-start-with-log-mode nil)
+                        (org-agenda-skip-scheduled-if-deadline-is-shown t)
                         (org-agenda-log-mode-items '(state))
                         (org-agenda-overriding-header "Week Todo")))
             (agenda "" ((org-agenda-prefix-format "%-15:T\t%?-12t [X] ")
@@ -405,6 +409,19 @@
       org-gcal-client-secret "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"
       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
 (require 'org-gcal)
+
+(use-package org-ai
+  :ensure t
+  :commands (org-ai-mode
+             org-ai-global-mode)
+  :init
+  (add-hook 'org-mode-hook #'org-ai-mode) ; enable org-ai in org-mode
+  (org-ai-global-mode) ; installs global keybindings on C-c M-a
+  :config
+  (setq org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
+  (setq org-ai-openai-api-token "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")
+  (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
+)
 
 (require 'ivy)
 (require 'counsel)
@@ -509,7 +526,17 @@
 
 (after! lsp-mode
   (setq lsp-log-io nil)
-  (setq lsp-idle-delay 0.500))
+  (setq lsp-idle-delay 0.05))
+
+(require 'yasnippet)
+(yas-global-mode 1)
+
+(require 'lsp-bridge)
+(global-lsp-bridge-mode)
+(setq acm-menu-length 15)
+(evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
+(evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
+(add-hook 'acm-mode-hook 'evil-normalize-keymaps)
 
 (load (expand-file-name "rails-settings.el" doom-user-dir))
 (load (expand-file-name "crystal-settings.el" doom-user-dir))
