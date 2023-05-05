@@ -56,11 +56,12 @@
 ;; comment and keyword in Italic for example "for"
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
-  '(font-lock-keyword-face :slant italic))
+  '(font-lock-keyword-face :slant italic)
+  '(font-lock-function-name-face :slant italic))
 
-(set-face-attribute 'font-lock-comment-face nil :foreground "#5B6268" :slant 'italic)
-(set-face-attribute 'font-lock-function-name-face nil :foreground "#c678dd" :slant 'italic)
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "#dcaeea" :slant 'italic)
+;; (set-face-attribute 'font-lock-comment-face nil :foreground "#5B6268" :slant 'italic)
+;; (set-face-attribute 'font-lock-function-name-face nil :foreground "#c678dd" :slant 'italic)
+;; (set-face-attribute 'font-lock-variable-name-face nil :foreground "#dcaeea" :slant 'italic)
 
 ;; changes certain keywords to symbols, such as lamda!
 ;; (setq global-prettify-symbols-mode t)
@@ -81,11 +82,19 @@
 (setq company-idle-delay 0
       company-minimum-prefix-length 1)
 (setq company-tooltip-margin 1)
-;; (setq company-require-match nil)
 (setq company-format-margin-function 'company-text-icons-margin)
 (setq company-text-icons-add-background t)
 (setq company-text-face-extra-attributes '(:weight bold))
-(custom-set-faces '(company-tooltip ((t(:background "#191a1b")))))
+
+(custom-set-faces
+  '(company-tooltip ((t (:background "#040408" :foreground "white"))))
+  '(company-scrollbar-bg ((t (:background "gray10"))))
+  '(company-scrollbar-fg ((t (:background "white"))))
+  '(company-tooltip-selection ((t (:background "#040408"))))
+  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))
+  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100"))))
+  '(company-tooltip-common ((t (:foreground "#c3ac43"))))
+  '(company-tooltip-common-selection ((t (:foreground "#ffd100")))))
 
 (with-eval-after-load 'dired
   (map! :leader
