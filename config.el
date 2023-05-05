@@ -59,10 +59,6 @@
   '(font-lock-keyword-face :slant italic)
   '(font-lock-function-name-face :slant italic))
 
-;; (set-face-attribute 'font-lock-comment-face nil :foreground "#5B6268" :slant 'italic)
-;; (set-face-attribute 'font-lock-function-name-face nil :foreground "#c678dd" :slant 'italic)
-;; (set-face-attribute 'font-lock-variable-name-face nil :foreground "#dcaeea" :slant 'italic)
-
 ;; changes certain keywords to symbols, such as lamda!
 ;; (setq global-prettify-symbols-mode t)
 
@@ -140,8 +136,8 @@
 
 ;; NOTE: These settings might not be ideal for your machine, tweak them as needed!
 ;; (set-face-attribute 'default nil :font my/fixed-width-font :weight 'medium :height 90)
-(set-face-attribute 'fixed-pitch nil :font my/fixed-width-font :weight 'medium :height 90)
-(set-face-attribute 'variable-pitch nil :font my/variable-width-font :weight 'medium :height 1.1)
+(set-face-attribute 'fixed-pitch nil :font my/fixed-width-font :weight 'bold :height 90)
+(set-face-attribute 'variable-pitch nil :font my/variable-width-font :weight 'bold :height 1.1)
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
