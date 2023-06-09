@@ -20,6 +20,7 @@
 - [[#theme][THEME]]
   - [[#doom-theme][Doom Theme]]
   - [[#set-transparency][Set Transparency]]
+  - [[#tab-with][Tab With]]
 - [[#line-setup][LINE SETUP]]
 - [[#company][COMPANY]]
   - [[#add-tabnine-as-company-backends][Add TabNine As Company Backends]]
@@ -77,7 +78,7 @@
 
  Some functionality uses this to identify you, e.g. GPG configuration, email
  clients, file templates and snippets. It is optional.
-#+begin_src elisp
+#+begin_src elisp :results silent
 (setq user-full-name "Corentin Roy"
       user-mail-address "corentin.roy02@laposte.net")
 #+end_src
@@ -91,9 +92,9 @@ This is my personal Doom Emacs config. I use Doom Emacs for all my project so I 
 ** Garbage collection
 Makes startup faster by reducing the frequency of garbage collection
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 ;; Using garbage magic hack.
-(use-package gcmh
+(use-package! gcmh
   :config
   (gcmh-mode 1))
 ;; Setting garbage collection threshold
@@ -113,7 +114,7 @@ Makes startup faster by reducing the frequency of garbage collection
 #+end_src
 
 ** Native Compil Priority
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 ;; Prefer newer files
 (setq load-prefer-newer noninteractive)
 #+end_src
@@ -121,12 +122,12 @@ Makes startup faster by reducing the frequency of garbage collection
 * ALL THE ICONS
 This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
 
-#+begin_src emacs-lisp
-(use-package all-the-icons)
+#+begin_src emacs-lisp :results silent
+(use-package! all-the-icons)
 #+end_src
 
 * ICONS IN TERMINAL
-#+begin_src elisp
+#+begin_src elisp :results silent
 ;; (add-to-list 'load-path "~/.local/share/icons-in-terminal")
 ;; (require 'icons-in-terminal)
 ;; (insert (icons-in-terminal 'oct_flame)) ; C-h f icons-in-terminal[RET] for more info
@@ -136,7 +137,7 @@ This is an icon set that can be used with dashboard, dired, ibuffer and other Em
 Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
 
 ** Splash Screen
-#+begin_src elisp
+#+begin_src elisp :results silent
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
@@ -146,7 +147,7 @@ Emacs Dashboard is an extensible startup screen showing you recent files, bookma
 ** Dashboard in Emacsclient
 This setting ensures that emacsclient always opens on *dashboard* rather than *scratch*.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 #+end_src
@@ -154,8 +155,8 @@ This setting ensures that emacsclient always opens on *dashboard* rather than *s
 * EMOJIS
 Emojify is an Emacs extension to display emojis. It can display github style emojis like :smile: or plain ascii ones like :).
 
-#+begin_src emacs-lisp
-(use-package emojify
+#+begin_src emacs-lisp :results silent
+(use-package! emojify
   :hook (after-init . global-emojify-mode))
 #+end_src
 
@@ -170,7 +171,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
  See 'C-h v doom-font' for documentation and more examples of what they
  accept. For example:
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
@@ -205,7 +206,7 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 There are two ways to load a theme. Both assume the theme is installed and
 available. You can either set `doom-theme' or manually load a theme with the
 `load-theme' function. This is the default:
-#+begin_src elisp
+#+begin_src elisp :results silent
 ;; (setq doom-theme 'doom-monokai-machine)
 ;; (setq doom-theme 'doom-henna)
 ;; (setq doom-theme 'doom-one)
@@ -213,21 +214,26 @@ available. You can either set `doom-theme' or manually load a theme with the
 #+end_src
 
 ** Set Transparency
-#+begin_src elisp
-(set-frame-parameter (selected-frame) 'alpha '(90 90))
-(add-to-list 'default-frame-alist '(alpha 90 90))
+#+begin_src elisp :results silent
+(set-frame-parameter (selected-frame) 'alpha '(95 100))
+(add-to-list 'default-frame-alist '(alpha 95 100))
+#+end_src
+
+** Tab With
+#+begin_src elisp :results silent
+(setq tab-width 2)
 #+end_src
 
 * LINE SETUP
 This determines the style of line numbers in effect. If set to `nil', line
 numbers are disabled. For relative line numbers, set this to `relative'.
-#+begin_src elisp
+#+begin_src elisp :results silent
 (setq display-line-numbers-type `relative)
 #+end_src
 
 * COMPANY
 ** Add TabNine As Company Backends
-#+begin_src elisp
+#+begin_src elisp :results silent
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
 #+end_src
@@ -236,7 +242,7 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 + Show faster
 + Show when only one character is pressed
 + Use Text Icon instead of vscode icons
-#+begin_src elisp
+#+begin_src elisp :results silent
 (setq company-idle-delay 0
       company-minimum-prefix-length 1)
 (setq company-tooltip-margin 1)
@@ -244,17 +250,22 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 (setq company-text-icons-add-background t)
 (setq company-text-face-extra-attributes '(:weight bold))
 #+end_src
+
 ** Customize the faces of Company mode
-#+begin_src elisp
+#+begin_src elisp :results silent
+(defvar companyBackground (face-attribute 'default :background) "background color for company faces")
+(defvar companyFontColor (face-attribute 'default :foreground) "font color for company")
+(defvar companySelectedBackground (face-attribute 'tool-bar :background) "background color for seletec item in company faces")
+
 (custom-set-faces
-  '(company-tooltip ((t (:background "#040408" :foreground "white"))))
-  '(company-scrollbar-bg ((t (:background "gray10"))))
-  '(company-scrollbar-fg ((t (:background "white"))))
-  '(company-tooltip-selection ((t (:background "#040408"))))
-  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))
-  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100"))))
-  '(company-tooltip-common ((t (:foreground "#c3ac43"))))
-  '(company-tooltip-common-selection ((t (:foreground "#ffd100")))))
+ '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
+ '(company-scrollbar-bg ((t (:background "gray10"))))
+ '(company-scrollbar-fg ((t (:background "white"))))
+ '(company-tooltip-selection ((t ((:background companyBackground)))))
+ '(company-tooltip-common ((t (:foreground "#c3ac43"))))                  ;; Kind of Yellow
+ '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))        ;; Same Yellow but Lighter
+ '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))              ;; Kind of Green
+ '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))   ;; Same Yellow as above
 #+end_src
 
 * FILE MANAGER (DIRED)
@@ -279,7 +290,7 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 | peep-dired-next-file | /Move to next file in peep-dired-mode/     | j          |
 | peep-dired-prev-file | /Move to previous file in peep-dired-mode/ | k          |
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (with-eval-after-load 'dired
   (map! :leader
         (:prefix-map ("d" . "dired")
@@ -303,7 +314,7 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 * CURSOR
 Disable the cursor going back off when switch between Insert an Normal mode
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (setq evil-move-beyond-eol t)
 (setq evil-move-cursor-back nil)
 #+end_src
@@ -311,7 +322,7 @@ Disable the cursor going back off when switch between Insert an Normal mode
 * DRAG STUFF
 To move a all the line up and down
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 #+end_src
@@ -320,24 +331,24 @@ To move a all the line up and down
 ** Org location
 If you use `org' and don't want your org files in the default location below,
 change `org-directory'. It must be set before org loads!
-#+begin_src elisp
+#+begin_src elisp :results silent
 (setq org-directory "~/org/")
 #+end_src
 
 ** Disable line numbers for Org mode
-#+begin_src elisp
+#+begin_src elisp :results silent
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
 ** Clock sound for org timer
-#+begin_src elisp
+#+begin_src elisp :results silent
 (after! org
   (setq org-clock-sound "~/Music/ding.wav"))
 #+end_src
 
 ** Defining A Few Things
-#+begin_src elisp
+#+begin_src elisp :results silent
 ;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
 ;; Set reusable font name variables
@@ -349,7 +360,7 @@ change `org-directory'. It must be set before org loads!
 
 ;; NOTE: These settings might not be ideal for your machine, tweak them as needed!
 ;; (set-face-attribute 'default nil :font my/fixed-width-font :weight 'medium :height 90)
-(set-face-attribute 'fixed-pitch nil :font my/fixed-width-font :weight 'bold :height 90)
+(set-face-attribute 'fixed-pitch nil :font my/fixed-width-font :weight 'bold :height 100)
 (set-face-attribute 'variable-pitch nil :font my/variable-width-font :weight 'bold :height 1.1)
 
 (defun efs/org-mode-setup ()
@@ -412,15 +423,15 @@ change `org-directory'. It must be set before org loads!
 ** Image
 Use the actual width of image in org files
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (setq org-image-actual-width nil)
 #+end_src
 
 ** Enabling Org Bullets
 Org-bullets gives us attractive bullets rather than asterisks.
 
-#+begin_src elisp
-(use-package org-bullets
+#+begin_src elisp :results silent
+(use-package! org-bullets
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
@@ -430,7 +441,7 @@ Org-bullets gives us attractive bullets rather than asterisks.
 ** Fancy Priority
 Org-fancy-priorities give us some prettier priorities
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (use-package org-fancy-priorities
   :hook
   (org-mode . org-fancy-priorities-mode)
@@ -453,7 +464,7 @@ Three different sequences:
     + Emoji + Text
     + Items
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (after! org
     (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
         '((sequence
@@ -480,7 +491,7 @@ Three different sequences:
 #+end_src
 
 Configure style of TODO keywords
-#+begin_src elisp
+#+begin_src elisp :results silent
 (after! org
   (setq org-todo-keyword-faces
     '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
@@ -491,7 +502,7 @@ Configure style of TODO keywords
 
 * ORG-PRESENT
 For a better looking in present, use the =visual-fill-mode= and some face remapping
-#+begin_src elisp
+#+begin_src elisp :results silent
 ;; Configure fill width
 (setq visual-fill-column-width 200
       visual-fill-column-center-text t)
@@ -560,7 +571,7 @@ Change agenda view:
     - Today log
     - At the bottom list of all todo task
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (after! org
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-custom-commands
@@ -601,7 +612,7 @@ Change agenda view:
 #+end_src
 
 ** French Holidays
-#+begin_src elisp
+#+begin_src elisp :results silent
 (after! org
 
   (defvar holiday-french-holidays nil
@@ -638,7 +649,7 @@ Change agenda view:
 ** Auto Refresh
 Auto refresh =Org Agenda= buffer when org file updated
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (defun org-agenda-auto-refresh-agenda-buffer ()
   "If we're in an agenda file, and there is an agenda buffer, refresh it."
   (when (org-agenda-file-p)
@@ -656,7 +667,7 @@ Configuration for org-roam:
  + Private location
  + New Capture templates
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (after! org
   :ensure-t
   :custom
@@ -671,7 +682,7 @@ Configuration for org-roam:
 #+end_src
 
 ** Org-Roam UI
-#+begin_src elisp
+#+begin_src elisp :results silent
 (use-package! websocket
   :after org-roam)
 
@@ -688,7 +699,7 @@ Configuration for org-roam:
 * ORG-GCAL
 Synchronize google calendar with org
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (setq org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
       org-gcal-client-secret "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"
       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
@@ -696,8 +707,8 @@ Synchronize google calendar with org
 #+end_src
 
 * ORG-AI
-#+begin_src elisp
-(use-package org-ai
+#+begin_src elisp :results silent
+(use-package! org-ai
   :ensure t
   :commands (org-ai-mode
              org-ai-global-mode)
@@ -714,7 +725,7 @@ Synchronize google calendar with org
 * SEARCH WITH REGEX
 Specify can search via regex
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (require 'ivy)
 (require 'counsel)
 
@@ -728,7 +739,7 @@ Specify can search via regex
 * MOUSE SCROLLING
 Emacs' default scrolling is annoying because of the sudden half-page jumps.  Also, I wanted to adjust the scrolling speed.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
 (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
@@ -736,8 +747,8 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 #+end_src
 
 * TREEMACS
-#+begin_src elisp
-(use-package treemacs
+#+begin_src elisp :results silent
+(use-package! treemacs
   :defer t
   :config
   ;; Add ignored files and file extensions
@@ -759,7 +770,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 
 * PYTHON
 ** Black For Python Format
-#+begin_src elisp
+#+begin_src elisp :results silent
 (use-package! python-black
   :demand t
   :after python
@@ -767,34 +778,33 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   (add-hook! 'python-mode-hook #'python-black-on-save-mode)
   (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
   (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
-  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
-  )
+  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement))
 #+end_src
 
 * WEB
 ** REACT
 *** Add Web Mode To React
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
+#+BEGIN_SRC emacs-lisp :results silent
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 #+END_SRC
 
 ** ASTRO
 *** Add Web Mode To Astro File
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
 #+END_SRC
 
 ** HTML.ERB
 *** Add ERB to lsp-mode
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
   (setq lsp-ui-sideline-show-code-actions t))
 #+END_SRC
 
 *** Add Web Mode to ERB template and disable format on save
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-hook! 'web-mode-hook
   (when (string-match-p "\\.erb\\'" buffer-file-name)
     (setq +format-with :none)))
@@ -802,19 +812,18 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 
 
 ** CUSTOM WEB-MODE
-#+BEGIN_SRC emacs-lisp
-(use-package web-mode
-  :custom
-  (web-mode-markup-indent-offset 2)
-  (web-mode-css-indent-offset 2)
-  (web-mode-code-indent-offset 2)
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package! web-mode
   :config
-  (setq web-mode-tag-auto-close-style 1))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-auto-close-style 1))
 #+END_SRC
 
 ** RJSX MINOR MODE
 *** Add Hook Function for JSX and TSX files
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun enable-rjsx-mode ()
   (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
             (string-equal "tsx" (file-name-extension buffer-file-name)))
@@ -825,18 +834,25 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 
 ** PRETTIER-RC
 *** Add Hook Function for JSX and TSX files
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun enable-prettier-mode ()
-  (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
-            (string-equal "tsx" (file-name-extension buffer-file-name)))
+  (when (or (string-equal "js[x]?" (file-name-extension buffer-file-name))
+            (string-equal "ts[x]?" (file-name-extension buffer-file-name)))
     (prettier-rc-mode)))
 
 (add-hook 'web-mode-hook #'enable-prettier-mode)
 #+END_SRC
 
+*** Disable Format On Save (Conflict)
+#+begin_src emacs-lisp :results silent
+(add-hook! 'web-mode-hook
+  (when (string-match-p "\\.(js[x]?|ts[x]?)\\'" buffer-file-name)
+    (setq +format-with :none)))
+#+end_src
+
 * CENTAUR-TABS
 ** To fix centaur tabs in emacsclient
-#+begin_src elisp
+#+begin_src elisp :results silent
 (after! centaur-tabs
   (setq centaur-tabs-set-bar 'right))
 #+end_src
@@ -844,7 +860,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 ** Add Custom map
 Keymap to turn ON/OFF centaur tabs
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
 #+end_src
@@ -853,7 +869,7 @@ Keymap to turn ON/OFF centaur tabs
 Key mapping to move previous and next buffer with and without centaur-tabs
 
 *** Default
-#+begin_src elisp
+#+begin_src elisp :results silent
 (map! :ni "C-," #'previous-buffer)
 (map! :ni "C-;" #'next-buffer)
 #+end_src
@@ -861,7 +877,7 @@ Key mapping to move previous and next buffer with and without centaur-tabs
 *** Centaur Tabs
 If Centaur Tabs is loaded map this key to switch between tabs instead of buffers
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (eval-after-load 'centaur-tabs
     (map! :ni "C-," #'centaur-tabs-backward))
 (eval-after-load 'centaur-tabs
@@ -872,7 +888,7 @@ If Centaur Tabs is loaded map this key to switch between tabs instead of buffers
 At the moment, lsp-mode only knows about scry as the Crystal language server.
 So, to get it working with crystalline we need to configure lsp-mode to look for crystalline.
 
-#+begin_src elisp
+#+begin_src elisp :results silent
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-language-id-configuration
                '(crystal-mode . "crystal"))
@@ -886,19 +902,19 @@ So, to get it working with crystalline we need to configure lsp-mode to look for
 * LSP-MODE
 If =lsp-log-io= set to true can cause a performance hit
 Refresh less often =lsp-idle= for performance
-#+begin_src elisp
+#+begin_src elisp :results silent
 (after! lsp-mode
   (setq lsp-log-io nil)
   (setq lsp-idle-delay 0.05))
 #+end_src
 
 * LSP-BRIDGE
-#+begin_src elisp
+#+begin_src elisp :results silent
 (require 'yasnippet)
 (yas-global-mode 1)
 
 (require 'lsp-bridge)
-(global-lsp-bridge-mode)
+;; (global-lsp-bridge-mode)
 (setq acm-menu-length 15)
 (evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
 (evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
@@ -908,9 +924,9 @@ Refresh less often =lsp-idle= for performance
 * IMPORT OTHER CONFIG
 Use external rails config, for snippet and method to navigate easily in rails project
 
-#+begin_src elisp
-(load (expand-file-name "rails-settings.el" doom-user-dir))
-(load (expand-file-name "crystal-settings.el" doom-user-dir))
+#+begin_src elisp :results silent
+(load! (expand-file-name "rails-settings.el" doom-user-dir))
+(load! (expand-file-name "crystal-settings.el" doom-user-dir))
 #+end_src
 
 * INFORMATION

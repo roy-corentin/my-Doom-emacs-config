@@ -2,7 +2,7 @@
       user-mail-address "corentin.roy02@laposte.net")
 
 ;; Using garbage magic hack.
-(use-package gcmh
+(use-package! gcmh
   :config
   (gcmh-mode 1))
 ;; Setting garbage collection threshold
@@ -23,7 +23,7 @@
 ;; Prefer newer files
 (setq load-prefer-newer noninteractive)
 
-(use-package all-the-icons)
+(use-package! all-the-icons)
 
 ;; (add-to-list 'load-path "~/.local/share/icons-in-terminal")
 ;; (require 'icons-in-terminal)
@@ -37,7 +37,7 @@
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
-(use-package emojify
+(use-package! emojify
   :hook (after-init . global-emojify-mode))
 
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
@@ -67,8 +67,10 @@
 ;; (setq doom-theme 'doom-one)
 (setq doom-theme 'doom-acario-dark)
 
-(set-frame-parameter (selected-frame) 'alpha '(90 90))
-(add-to-list 'default-frame-alist '(alpha 90 90))
+(set-frame-parameter (selected-frame) 'alpha '(95 100))
+(add-to-list 'default-frame-alist '(alpha 95 100))
+
+(setq tab-width 2)
 
 (setq display-line-numbers-type `relative)
 
@@ -82,15 +84,19 @@
 (setq company-text-icons-add-background t)
 (setq company-text-face-extra-attributes '(:weight bold))
 
+(defvar companyBackground (face-attribute 'default :background) "background color for company faces")
+(defvar companyFontColor (face-attribute 'default :foreground) "font color for company")
+(defvar companySelectedBackground (face-attribute 'tool-bar :background) "background color for seletec item in company faces")
+
 (custom-set-faces
-  '(company-tooltip ((t (:background "#040408" :foreground "white"))))
-  '(company-scrollbar-bg ((t (:background "gray10"))))
-  '(company-scrollbar-fg ((t (:background "white"))))
-  '(company-tooltip-selection ((t (:background "#040408"))))
-  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))
-  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100"))))
-  '(company-tooltip-common ((t (:foreground "#c3ac43"))))
-  '(company-tooltip-common-selection ((t (:foreground "#ffd100")))))
+ '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
+ '(company-scrollbar-bg ((t (:background "gray10"))))
+ '(company-scrollbar-fg ((t (:background "white"))))
+ '(company-tooltip-selection ((t ((:background companyBackground)))))
+ '(company-tooltip-common ((t (:foreground "#c3ac43"))))                  ;; Kind of Yellow
+ '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))        ;; Same Yellow but Lighter
+ '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))              ;; Kind of Green
+ '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))   ;; Same Yellow as above
 
 (with-eval-after-load 'dired
   (map! :leader
@@ -136,7 +142,7 @@
 
 ;; NOTE: These settings might not be ideal for your machine, tweak them as needed!
 ;; (set-face-attribute 'default nil :font my/fixed-width-font :weight 'medium :height 90)
-(set-face-attribute 'fixed-pitch nil :font my/fixed-width-font :weight 'bold :height 90)
+(set-face-attribute 'fixed-pitch nil :font my/fixed-width-font :weight 'bold :height 100)
 (set-face-attribute 'variable-pitch nil :font my/variable-width-font :weight 'bold :height 1.1)
 
 (defun efs/org-mode-setup ()
@@ -197,7 +203,7 @@
 
 (setq org-image-actual-width nil)
 
-(use-package org-bullets
+(use-package! org-bullets
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
@@ -415,7 +421,7 @@
       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
 (require 'org-gcal)
 
-(use-package org-ai
+(use-package! org-ai
   :ensure t
   :commands (org-ai-mode
              org-ai-global-mode)
@@ -442,7 +448,7 @@
 (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 
-(use-package treemacs
+(use-package! treemacs
   :defer t
   :config
   ;; Add ignored files and file extensions
@@ -468,11 +474,10 @@
   (add-hook! 'python-mode-hook #'python-black-on-save-mode)
   (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
   (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
-  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
-  )
+  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement))
 
-(add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 
 (add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
 
@@ -484,13 +489,12 @@
   (when (string-match-p "\\.erb\\'" buffer-file-name)
     (setq +format-with :none)))
 
-(use-package web-mode
-  :custom
-  (web-mode-markup-indent-offset 2)
-  (web-mode-css-indent-offset 2)
-  (web-mode-code-indent-offset 2)
+(use-package! web-mode
   :config
-  (setq web-mode-tag-auto-close-style 1))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-auto-close-style 1))
 
 (defun enable-rjsx-mode ()
   (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
@@ -500,11 +504,15 @@
 (add-hook 'web-mode-hook #'enable-rjsx-mode)
 
 (defun enable-prettier-mode ()
-  (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
-            (string-equal "tsx" (file-name-extension buffer-file-name)))
+  (when (or (string-equal "js[x]?" (file-name-extension buffer-file-name))
+            (string-equal "ts[x]?" (file-name-extension buffer-file-name)))
     (prettier-rc-mode)))
 
 (add-hook 'web-mode-hook #'enable-prettier-mode)
+
+(add-hook! 'web-mode-hook
+  (when (string-match-p "\\.(js[x]?|ts[x]?)\\'" buffer-file-name)
+    (setq +format-with :none)))
 
 (after! centaur-tabs
   (setq centaur-tabs-set-bar 'right))
@@ -537,11 +545,11 @@
 (yas-global-mode 1)
 
 (require 'lsp-bridge)
-(global-lsp-bridge-mode)
+;; (global-lsp-bridge-mode)
 (setq acm-menu-length 15)
 (evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
 (evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
 (add-hook 'acm-mode-hook 'evil-normalize-keymaps)
 
-(load (expand-file-name "rails-settings.el" doom-user-dir))
-(load (expand-file-name "crystal-settings.el" doom-user-dir))
+(load! (expand-file-name "rails-settings.el" doom-user-dir))
+(load! (expand-file-name "crystal-settings.el" doom-user-dir))
