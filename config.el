@@ -65,7 +65,8 @@
 ;; (setq doom-theme 'doom-monokai-machine)
 ;; (setq doom-theme 'doom-henna)
 ;; (setq doom-theme 'doom-one)
-(setq doom-theme 'doom-acario-dark)
+;; (setq doom-theme 'doom-acario-dark)
+(setq doom-theme 'doom-dracula)
 
 (set-frame-parameter (selected-frame) 'alpha '(95 100))
 (add-to-list 'default-frame-alist '(alpha 95 100))
@@ -142,8 +143,6 @@
 
 ;; NOTE: These settings might not be ideal for your machine, tweak them as needed!
 ;; (set-face-attribute 'default nil :font my/fixed-width-font :weight 'medium :height 90)
-(set-face-attribute 'fixed-pitch nil :font my/fixed-width-font :weight 'bold :height 100)
-(set-face-attribute 'variable-pitch nil :font my/variable-width-font :weight 'bold :height 1.1)
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
@@ -165,15 +164,15 @@
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font my/variable-width-font :weight 'medium :height (cdr face)))
+    (set-face-attribute (car face) nil :font doom-variable-pitch-font :weight 'medium :height (cdr face)))
   ;; Make the document title a bit bigger
-  (set-face-attribute 'org-document-title nil :font my/variable-width-font :weight 'bold :height 1.3)
+  (set-face-attribute 'org-document-title nil :font doom-variable-pitch-font :weight 'bold :height 1.3)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil :font my/fixed-width-font :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil :font doom-font :inherit 'fixed-pitch)
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
@@ -200,6 +199,22 @@
   (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
+
+(setq org-emphasis-alist
+      '(("*" my-org-emphasis-bold)
+        ("/" italic)
+        ("_" underline)
+        ("=" org-verbatim verbatim)
+        ("~" org-code verbatim)
+        ("+" (:strike-through t))))
+
+(defface my-org-emphasis-bold
+  '((default :inherit extra-bold)
+    (((class color) (min-colors 88) (background light))
+     :foreground "#a60000")
+    (((class color) (min-colors 88) (background dark))
+     :foreground "#ff8059"))
+  "My bold emphasis for Org.")
 
 (setq org-image-actual-width nil)
 
@@ -254,62 +269,62 @@
       ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
 
 ;; Configure fill width
-(setq visual-fill-column-width 200
-      visual-fill-column-center-text t)
+;; (setq visual-fill-column-width 200
+;;       visual-fill-column-center-text t)
 
-(defun my/org-present-prepare-slide (buffer-name heading)
-  ;; Show only top-level headlines
-  (org-overview)
+;; (defun my/org-present-prepare-slide (buffer-name heading)
+;;   ;; Show only top-level headlines
+;;   (org-overview)
 
-  ;; Unfold the current entry
-  (org-fold-show-entry)
+;;   ;; Unfold the current entry
+;;   (org-fold-show-entry)
 
-  ;; Show only direct subheadings of the slide but don't expand them
-  (org-fold-show-children))
+;;   ;; Show only direct subheadings of the slide but don't expand them
+;;   (org-fold-show-children))
 
-(defun my/org-present-start ()
-  ;; Tweak font sizes
-  (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
-                                     (header-line (:height 4.0) variable-pitch)
-                                     (org-document-title (:height 1.75) org-document-title)
-                                     (org-code (:height 1.55) org-code)
-                                     (org-verbatim (:height 1.55) org-verbatim)
-                                     (org-block (:height 1.55) org-block)
-                                     (org-block-begin-line (:height 0.7) org-block)))
+;; (defun my/org-present-start ()
+;;   ;; Tweak font sizes
+;;   (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
+;;                                      (header-line (:height 4.0) variable-pitch)
+;;                                      (org-document-title (:height 1.75) org-document-title)
+;;                                      (org-code (:height 1.55) org-code)
+;;                                      (org-verbatim (:height 1.55) org-verbatim)
+;;                                      (org-block (:height 1.55) org-block)
+;;                                      (org-block-begin-line (:height 0.7) org-block)))
 
-  ;; Set a blank header line string to create blank space at the top
-  (setq header-line-format " ")
+;;   ;; Set a blank header line string to create blank space at the top
+;;   (setq header-line-format " ")
 
-  ;; Display inline images automatically
-  (org-display-inline-images)
+;;   ;; Display inline images automatically
+;;   (org-display-inline-images)
 
-  ;; Center the presentation and wrap lines
-  (visual-fill-column-mode 1)
-  (visual-line-mode 1))
+;;   ;; Center the presentation and wrap lines
+;;   (visual-fill-column-mode 1)
+;;   (visual-line-mode 1))
 
-(defun my/org-present-end ()
-  ;; Reset font customizations
-  (setq-local face-remapping-alist '((default variable-pitch default)))
-  (setq org-hide-emphasis-markers t)
+;; (defun my/org-present-end ()
+;;   ;; Reset font customizations
+;;   (setq-local face-remapping-alist '((default variable-pitch default)))
+;;   (setq org-hide-emphasis-markers t)
 
-  ;; Clear the header line string so that it isn't displayed
-  (setq header-line-format nil)
+;;   ;; Clear the header line string so that it isn't displayed
+;;   (setq header-line-format nil)
 
-  ;; Stop displaying inline images
-  (org-remove-inline-images)
+;;   ;; Stop displaying inline images
+;;   (org-remove-inline-images)
 
-  ;; Stop centering the document
-  (visual-fill-column-mode 0)
-  (visual-line-mode 0))
+;;   ;; Stop centering the document
+;;   (visual-fill-column-mode 0)
+;;   (visual-line-mode 0))
 
-(after! org-present
-  ;; Turn on variable pitch fonts in Org Mode buffers
-  (add-hook 'org-mode-hook 'variable-pitch-mode)
+;; (after! org-present
+;;   ;; Turn on variable pitch fonts in Org Mode buffers
+;;   (add-hook 'org-mode-hook 'variable-pitch-mode)
 
-  ;; Register hooks with org-present
-  (add-hook 'org-present-mode-hook 'my/org-present-start)
-  (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
-  (add-hook 'org-present-after-navigate-functions 'my/org-present-prepare-slide))
+;;   ;; Register hooks with org-present
+;;   (add-hook 'org-present-mode-hook 'my/org-present-start)
+;;   (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
+;;   (add-hook 'org-present-after-navigate-functions 'my/org-present-prepare-slide))
 
 (after! org
   (setq org-agenda-start-with-log-mode t)
@@ -504,14 +519,13 @@
 (add-hook 'web-mode-hook #'enable-rjsx-mode)
 
 (defun enable-prettier-mode ()
-  (when (or (string-equal "js[x]?" (file-name-extension buffer-file-name))
-            (string-equal "ts[x]?" (file-name-extension buffer-file-name)))
+  (when (string-match-p "[jt]s.*" (file-name-extension buffer-file-name))
     (prettier-rc-mode)))
 
 (add-hook 'web-mode-hook #'enable-prettier-mode)
 
 (add-hook! 'web-mode-hook
-  (when (string-match-p "\\.(js[x]?|ts[x]?)\\'" buffer-file-name)
+  (when (string-match-p "\.[jt]s.*" buffer-file-name)
     (setq +format-with :none)))
 
 (after! centaur-tabs
@@ -539,7 +553,7 @@
 
 (after! lsp-mode
   (setq lsp-log-io nil)
-  (setq lsp-idle-delay 0.05))
+  (setq lsp-idle-delay 0.5))
 
 (require 'yasnippet)
 (yas-global-mode 1)
@@ -550,6 +564,8 @@
 (evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
 (evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
 (add-hook 'acm-mode-hook 'evil-normalize-keymaps)
+
+(setq projectile-create-missing-test-files t)
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "crystal-settings.el" doom-user-dir))
