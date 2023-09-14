@@ -4,8 +4,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
+ '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(package-selected-packages
-   '(docker-tramp inf-crystal lsp-tailwindcss magit-stats org-inline-anim))
+   '(treemacs-nerd-icons nerd-icons-dired docker-tramp inf-crystal lsp-tailwindcss magit-stats org-inline-anim))
  '(warning-suppress-log-types '((lsp-mode) (defvaralias))))
 ;;  '(package-selected-packages
 ;;    '(projectile-rails projectile python-black lsp-python-ms vterm lsp-mode))
@@ -15,14 +16,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-tooltip ((t ((:background (face-attribute 'default :background)) :foreground "white"))))
+ '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))
  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100"))))
  '(company-tooltip-common ((t (:foreground "#c3ac43"))))
  '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))
  '(company-tooltip-scrollbar-thumb ((t (:background "white"))))
  '(company-tooltip-scrollbar-track ((t (:background "gray10"))))
- '(company-tooltip-selection ((t (:background "black"))))
+ '(company-tooltip-selection ((t ((:background companyBackground)))))
  '(font-lock-comment-face ((t (:slant italic))))
  '(font-lock-function-name-face ((t (:slant italic))))
  '(font-lock-keyword-face ((t (:slant italic))))

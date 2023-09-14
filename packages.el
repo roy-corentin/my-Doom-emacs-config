@@ -8,7 +8,6 @@
 
 (package! company-tabnine)
 (package! lsp-tailwindcss)
-(package! lsp-ruby)
 (package! python-black)
 (package! org-bullets)
 (package! org-roam)
@@ -18,9 +17,9 @@
 (package! all-the-icons-dired)
 (package! dired-open)
 (package! peep-dired)
-(package! elfeed)
 (package! org-fancy-priorities)
 (package! prettier-rc)
+(package! treemacs-nerd-icons)
 
 ;; OrgRoam GCalendar
 (package! org-gcal)
@@ -33,19 +32,19 @@
 (package! org-roam-ui)
 
 ;; Config for lsp-bridge
-(package! yasnippet)
+;; (package! yasnippet)
 
-(package! lsp-bridge
-  :recipe (:host github
-           :repo "manateelazycat/lsp-bridge"
-           :files ("*.el" "*.py" "acm" "core" "langserver"
-                   "multiserver" "resources")))
+;; (package! lsp-bridge
+;;   :recipe (:host github
+;;            :repo "manateelazycat/lsp-bridge"
+;;            :files ("*.el" "*.py" "acm" "core" "langserver"
+;;                    "multiserver" "resources")))
 
 ;; To use ACM in terminal
-(package! popon
-  :recipe (:host nil :repo "https://codeberg.org/akib/emacs-popon.git"))
-(package! acm-terminal
-  :recipe (:host github :repo "twlz0ne/acm-terminal"))
+;; (package! popon
+;;   :recipe (:host nil :repo "https://codeberg.org/akib/emacs-popon.git"))
+;; (package! acm-terminal
+;;   :recipe (:host github :repo "twlz0ne/acm-terminal"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)

@@ -23,12 +23,6 @@
 ;; Prefer newer files
 (setq load-prefer-newer noninteractive)
 
-(use-package! all-the-icons)
-
-;; (add-to-list 'load-path "~/.local/share/icons-in-terminal")
-;; (require 'icons-in-terminal)
-;; (insert (icons-in-terminal 'oct_flame)) ; C-h f icons-in-terminal[RET] for more info
-
 ;; (setq fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
@@ -45,7 +39,7 @@
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'bold)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
       doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13 :weigth 'bold))
 
 ;; enable bold and italic
@@ -347,6 +341,7 @@
                         (org-agenda-todo-keyword-format "")
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
                         (org-agenda-start-on-weekday nil)
+                        (org-agenda-archives-mode t)
                         (org-agenda-start-day "0d")
                         (org-agenda-span 1)
                         (org-agenda-start-with-log-mode 'only)
@@ -362,6 +357,7 @@
                         (org-agenda-time-grid nil)
                         (org-agenda-span 31)
                         (org-agenda-start-day "-30d")
+                        (org-agenda-archives-mode t)
                         (org-agenda-start-on-weekday nil))))))))
 
 (after! org
@@ -445,7 +441,7 @@
   (org-ai-global-mode) ; installs global keybindings on C-c M-a
   :config
   (setq org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
-  (setq org-ai-openai-api-token "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")
+  (setq org-ai-openai-api-token "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")
   (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
 )
 
@@ -462,6 +458,10 @@
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
 (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+
+(use-package! treemacs-nerd-icons
+  :config
+  (treemacs-load-theme "nerd-icons"))
 
 (use-package! treemacs
   :defer t
@@ -482,15 +482,6 @@
   ;; Set treemacs theme
   (setq doom-themes-treemacs-theme "doom-colors"))
 
-(use-package! python-black
-  :demand t
-  :after python
-  :config
-  (add-hook! 'python-mode-hook #'python-black-on-save-mode)
-  (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
-  (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
-  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement))
-
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 
@@ -509,27 +500,10 @@
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
-  (setq web-mode-auto-close-style 1))
+  (setq web-mode-auto-close-style 2))
 
-(defun enable-rjsx-mode ()
-  (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
-            (string-equal "tsx" (file-name-extension buffer-file-name)))
-    (rjsx-minor-mode)))
-
-(add-hook 'web-mode-hook #'enable-rjsx-mode)
-
-(defun enable-prettier-mode ()
-  (when (string-match-p "[jt]s.*" (file-name-extension buffer-file-name))
-    (prettier-rc-mode)))
-
-(add-hook 'web-mode-hook #'enable-prettier-mode)
-
-(add-hook! 'web-mode-hook
-  (when (string-match-p "\.[jt]s.*" buffer-file-name)
-    (setq +format-with :none)))
-
-(after! centaur-tabs
-  (setq centaur-tabs-set-bar 'right))
+;; (after! centaur-tabs
+;;   (setq centaur-tabs-set-bar 'right))
 
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
@@ -555,15 +529,15 @@
   (setq lsp-log-io nil)
   (setq lsp-idle-delay 0.5))
 
-(require 'yasnippet)
-(yas-global-mode 1)
+;; (require 'yasnippet)
+;; (yas-global-mode 1)
 
-(require 'lsp-bridge)
+;; (require 'lsp-bridge)
 ;; (global-lsp-bridge-mode)
-(setq acm-menu-length 15)
-(evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
-(evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
-(add-hook 'acm-mode-hook 'evil-normalize-keymaps)
+;; (setq acm-menu-length 15)
+;; (evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
+;; (evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
+;; (add-hook 'acm-mode-hook 'evil-normalize-keymaps)
 
 (setq projectile-create-missing-test-files t)
 

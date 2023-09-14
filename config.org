@@ -10,8 +10,6 @@
 - [[#startup-performance][STARTUP PERFORMANCE]]
   - [[#garbage-collection][Garbage collection]]
   - [[#native-compil-priority][Native Compil Priority]]
-- [[#all-the-icons][ALL THE ICONS]]
-- [[#icons-in-terminal][ICONS IN TERMINAL]]
 - [[#dashboard][DASHBOARD]]
   - [[#splash-screen][Splash Screen]]
   - [[#dashboard-in-emacsclient][Dashboard in Emacsclient]]
@@ -53,15 +51,13 @@
 - [[#search-with-regex][SEARCH WITH REGEX]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
-- [[#python][PYTHON]]
-  - [[#black-for-python-format][Black For Python Format]]
+  - [[#treemacs-nerd-icons][Treemacs-Nerd-Icons]]
+  - [[#config][Config]]
 - [[#web][WEB]]
   - [[#react][REACT]]
   - [[#astro][ASTRO]]
   - [[#htmlerb][HTML.ERB]]
   - [[#custom-web-mode][CUSTOM WEB-MODE]]
-  - [[#rjsx-minor-mode][RJSX MINOR MODE]]
-  - [[#prettier-rc][PRETTIER-RC]]
 - [[#centaur-tabs][CENTAUR-TABS]]
   - [[#to-fix-centaur-tabs-in-emacsclient][To fix centaur tabs in emacsclient]]
   - [[#add-custom-map][Add Custom map]]
@@ -120,20 +116,6 @@ Makes startup faster by reducing the frequency of garbage collection
 (setq load-prefer-newer noninteractive)
 #+end_src
 
-* ALL THE ICONS
-This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
-
-#+begin_src emacs-lisp :results silent
-(use-package! all-the-icons)
-#+end_src
-
-* ICONS IN TERMINAL
-#+begin_src elisp :results silent
-;; (add-to-list 'load-path "~/.local/share/icons-in-terminal")
-;; (require 'icons-in-terminal)
-;; (insert (icons-in-terminal 'oct_flame)) ; C-h f icons-in-terminal[RET] for more info
-#+end_src
-
 * DASHBOARD
 Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
 
@@ -178,7 +160,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 ;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'bold)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
       doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13 :weigth 'bold))
 
 ;; enable bold and italic
@@ -609,6 +591,7 @@ Change agenda view:
                         (org-agenda-todo-keyword-format "")
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
                         (org-agenda-start-on-weekday nil)
+                        (org-agenda-archives-mode t)
                         (org-agenda-start-day "0d")
                         (org-agenda-span 1)
                         (org-agenda-start-with-log-mode 'only)
@@ -624,6 +607,7 @@ Change agenda view:
                         (org-agenda-time-grid nil)
                         (org-agenda-span 31)
                         (org-agenda-start-day "-30d")
+                        (org-agenda-archives-mode t)
                         (org-agenda-start-on-weekday nil))))))))
 #+end_src
 
@@ -733,7 +717,7 @@ Synchronize google calendar with org
   (org-ai-global-mode) ; installs global keybindings on C-c M-a
   :config
   (setq org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
-  (setq org-ai-openai-api-token "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")
+  (setq org-ai-openai-api-token "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")
   (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
 )
 #+end_src
@@ -763,6 +747,14 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 #+end_src
 
 * TREEMACS
+** Treemacs-Nerd-Icons
+#+begin_src elisp :results silent
+(use-package! treemacs-nerd-icons
+  :config
+  (treemacs-load-theme "nerd-icons"))
+#+end_src
+
+** Config
 #+begin_src elisp :results silent
 (use-package! treemacs
   :defer t
@@ -782,19 +774,6 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 
   ;; Set treemacs theme
   (setq doom-themes-treemacs-theme "doom-colors"))
-#+end_src
-
-* PYTHON
-** Black For Python Format
-#+begin_src elisp :results silent
-(use-package! python-black
-  :demand t
-  :after python
-  :config
-  (add-hook! 'python-mode-hook #'python-black-on-save-mode)
-  (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
-  (map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
-  (map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement))
 #+end_src
 
 * WEB
@@ -826,7 +805,6 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
     (setq +format-with :none)))
 #+END_SRC
 
-
 ** CUSTOM WEB-MODE
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package! web-mode
@@ -834,42 +812,14 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
-  (setq web-mode-auto-close-style 1))
+  (setq web-mode-auto-close-style 2))
 #+END_SRC
-
-** RJSX MINOR MODE
-*** Add Hook Function for JSX and TSX files
-#+BEGIN_SRC emacs-lisp :results silent
-(defun enable-rjsx-mode ()
-  (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
-            (string-equal "tsx" (file-name-extension buffer-file-name)))
-    (rjsx-minor-mode)))
-
-(add-hook 'web-mode-hook #'enable-rjsx-mode)
-#+END_SRC
-
-** PRETTIER-RC
-*** Add Hook Function for JSX and TSX files
-#+BEGIN_SRC emacs-lisp :results silent
-(defun enable-prettier-mode ()
-  (when (string-match-p "[jt]s.*" (file-name-extension buffer-file-name))
-    (prettier-rc-mode)))
-
-(add-hook 'web-mode-hook #'enable-prettier-mode)
-#+END_SRC
-
-*** Disable Format On Save (Conflict)
-#+begin_src emacs-lisp :results silent
-(add-hook! 'web-mode-hook
-  (when (string-match-p "\.[jt]s.*" buffer-file-name)
-    (setq +format-with :none)))
-#+end_src
 
 * CENTAUR-TABS
 ** To fix centaur tabs in emacsclient
 #+begin_src elisp :results silent
-(after! centaur-tabs
-  (setq centaur-tabs-set-bar 'right))
+;; (after! centaur-tabs
+;;   (setq centaur-tabs-set-bar 'right))
 #+end_src
 
 ** Add Custom map
@@ -925,15 +875,15 @@ Refresh less often =lsp-idle= for performance
 
 * LSP-BRIDGE
 #+begin_src elisp :results silent
-(require 'yasnippet)
-(yas-global-mode 1)
+;; (require 'yasnippet)
+;; (yas-global-mode 1)
 
-(require 'lsp-bridge)
+;; (require 'lsp-bridge)
 ;; (global-lsp-bridge-mode)
-(setq acm-menu-length 15)
-(evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
-(evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
-(add-hook 'acm-mode-hook 'evil-normalize-keymaps)
+;; (setq acm-menu-length 15)
+;; (evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
+;; (evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
+;; (add-hook 'acm-mode-hook 'evil-normalize-keymaps)
 #+end_src
 
 * PROJECTILE
@@ -942,6 +892,7 @@ Permit projectile to create the file if missing
 #+begin_src elisp :results silent
 (setq projectile-create-missing-test-files t)
 #+end_src
+*
 
 * IMPORT OTHER CONFIG
 Use external rails config, for snippet and method to navigate easily in rails project
