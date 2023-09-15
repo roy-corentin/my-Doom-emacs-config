@@ -716,7 +716,6 @@ Synchronize google calendar with org
   (org-ai-global-mode) ; installs global keybindings on C-c M-a
   :config
   (setq org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
-  (setq org-ai-openai-api-token "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")
   (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
 )
 #+end_src
