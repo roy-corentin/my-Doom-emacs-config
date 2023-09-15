@@ -218,7 +218,7 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(use-package org-fancy-priorities
+(use-package! org-fancy-priorities
   :hook
   (org-mode . org-fancy-priorities-mode)
   :config
@@ -482,9 +482,6 @@
   ;; Set treemacs theme
   (setq doom-themes-treemacs-theme "doom-colors"))
 
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-
 (add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
 
 (after! lsp-mode
@@ -503,7 +500,7 @@
   (setq web-mode-auto-close-style 2))
 
 ;; (after! centaur-tabs
-;;   (setq centaur-tabs-set-bar 'right))
+;;   (setq centaur-tabs-set-bar 'left))
 
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
