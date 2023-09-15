@@ -129,7 +129,7 @@
 ;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
 ;; Set reusable font name variables
-(defvar my/fixed-width-font "JetBrainsMono Nerd Font"
+(defvar my/fixed-width-font "JetBrainsMono Nerd Font Mono"
   "The font to use for monospaced (fixed width) text.")
 
 (defvar my/variable-width-font "Source Sans Pro"
