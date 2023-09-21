@@ -51,7 +51,6 @@
 - [[#search-with-regex][SEARCH WITH REGEX]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
-  - [[#treemacs-nerd-icons][Treemacs-Nerd-Icons]]
   - [[#config][Config]]
 - [[#web][WEB]]
   - [[#astro][ASTRO]]
@@ -198,8 +197,8 @@ available. You can either set `doom-theme' or manually load a theme with the
 
 ** Set Transparency
 #+begin_src elisp :results silent
-(set-frame-parameter (selected-frame) 'alpha '(95 100))
-(add-to-list 'default-frame-alist '(alpha 95 100))
+(set-frame-parameter (selected-frame) 'alpha '(95 95))
+(add-to-list 'default-frame-alist '(alpha 95 95))
 #+end_src
 
 ** Tab With
@@ -369,7 +368,7 @@ change `org-directory'. It must be set before org loads!
   (set-face-attribute 'org-document-title nil :font doom-variable-pitch-font :weight 'bold :height 1.3)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block nil :foreground 'unspecified :inherit 'fixed-pitch)
   (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil :font doom-font :inherit 'fixed-pitch)
@@ -708,7 +707,6 @@ Synchronize google calendar with org
 * ORG-AI
 #+begin_src elisp :results silent
 (use-package! org-ai
-  :ensure t
   :commands (org-ai-mode
              org-ai-global-mode)
   :init
@@ -745,13 +743,6 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 #+end_src
 
 * TREEMACS
-** Treemacs-Nerd-Icons
-#+begin_src elisp :results silent
-(use-package! treemacs-nerd-icons
-  :config
-  (treemacs-load-theme "nerd-icons"))
-#+end_src
-
 ** Config
 #+begin_src elisp :results silent
 (use-package! treemacs
@@ -809,8 +800,10 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 * CENTAUR-TABS
 ** To fix centaur tabs in emacsclient
 #+begin_src elisp :results silent
-;; (after! centaur-tabs
-;;   (setq centaur-tabs-set-bar 'left))
+(after! centaur-tabs
+  (centaur-tabs-group-by-projectile-project))
+(after! centaur-tabs
+  (setq centaur-tabs-set-bar 'left))
 #+end_src
 
 ** Add Custom map

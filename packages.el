@@ -18,7 +18,6 @@
 (package! dired-open)
 (package! peep-dired)
 (package! org-fancy-priorities)
-(package! treemacs-nerd-icons)
 
 ;; OrgRoam GCalendar
 (package! org-gcal)

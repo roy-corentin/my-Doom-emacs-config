@@ -62,8 +62,8 @@
 ;; (setq doom-theme 'doom-acario-dark)
 (setq doom-theme 'doom-dracula)
 
-(set-frame-parameter (selected-frame) 'alpha '(95 100))
-(add-to-list 'default-frame-alist '(alpha 95 100))
+(set-frame-parameter (selected-frame) 'alpha '(95 95))
+(add-to-list 'default-frame-alist '(alpha 95 95))
 
 (setq tab-width 2)
 
@@ -163,7 +163,7 @@
   (set-face-attribute 'org-document-title nil :font doom-variable-pitch-font :weight 'bold :height 1.3)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block nil :foreground 'unspecified :inherit 'fixed-pitch)
   (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil :font doom-font :inherit 'fixed-pitch)
@@ -433,7 +433,6 @@
 (require 'org-gcal)
 
 (use-package! org-ai
-  :ensure t
   :commands (org-ai-mode
              org-ai-global-mode)
   :init
@@ -457,10 +456,6 @@
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
 (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-
-(use-package! treemacs-nerd-icons
-  :config
-  (treemacs-load-theme "nerd-icons"))
 
 (use-package! treemacs
   :defer t
@@ -498,8 +493,10 @@
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-auto-close-style 2))
 
-;; (after! centaur-tabs
-;;   (setq centaur-tabs-set-bar 'left))
+(after! centaur-tabs
+  (centaur-tabs-group-by-projectile-project))
+(after! centaur-tabs
+  (setq centaur-tabs-set-bar 'left))
 
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
