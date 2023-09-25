@@ -74,7 +74,7 @@
  Some functionality uses this to identify you, e.g. GPG configuration, email
  clients, file templates and snippets. It is optional.
 #+begin_src elisp :results silent
-(setq user-full-name "Corentin Roy"
+(setq! user-full-name "Corentin Roy"
       user-mail-address "corentin.roy02@laposte.net")
 #+end_src
 
@@ -119,10 +119,11 @@ Emacs Dashboard is an extensible startup screen showing you recent files, bookma
 
 ** Splash Screen
 #+begin_src elisp :results silent
-;; (setq fancy-splash-image "~/Pictures/Fox.png")
-;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
-;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
-(setq fancy-splash-image "~/Pictures/blackhole-lines.svg")
+;; (setq! fancy-splash-image "~/Pictures/Fox.png")
+;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
+;; (setq! fancy-splash-image "~/Pictures/cyberpunk_logo.png")
+;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
+(setq! fancy-splash-image "~/Pictures/blackhole.svg")
 #+end_src
 
 ** Dashboard in Emacsclient
@@ -161,26 +162,34 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
       doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13 :weigth 'bold))
 
-;; enable bold and italic
-(after! doom-themes
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t))
-
-;; comment and keyword in Italic for example "for"
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-keyword-face :slant italic)
-  '(font-lock-function-name-face :slant italic))
-
-;; changes certain keywords to symbols, such as lamda!
-;; (setq global-prettify-symbols-mode t)
 #+end_src
-
 
 If you or Emacs can't find your font, use 'M-x describe-font' to look them
 up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 refresh your font settings. If Emacs still can't find your font, it likely
 wasn't installed correctly. Font issues are rarely Doom issues!
+
+Enable bold and italic
+#+begin_src elisp :results silent
+(after! doom-themes
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t))
+
+#+end_src
+
+Comment and keyword in Italic for example "for"
+#+begin_src elisp :results silent
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic)
+  '(font-lock-function-name-face :slant italic))
+
+#+end_src
+
+Changes certain keywords to symbols, such as lamda!
+#+begin_src elisp :results silent
+;; (setq global-prettify-symbols-mode t)
+#+end_src
 
 * THEME
 ** Doom Theme
@@ -196,6 +205,7 @@ available. You can either set `doom-theme' or manually load a theme with the
 #+end_src
 
 ** Set Transparency
+Do not override transparency made by window compositor (ex: Hyprland)
 #+begin_src elisp :results silent
 (set-frame-parameter (selected-frame) 'alpha '(95 95))
 (add-to-list 'default-frame-alist '(alpha 95 95))
@@ -203,7 +213,7 @@ available. You can either set `doom-theme' or manually load a theme with the
 
 ** Tab With
 #+begin_src elisp :results silent
-(setq tab-width 2)
+(setq! tab-width 2)
 #+end_src
 
 * LINE SETUP
@@ -819,8 +829,8 @@ Key mapping to move previous and next buffer with and without centaur-tabs
 
 *** Default
 #+begin_src elisp :results silent
-(map! :ni "C-," #'previous-buffer)
-(map! :ni "C-;" #'next-buffer)
+(map! :ni "C-," #'tabs:previous-or-goto)
+(map! :ni "C-;" #'tabs:next-or-goto)
 #+end_src
 
 *** Centaur Tabs
@@ -853,8 +863,9 @@ If =lsp-log-io= set to true can cause a performance hit
 Refresh less often =lsp-idle= for performance
 #+begin_src elisp :results silent
 (after! lsp-mode
-  (setq lsp-log-io nil)
-  (setq lsp-idle-delay 0.5))
+  (setq! lsp-log-io nil)
+  (setq! lsp-idle-delay 0.500)
+  (setq! gc-cons-threshold 100000000))
 #+end_src
 
 * LSP-BRIDGE

@@ -1,4 +1,4 @@
-(setq user-full-name "Corentin Roy"
+(setq! user-full-name "Corentin Roy"
       user-mail-address "corentin.roy02@laposte.net")
 
 ;; Using garbage magic hack.
@@ -23,10 +23,11 @@
 ;; Prefer newer files
 (setq load-prefer-newer noninteractive)
 
-;; (setq fancy-splash-image "~/Pictures/Fox.png")
-;; (setq fancy-splash-image "~/Pictures/Doom_Logo.png")
-;; (setq fancy-splash-image "~/Pictures/cyberpunk_logo.png")
-(setq fancy-splash-image "~/Pictures/blackhole-lines.svg")
+;; (setq! fancy-splash-image "~/Pictures/Fox.png")
+;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
+;; (setq! fancy-splash-image "~/Pictures/cyberpunk_logo.png")
+;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
+(setq! fancy-splash-image "~/Pictures/blackhole.svg")
 
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
@@ -42,18 +43,15 @@
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
       doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13 :weigth 'bold))
 
-;; enable bold and italic
 (after! doom-themes
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t))
 
-;; comment and keyword in Italic for example "for"
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic)
   '(font-lock-function-name-face :slant italic))
 
-;; changes certain keywords to symbols, such as lamda!
 ;; (setq global-prettify-symbols-mode t)
 
 ;; (setq doom-theme 'doom-monokai-machine)
@@ -65,7 +63,7 @@
 (set-frame-parameter (selected-frame) 'alpha '(95 95))
 (add-to-list 'default-frame-alist '(alpha 95 95))
 
-(setq tab-width 2)
+(setq! tab-width 2)
 
 (setq display-line-numbers-type `relative)
 
@@ -501,8 +499,8 @@
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
 
-(map! :ni "C-," #'previous-buffer)
-(map! :ni "C-;" #'next-buffer)
+(map! :ni "C-," #'tabs:previous-or-goto)
+(map! :ni "C-;" #'tabs:next-or-goto)
 
 (eval-after-load 'centaur-tabs
     (map! :ni "C-," #'centaur-tabs-backward))
@@ -519,8 +517,9 @@
                     :server-id 'crystalline)))
 
 (after! lsp-mode
-  (setq lsp-log-io nil)
-  (setq lsp-idle-delay 0.5))
+  (setq! lsp-log-io nil)
+  (setq! lsp-idle-delay 0.500)
+  (setq! gc-cons-threshold 100000000))
 
 ;; (require 'yasnippet)
 ;; (yas-global-mode 1)
