@@ -5,9 +5,11 @@
 (use-package! gcmh
   :config
   (gcmh-mode 1))
+
 ;; Setting garbage collection threshold
-(setq gc-cons-threshold 402653184
-      gc-cons-percentage 0.6)
+(after! lsp-mode
+  (setq! gc-cons-threshold 402653184
+         gc-cons-percentage 0.6))
 
 ;; Profile emacs startup
 (add-hook 'emacs-startup-hook
@@ -17,11 +19,10 @@
                              (float-time
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
-
-;; Silence compiler warnings as they can be pretty disruptive (setq comp-async-report-warnings-errors nil)
+;; Silence compiler warnings as they can be pretty disruptive (setq!comp-async-report-warnings-errors nil)
 
 ;; Prefer newer files
-(setq load-prefer-newer noninteractive)
+(setq! load-prefer-newer noninteractive)
 
 ;; (setq! fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
@@ -30,22 +31,23 @@
 (setq! fancy-splash-image "~/Pictures/blackhole.svg")
 
 (after! persp-mode
-  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+  (setq! persp-emacsclient-init-frame-behaviour-override "main"))
 
 (use-package! emojify
   :hook (after-init . global-emojify-mode))
 
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;(setq!doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
-;; (setq doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
-;; (setq doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13 :weigth 'bold))
+;; (setq!doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
+;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
+;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
+(setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
+      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13))
+(setq! doom-font-increment 1)
 
 (after! doom-themes
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t))
+  (setq! doom-themes-enable-bold t)
+  (setq! doom-themes-enable-italic t))
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
@@ -54,28 +56,28 @@
 
 ;; (setq global-prettify-symbols-mode t)
 
-;; (setq doom-theme 'doom-monokai-machine)
-;; (setq doom-theme 'doom-henna)
-;; (setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-acario-dark)
-(setq doom-theme 'doom-dracula)
+;; (setq! doom-theme 'doom-monokai-machine)
+;; (setq! doom-theme 'doom-henna)
+;; (setq! doom-theme 'doom-one)
+;; (setq! doom-theme 'doom-acario-dark)
+(setq! doom-theme 'doom-dracula)
 
-(set-frame-parameter (selected-frame) 'alpha '(95 95))
-(add-to-list 'default-frame-alist '(alpha 95 95))
+(set-frame-parameter (selected-frame) 'alpha '(95 100))
+(add-to-list 'default-frame-alist '(alpha 95 . 100))
 
 (setq! tab-width 2)
 
-(setq display-line-numbers-type `relative)
+(setq! display-line-numbers-type `relative)
 
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
 
-(setq company-idle-delay 0
+(setq! company-idle-delay 0
       company-minimum-prefix-length 1)
-(setq company-tooltip-margin 1)
-(setq company-format-margin-function 'company-text-icons-margin)
-(setq company-text-icons-add-background t)
-(setq company-text-face-extra-attributes '(:weight bold))
+(setq! company-tooltip-margin 1)
+(setq! company-format-margin-function 'company-text-icons-margin)
+(setq! company-text-icons-add-background t)
+(setq! company-text-face-extra-attributes '(:weight bold))
 
 (defvar companyBackground (face-attribute 'default :background) "background color for company faces")
 (defvar companyFontColor (face-attribute 'default :foreground) "font color for company")
@@ -104,25 +106,25 @@
 (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 ;; ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
-(setq dired-open-extensions '(("gif" . "sxiv")
+(setq! dired-open-extensions '(("gif" . "sxiv")
                               ("jpg" . "sxiv")
                               ("png" . "sxiv")
                               ("mkv" . "mpv")
                               ("mp4" . "mpv")))
 
-(setq evil-move-beyond-eol t)
-(setq evil-move-cursor-back nil)
+(setq! evil-move-beyond-eol t)
+(setq! evil-move-cursor-back nil)
 
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
-(setq org-directory "~/org/")
+(setq! org-directory "~/org/")
 
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (after! org
-  (setq org-clock-sound "~/Music/ding.wav"))
+  (setq! org-clock-sound "~/Music/ding.wav"))
 
 ;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
@@ -183,16 +185,16 @@
 (use-package! org
   :hook (org-mode . efs/org-mode-setup)
   :config
-  (setq org-ellipsis " ▼ ")
-  (setq org-log-done 'time)
-  (setq org-default-priority 67)
-  (setq org-hide-emphasis-markers t)
-  (setq org-hierarchical-todo-statistics nil)
+  (setq! org-ellipsis " ▼ ")
+  (setq! org-log-done 'time)
+  (setq! org-default-priority 67)
+  (setq! org-hide-emphasis-markers t)
+  (setq! org-hierarchical-todo-statistics nil)
   (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
 
-(setq org-emphasis-alist
+(setq! org-emphasis-alist
       '(("*" my-org-emphasis-bold)
         ("/" italic)
         ("_" underline)
@@ -208,7 +210,7 @@
      :foreground "#ff8059"))
   "My bold emphasis for Org.")
 
-(setq org-image-actual-width nil)
+(setq! org-image-actual-width nil)
 
 (use-package! org-bullets
   :after org
@@ -220,18 +222,18 @@
   :hook
   (org-mode . org-fancy-priorities-mode)
   :config
-  (setq org-fancy-priorities-list '((?A . "[‼]")
-                                    (?B . "[❗]")
-                                    (?C . "[☕]")
-                                    (?D . "[♨]")
-                                    (?1 . "[⚡]")
-                                    (?2 . "[⮬]")
-                                    (?3 . "[⮮]")
-                                    (?4 . "[☕]")
-                                    (?I . "[IMPORTANT]"))))
+  (setq! org-fancy-priorities-list '((?A . "[‼]")
+                                     (?B . "[❗]")
+                                     (?C . "[☕]")
+                                     (?D . "[♨]")
+                                     (?1 . "[⚡]")
+                                     (?2 . "[⮬]")
+                                     (?3 . "[⮮]")
+                                     (?4 . "[☕]")
+                                     (?I . "[IMPORTANT]"))))
 
 (after! org
-    (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+    (setq! org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
         '((sequence
             "TODO(t)"             ; A task that is ready to be tackled
             "IN-PROGRESS(i)"      ; A task that is in progress
@@ -254,7 +256,7 @@
            "[X](D)" ))))          ; Tash has been completed
 
 (after! org
-  (setq org-todo-keyword-faces
+  (setq! org-todo-keyword-faces
     '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
       ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
       ("[?]" . org-warning)
@@ -276,7 +278,7 @@
 
 ;; (defun my/org-present-start ()
 ;;   ;; Tweak font sizes
-;;   (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
+;;   (setq local face-remapping-alist '((default (:height 1.5) variable-pitch)
 ;;                                      (header-line (:height 4.0) variable-pitch)
 ;;                                      (org-document-title (:height 1.75) org-document-title)
 ;;                                      (org-code (:height 1.55) org-code)
@@ -296,7 +298,7 @@
 
 ;; (defun my/org-present-end ()
 ;;   ;; Reset font customizations
-;;   (setq-local face-remapping-alist '((default variable-pitch default)))
+;;   (setq local face-remapping-alist '((default variable-pitch default)))
 ;;   (setq org-hide-emphasis-markers t)
 
 ;;   ;; Clear the header line string so that it isn't displayed
@@ -319,8 +321,8 @@
 ;;   (add-hook 'org-present-after-navigate-functions 'my/org-present-prepare-slide))
 
 (after! org
-  (setq org-agenda-start-with-log-mode t)
-  (setq org-agenda-custom-commands
+  (setq! org-agenda-start-with-log-mode t)
+  (setq! org-agenda-custom-commands
         '(("c" "Simple agenda view"
            ((tags-todo "+PRIORITY=\"A\""
                        ((org-agenda-overriding-header "High-priority unfinished tasks:")))
@@ -363,7 +365,7 @@
   (defvar holiday-french-holidays nil
     "French holidays")
 
-  (setq holiday-french-holidays
+  (setq! holiday-french-holidays
         `((holiday-fixed 1 1 "Jour de l'an")
           (holiday-fixed 1 6 "Épiphanie")
           (holiday-fixed 2 2 "Chandeleur")
@@ -388,7 +390,7 @@
           ;; même jour que la pentecôte TODO
           (holiday-float 6 0 3 "Fête des pères"))) ;; troisième dimanche de juin
 
-  (setq calendar-holidays holiday-french-holidays))
+  (setq! calendar-holidays holiday-french-holidays))
 
 (defun org-agenda-auto-refresh-agenda-buffer ()
   "If we're in an agenda file, and there is an agenda buffer, refresh it."
@@ -404,9 +406,9 @@
 (after! org
   :ensure-t
   :custom
-  (setq org-roam-directory "~/RoamNotes")
-  (setq org-roam-index-file "~/RoamNotes/index.org")
-  (setq org-roam-capture-templates '(("d" "default" plain "%?"
+  (setq! org-roam-directory "~/RoamNotes")
+  (setq! org-roam-index-file "~/RoamNotes/index.org")
+  (setq! org-roam-capture-templates '(("d" "default" plain "%?"
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n") :unnarrowed t)
                                      ("p" "problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
@@ -420,12 +422,12 @@
   :after org-roam ;; or :after org
   ;; :hook (after-init . org-roam-ui-mode) ;; to launch server at start
   :config
-  (setq org-roam-ui-follow t
+  (setq! org-roam-ui-follow t
         org-roam-ui-sync-theme t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-(setq org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
+(setq! org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
       org-gcal-client-secret "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"
       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
 (require 'org-gcal)
@@ -437,30 +439,30 @@
   (add-hook 'org-mode-hook #'org-ai-mode) ; enable org-ai in org-mode
   (org-ai-global-mode) ; installs global keybindings on C-c M-a
   :config
-  (setq org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
+  (setq! org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
   (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
 )
 
 (require 'ivy)
 (require 'counsel)
 
-(setq ivy-re-builders-alist
+(setq! ivy-re-builders-alist
       '((counsel-rg . ivy--regex-plus)
         (swiper . ivy--regex-plus)
         (swiper-isearch . ivy--regex-plus)
         (t . ivy--regex-ignore-order)))
 
-(setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
-(setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
-(setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+(setq! scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
+(setq! mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
+(setq! mouse-wheel-progressive-speed t) ;; accelerate scrolling
+(setq! mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 
 (use-package! treemacs
   :defer t
   :config
   ;; Add ignored files and file extensions
-  (setq treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
-        treemacs-file-ignore-globs nil)
+  (setq! treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
+         treemacs-file-ignore-globs nil)
   (defun my-treemacs-ignore-filter (file full-path)
     "Ignore files specified by `treemacs-file-ignore-extensions' and globs."
     (or (member (file-name-extension file) treemacs-file-ignore-extensions)
@@ -472,29 +474,30 @@
   (treemacs-follow-mode t)
 
   ;; Set treemacs theme
-  (setq doom-themes-treemacs-theme "doom-colors"))
+  (setq! doom-themes-treemacs-theme "doom-colors"))
 
 (add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
 
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-  (setq lsp-ui-sideline-show-code-actions t))
+  (setq! lsp-ui-sideline-show-code-actions t))
 
 (add-hook! 'web-mode-hook
   (when (string-match-p "\\.erb\\'" buffer-file-name)
-    (setq +format-with :none)))
+    (setq! +format-with :none)))
 
 (use-package! web-mode
   :config
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-auto-close-style 2))
+  (setq! web-mode-markup-indent-offset 2)
+  (setq! web-mode-css-indent-offset 2)
+  (setq! web-mode-code-indent-offset 2)
+  (setq! web-mode-auto-close-style 2)
+  (setq! web-mode-enable-auto-closing 2))
 
 (after! centaur-tabs
   (centaur-tabs-group-by-projectile-project))
 (after! centaur-tabs
-  (setq centaur-tabs-set-bar 'left))
+  (setq! centaur-tabs-set-bar 'right))
 
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
@@ -518,8 +521,8 @@
 
 (after! lsp-mode
   (setq! lsp-log-io nil)
-  (setq! lsp-idle-delay 0.500)
-  (setq! gc-cons-threshold 100000000))
+  (setq! lsp-idle-delay 0.200))
+  ;; (setq! gc-cons-threshold 100000000))
 
 ;; (require 'yasnippet)
 ;; (yas-global-mode 1)
@@ -531,7 +534,7 @@
 ;; (evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
 ;; (add-hook 'acm-mode-hook 'evil-normalize-keymaps)
 
-(setq projectile-create-missing-test-files t)
+(setq! projectile-create-missing-test-files t)
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "crystal-settings.el" doom-user-dir))

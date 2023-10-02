@@ -8,13 +8,10 @@
 
 (package! company-tabnine)
 (package! lsp-tailwindcss)
-(package! python-black)
 (package! org-bullets)
 (package! org-roam)
-(package! prettier)
 (package! all-the-icons)
 (package! csv-mode)
-(package! all-the-icons-dired)
 (package! dired-open)
 (package! peep-dired)
 (package! org-fancy-priorities)
