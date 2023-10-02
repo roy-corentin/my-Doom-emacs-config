@@ -494,10 +494,19 @@
   (setq! web-mode-auto-close-style 2)
   (setq! web-mode-enable-auto-closing 2))
 
-(after! centaur-tabs
-  (centaur-tabs-group-by-projectile-project))
-(after! centaur-tabs
-  (setq! centaur-tabs-set-bar 'right))
+;; (after! centaur-tabs
+;;   (centaur-tabs-group-by-projectile-project))
+;; (after! centaur-tabs
+;;   (setq! centaur-tabs-set-bar 'right))
+;; (add-hook 'server-after-make-frame-hook 'centaur-tabs-mode)
+;; Enable centaur-tabs without faulty theming in daemon mode.
+;; (if (not (daemonp))
+;;         (centaur-tabs-mode)
+
+;;   (defun centaur-tabs-daemon-mode (frame)
+;;     (unless (and (featurep 'centaur-tabs) (centaur-tabs-mode-on-p))
+;;       (run-at-time nil nil (lambda () (centaur-tabs-mode)))))
+;;   (add-hook 'after-make-frame-functions #'centaur-tabs-daemon-mode))
 
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)

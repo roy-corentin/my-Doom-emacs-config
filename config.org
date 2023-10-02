@@ -821,10 +821,19 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 * CENTAUR-TABS
 ** To fix centaur tabs in emacsclient
 #+begin_src elisp :results silent
-(after! centaur-tabs
-  (centaur-tabs-group-by-projectile-project))
-(after! centaur-tabs
-  (setq! centaur-tabs-set-bar 'right))
+;; (after! centaur-tabs
+;;   (centaur-tabs-group-by-projectile-project))
+;; (after! centaur-tabs
+;;   (setq! centaur-tabs-set-bar 'right))
+;; (add-hook 'server-after-make-frame-hook 'centaur-tabs-mode)
+;; Enable centaur-tabs without faulty theming in daemon mode.
+;; (if (not (daemonp))
+;;         (centaur-tabs-mode)
+
+;;   (defun centaur-tabs-daemon-mode (frame)
+;;     (unless (and (featurep 'centaur-tabs) (centaur-tabs-mode-on-p))
+;;       (run-at-time nil nil (lambda () (centaur-tabs-mode)))))
+;;   (add-hook 'after-make-frame-functions #'centaur-tabs-daemon-mode))
 #+end_src
 
 ** Add Custom map
