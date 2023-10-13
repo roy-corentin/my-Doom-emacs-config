@@ -32,7 +32,6 @@
 - [[#drag-stuff][DRAG STUFF]]
 - [[#org][ORG]]
   - [[#org-location][Org location]]
-  - [[#disable-line-numbers-for-org-mode][Disable line numbers for Org mode]]
   - [[#clock-sound-for-org-timer][Clock sound for org timer]]
   - [[#defining-a-few-things][Defining A Few Things]]
   - [[#org-emphasis][Org-Emphasis]]
@@ -40,7 +39,6 @@
   - [[#enabling-org-bullets][Enabling Org Bullets]]
   - [[#fancy-priority][Fancy Priority]]
   - [[#keyword-todo][Keyword TODO]]
-- [[#org-present][ORG-PRESENT]]
 - [[#org-agenda][ORG-AGENDA]]
   - [[#view][View]]
   - [[#french-holidays][French Holidays]]
@@ -61,7 +59,6 @@
   - [[#to-fix-centaur-tabs-in-emacsclient][To fix centaur tabs in emacsclient]]
   - [[#add-custom-map][Add Custom map]]
   - [[#move-between-buffer][Move Between Buffer]]
-- [[#crystal][CRYSTAL]]
 - [[#lsp-mode][LSP-MODE]]
 - [[#lsp-bridge][LSP-BRIDGE]]
 - [[#projectile][PROJECTILE]]
@@ -96,7 +93,7 @@ Makes startup faster by reducing the frequency of garbage collection
 
 ;; Setting garbage collection threshold
 (after! lsp-mode
-  (setq! gc-cons-threshold 402653184
+  (setq gc-cons-threshold 402653184
          gc-cons-percentage 0.6))
 
 ;; Profile emacs startup
@@ -133,7 +130,7 @@ This setting ensures that emacsclient always opens on *dashboard* rather than *s
 
 #+begin_src emacs-lisp :results silent
 (after! persp-mode
-  (setq! persp-emacsclient-init-frame-behaviour-override "main"))
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
 #+end_src
 
 * EMOJIS
@@ -174,8 +171,8 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 Enable bold and italic
 #+begin_src elisp :results silent
 (after! doom-themes
-  (setq! doom-themes-enable-bold t)
-  (setq! doom-themes-enable-italic t))
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t))
 #+end_src
 
 Comment and keyword in Italic for example "for"
@@ -202,14 +199,15 @@ available. You can either set `doom-theme' or manually load a theme with the
 ;; (setq! doom-theme 'doom-henna)
 ;; (setq! doom-theme 'doom-one)
 ;; (setq! doom-theme 'doom-acario-dark)
-(setq! doom-theme 'doom-dracula)
+;; (setq! doom-theme 'doom-dracula)
+(setq! doom-theme 'doom-nord-aurora)
 #+end_src
 
 ** Set Transparency
-Do not override transparency made by window compositor (ex: Hyprland)
+It Do not override transparency made by window compositor (ex: Hyprland)
 #+begin_src elisp :results silent
-(set-frame-parameter (selected-frame) 'alpha '(95 100))
-(add-to-list 'default-frame-alist '(alpha 95 . 100))
+(set-frame-parameter (selected-frame) 'alpha '(95 95))
+(add-to-list 'default-frame-alist '(alpha 95 . 95))
 #+end_src
 
 ** Tab Width
@@ -251,10 +249,10 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 (defvar companySelectedBackground (face-attribute 'tool-bar :background) "background color for seletec item in company faces")
 
 (custom-set-faces
- '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
- '(company-scrollbar-bg ((t (:background "gray10"))))
- '(company-scrollbar-fg ((t (:background "white"))))
- '(company-tooltip-selection ((t ((:background companyBackground)))))
+ ;; '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
+ ;; '(company-scrollbar-bg ((t (:background "gray10"))))
+ ;; '(company-scrollbar-fg ((t (:background "white"))))
+ ;; '(company-tooltip-selection ((t ((:background companyBackground)))))
  '(company-tooltip-common ((t (:foreground "#c3ac43"))))                  ;; Kind of Yellow
  '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))        ;; Same Yellow but Lighter
  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))              ;; Kind of Green
@@ -329,16 +327,10 @@ change `org-directory'. It must be set before org loads!
 (setq! org-directory "~/org/")
 #+end_src
 
-** Disable line numbers for Org mode
-#+begin_src elisp :results silent
-(dolist (mode '(org-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-#+end_src
-
 ** Clock sound for org timer
 #+begin_src elisp :results silent
 (after! org
-  (setq! org-clock-sound "~/Music/ding.wav"))
+  (setq org-clock-sound "~/Music/ding.wav"))
 #+end_src
 
 ** Defining A Few Things
@@ -482,7 +474,7 @@ Three different sequences:
 
 #+begin_src elisp :results silent
 (after! org
-    (setq! org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+    (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
         '((sequence
             "TODO(t)"             ; A task that is ready to be tackled
             "IN-PROGRESS(i)"      ; A task that is in progress
@@ -509,74 +501,13 @@ Three different sequences:
 Configure style of TODO keywords
 #+begin_src elisp :results silent
 (after! org
-  (setq! org-todo-keyword-faces
+  (setq org-todo-keyword-faces
     '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
       ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
       ("[?]" . org-warning)
       ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
 #+end_src
 
-* ORG-PRESENT
-For a better looking in present, use the =visual-fill-mode= and some face remapping
-#+begin_src elisp :results silent
-;; Configure fill width
-;; (setq visual-fill-column-width 200
-;;       visual-fill-column-center-text t)
-
-;; (defun my/org-present-prepare-slide (buffer-name heading)
-;;   ;; Show only top-level headlines
-;;   (org-overview)
-
-;;   ;; Unfold the current entry
-;;   (org-fold-show-entry)
-
-;;   ;; Show only direct subheadings of the slide but don't expand them
-;;   (org-fold-show-children))
-
-;; (defun my/org-present-start ()
-;;   ;; Tweak font sizes
-;;   (setq local face-remapping-alist '((default (:height 1.5) variable-pitch)
-;;                                      (header-line (:height 4.0) variable-pitch)
-;;                                      (org-document-title (:height 1.75) org-document-title)
-;;                                      (org-code (:height 1.55) org-code)
-;;                                      (org-verbatim (:height 1.55) org-verbatim)
-;;                                      (org-block (:height 1.55) org-block)
-;;                                      (org-block-begin-line (:height 0.7) org-block)))
-
-;;   ;; Set a blank header line string to create blank space at the top
-;;   (setq header-line-format " ")
-
-;;   ;; Display inline images automatically
-;;   (org-display-inline-images)
-
-;;   ;; Center the presentation and wrap lines
-;;   (visual-fill-column-mode 1)
-;;   (visual-line-mode 1))
-
-;; (defun my/org-present-end ()
-;;   ;; Reset font customizations
-;;   (setq local face-remapping-alist '((default variable-pitch default)))
-;;   (setq org-hide-emphasis-markers t)
-
-;;   ;; Clear the header line string so that it isn't displayed
-;;   (setq header-line-format nil)
-
-;;   ;; Stop displaying inline images
-;;   (org-remove-inline-images)
-
-;;   ;; Stop centering the document
-;;   (visual-fill-column-mode 0)
-;;   (visual-line-mode 0))
-
-;; (after! org-present
-;;   ;; Turn on variable pitch fonts in Org Mode buffers
-;;   (add-hook 'org-mode-hook 'variable-pitch-mode)
-
-;;   ;; Register hooks with org-present
-;;   (add-hook 'org-present-mode-hook 'my/org-present-start)
-;;   (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
-;;   (add-hook 'org-present-after-navigate-functions 'my/org-present-prepare-slide))
-#+end_src
 
 * ORG-AGENDA
 ** View
@@ -589,8 +520,8 @@ Change agenda view:
 
 #+begin_src elisp :results silent
 (after! org
-  (setq! org-agenda-start-with-log-mode t)
-  (setq! org-agenda-custom-commands
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-custom-commands
         '(("c" "Simple agenda view"
            ((tags-todo "+PRIORITY=\"A\""
                        ((org-agenda-overriding-header "High-priority unfinished tasks:")))
@@ -689,9 +620,9 @@ Configuration for org-roam:
 (after! org
   :ensure-t
   :custom
-  (setq! org-roam-directory "~/RoamNotes")
-  (setq! org-roam-index-file "~/RoamNotes/index.org")
-  (setq! org-roam-capture-templates '(("d" "default" plain "%?"
+  (setq org-roam-directory "~/RoamNotes")
+  (setq org-roam-index-file "~/RoamNotes/index.org")
+  (setq org-roam-capture-templates '(("d" "default" plain "%?"
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n") :unnarrowed t)
                                      ("p" "problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
@@ -797,7 +728,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 #+BEGIN_SRC emacs-lisp :results silent
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-  (setq! lsp-ui-sideline-show-code-actions t))
+  (setq lsp-ui-sideline-show-code-actions t))
 #+END_SRC
 
 *** Add Web Mode to ERB template and disable format on save
@@ -863,28 +794,16 @@ If Centaur Tabs is loaded map this key to switch between tabs instead of buffers
     (map! :ni "C-;" #'centaur-tabs-forward))
 #+end_src
 
-* CRYSTAL
-At the moment, lsp-mode only knows about scry as the Crystal language server.
-So, to get it working with crystalline we need to configure lsp-mode to look for crystalline.
-
-#+begin_src elisp :results silent
-(with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-language-id-configuration
-               '(crystal-mode . "crystal"))
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("crystalline"))
-                    :activation-fn (lsp-activate-on "crystal")
-                    :priority '1
-                    :server-id 'crystalline)))
-#+end_src
-
 * LSP-MODE
 If =lsp-log-io= set to true can cause a performance hit
 Refresh less often =lsp-idle= for performance
 #+begin_src elisp :results silent
 (after! lsp-mode
-  (setq! lsp-log-io nil)
-  (setq! lsp-idle-delay 0.200))
+  (setq lsp-log-io nil)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-idle-delay 0.200)
+  (setq read-process-output-max (* 1024 1024)))
+
   ;; (setq! gc-cons-threshold 100000000))
 #+end_src
 
@@ -892,6 +811,11 @@ Refresh less often =lsp-idle= for performance
 #+begin_src elisp :results silent
 ;; (require 'yasnippet)
 ;; (yas-global-mode 1)
+
+;; (after! lsp
+;;   (setq lsp-enable-completion nil))
+
+;; (add-to-list 'load-path "~/Application/lsp-bridge")
 
 ;; (require 'lsp-bridge)
 ;; (global-lsp-bridge-mode)
@@ -907,7 +831,7 @@ Permit projectile to create the file if missing
 #+begin_src elisp :results silent
 (setq! projectile-create-missing-test-files t)
 #+end_src
-*
+
 
 * IMPORT OTHER CONFIG
 Use external rails config, for snippet and method to navigate easily in rails project

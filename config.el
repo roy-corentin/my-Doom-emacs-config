@@ -8,7 +8,7 @@
 
 ;; Setting garbage collection threshold
 (after! lsp-mode
-  (setq! gc-cons-threshold 402653184
+  (setq gc-cons-threshold 402653184
          gc-cons-percentage 0.6))
 
 ;; Profile emacs startup
@@ -31,7 +31,7 @@
 (setq! fancy-splash-image "~/Pictures/blackhole.svg")
 
 (after! persp-mode
-  (setq! persp-emacsclient-init-frame-behaviour-override "main"))
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
 (use-package! emojify
   :hook (after-init . global-emojify-mode))
@@ -46,8 +46,8 @@
 (setq! doom-font-increment 1)
 
 (after! doom-themes
-  (setq! doom-themes-enable-bold t)
-  (setq! doom-themes-enable-italic t))
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t))
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
@@ -60,10 +60,11 @@
 ;; (setq! doom-theme 'doom-henna)
 ;; (setq! doom-theme 'doom-one)
 ;; (setq! doom-theme 'doom-acario-dark)
-(setq! doom-theme 'doom-dracula)
+;; (setq! doom-theme 'doom-dracula)
+(setq! doom-theme 'doom-nord-aurora)
 
-(set-frame-parameter (selected-frame) 'alpha '(95 100))
-(add-to-list 'default-frame-alist '(alpha 95 . 100))
+(set-frame-parameter (selected-frame) 'alpha '(95 95))
+(add-to-list 'default-frame-alist '(alpha 95 . 95))
 
 (setq! tab-width 2)
 
@@ -84,10 +85,10 @@
 (defvar companySelectedBackground (face-attribute 'tool-bar :background) "background color for seletec item in company faces")
 
 (custom-set-faces
- '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
- '(company-scrollbar-bg ((t (:background "gray10"))))
- '(company-scrollbar-fg ((t (:background "white"))))
- '(company-tooltip-selection ((t ((:background companyBackground)))))
+ ;; '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
+ ;; '(company-scrollbar-bg ((t (:background "gray10"))))
+ ;; '(company-scrollbar-fg ((t (:background "white"))))
+ ;; '(company-tooltip-selection ((t ((:background companyBackground)))))
  '(company-tooltip-common ((t (:foreground "#c3ac43"))))                  ;; Kind of Yellow
  '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))        ;; Same Yellow but Lighter
  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))              ;; Kind of Green
@@ -120,11 +121,8 @@
 
 (setq! org-directory "~/org/")
 
-(dolist (mode '(org-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
 (after! org
-  (setq! org-clock-sound "~/Music/ding.wav"))
+  (setq org-clock-sound "~/Music/ding.wav"))
 
 ;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
@@ -233,7 +231,7 @@
                                      (?I . "[IMPORTANT]"))))
 
 (after! org
-    (setq! org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+    (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
         '((sequence
             "TODO(t)"             ; A task that is ready to be tackled
             "IN-PROGRESS(i)"      ; A task that is in progress
@@ -256,73 +254,15 @@
            "[X](D)" ))))          ; Tash has been completed
 
 (after! org
-  (setq! org-todo-keyword-faces
+  (setq org-todo-keyword-faces
     '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
       ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
       ("[?]" . org-warning)
       ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
 
-;; Configure fill width
-;; (setq visual-fill-column-width 200
-;;       visual-fill-column-center-text t)
-
-;; (defun my/org-present-prepare-slide (buffer-name heading)
-;;   ;; Show only top-level headlines
-;;   (org-overview)
-
-;;   ;; Unfold the current entry
-;;   (org-fold-show-entry)
-
-;;   ;; Show only direct subheadings of the slide but don't expand them
-;;   (org-fold-show-children))
-
-;; (defun my/org-present-start ()
-;;   ;; Tweak font sizes
-;;   (setq local face-remapping-alist '((default (:height 1.5) variable-pitch)
-;;                                      (header-line (:height 4.0) variable-pitch)
-;;                                      (org-document-title (:height 1.75) org-document-title)
-;;                                      (org-code (:height 1.55) org-code)
-;;                                      (org-verbatim (:height 1.55) org-verbatim)
-;;                                      (org-block (:height 1.55) org-block)
-;;                                      (org-block-begin-line (:height 0.7) org-block)))
-
-;;   ;; Set a blank header line string to create blank space at the top
-;;   (setq header-line-format " ")
-
-;;   ;; Display inline images automatically
-;;   (org-display-inline-images)
-
-;;   ;; Center the presentation and wrap lines
-;;   (visual-fill-column-mode 1)
-;;   (visual-line-mode 1))
-
-;; (defun my/org-present-end ()
-;;   ;; Reset font customizations
-;;   (setq local face-remapping-alist '((default variable-pitch default)))
-;;   (setq org-hide-emphasis-markers t)
-
-;;   ;; Clear the header line string so that it isn't displayed
-;;   (setq header-line-format nil)
-
-;;   ;; Stop displaying inline images
-;;   (org-remove-inline-images)
-
-;;   ;; Stop centering the document
-;;   (visual-fill-column-mode 0)
-;;   (visual-line-mode 0))
-
-;; (after! org-present
-;;   ;; Turn on variable pitch fonts in Org Mode buffers
-;;   (add-hook 'org-mode-hook 'variable-pitch-mode)
-
-;;   ;; Register hooks with org-present
-;;   (add-hook 'org-present-mode-hook 'my/org-present-start)
-;;   (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
-;;   (add-hook 'org-present-after-navigate-functions 'my/org-present-prepare-slide))
-
 (after! org
-  (setq! org-agenda-start-with-log-mode t)
-  (setq! org-agenda-custom-commands
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-custom-commands
         '(("c" "Simple agenda view"
            ((tags-todo "+PRIORITY=\"A\""
                        ((org-agenda-overriding-header "High-priority unfinished tasks:")))
@@ -406,9 +346,9 @@
 (after! org
   :ensure-t
   :custom
-  (setq! org-roam-directory "~/RoamNotes")
-  (setq! org-roam-index-file "~/RoamNotes/index.org")
-  (setq! org-roam-capture-templates '(("d" "default" plain "%?"
+  (setq org-roam-directory "~/RoamNotes")
+  (setq org-roam-index-file "~/RoamNotes/index.org")
+  (setq org-roam-capture-templates '(("d" "default" plain "%?"
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n") :unnarrowed t)
                                      ("p" "problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
@@ -480,7 +420,7 @@
 
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
-  (setq! lsp-ui-sideline-show-code-actions t))
+  (setq lsp-ui-sideline-show-code-actions t))
 
 (add-hook! 'web-mode-hook
   (when (string-match-p "\\.erb\\'" buffer-file-name)
@@ -519,22 +459,21 @@
 (eval-after-load 'centaur-tabs
     (map! :ni "C-;" #'centaur-tabs-forward))
 
-(with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-language-id-configuration
-               '(crystal-mode . "crystal"))
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("crystalline"))
-                    :activation-fn (lsp-activate-on "crystal")
-                    :priority '1
-                    :server-id 'crystalline)))
-
 (after! lsp-mode
-  (setq! lsp-log-io nil)
-  (setq! lsp-idle-delay 0.200))
+  (setq lsp-log-io nil)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-idle-delay 0.200)
+  (setq read-process-output-max (* 1024 1024)))
+
   ;; (setq! gc-cons-threshold 100000000))
 
 ;; (require 'yasnippet)
 ;; (yas-global-mode 1)
+
+;; (after! lsp
+;;   (setq lsp-enable-completion nil))
+
+;; (add-to-list 'load-path "~/Application/lsp-bridge")
 
 ;; (require 'lsp-bridge)
 ;; (global-lsp-bridge-mode)
