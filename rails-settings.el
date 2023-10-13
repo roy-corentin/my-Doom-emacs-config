@@ -145,7 +145,7 @@
       (when (not (string= args ""))
         (save-excursion
           (+evil/previous-beginning-of-method 1)
-          (if (search-forward ")" (point-at-eol) t)
+          (if (search-forward ")" (pos-eol) t)
               (ruby-add-parameter--with-existing-parameters args)
             (ruby-add-parameter--without-existing-parameters args))))))
 
@@ -166,12 +166,12 @@
         (ruby-extract-function--insert-function function-name args))))
 
   (defun ruby-extract-function--insert-function (function-name args)
-    (when (not (eq (point) (point-at-eol)))
+    (when (not (eq (point) (pos-eol)))
       (evil-forward-char))
     (insert function-name)
     (when (not (string= args ""))
       (insert "(" args ")"))
-    (evil-indent (point-at-bol) (point-at-eol)))
+    (evil-indent (pos-bol) (pos-eol)))
 
   (defun ruby-extract-function--create-function (function-name args has-private)
     (save-excursion
@@ -189,8 +189,8 @@
       (insert "def " function-name)
       (when (not (string= args ""))
         (insert "(" args ")"))
-      (evil-indent (point-at-bol) (point-at-eol)) (+evil/insert-newline-below 1) (forward-line 1)
-      (insert "end") (evil-indent (point-at-bol) (point-at-eol))
+      (evil-indent (pos-bol) (pos-eol)) (+evil/insert-newline-below 1) (forward-line 1)
+      (insert "end") (evil-indent (pos-bol) (pos-eol))
       (+evil/insert-newline-above 1) (+evil/insert-newline-below 1)
       (forward-line -1)
       (evil-paste-after 1)
@@ -237,10 +237,10 @@
     (insert "def " function-name)
     (when (not (string= args ""))
       (insert "(" args ")"))
-    (evil-indent (point-at-bol) (point-at-eol)) (+evil/insert-newline-below 1) (forward-line 1)
-    (insert "end") (evil-indent (point-at-bol) (point-at-eol))
+    (evil-indent (pos-bol) (pos-eol)) (+evil/insert-newline-below 1) (forward-line 1)
+    (insert "end") (evil-indent (pos-bol) (pos-eol))
     (+evil/insert-newline-below 1)
-    (forward-line -1) (goto-char (point-at-eol)) (newline-and-indent)
+    (forward-line -1) (goto-char (pos-eol)) (newline-and-indent)
     (when (featurep 'evil)
       (evil-insert 1))
     (message "Method created!  Pro Tip:  Use C-o (normal mode) to jump back to the method usage."))
