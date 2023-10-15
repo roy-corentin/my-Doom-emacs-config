@@ -7,6 +7,7 @@
 ;; use 'M-x doom/reload'.
 
 (package! company-tabnine)
+(package! lsp-tailwindcss)
 (package! org-bullets)
 (package! org-roam)
 (package! csv-mode)
