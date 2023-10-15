@@ -24,6 +24,9 @@
 ;; Org-roam-ui
 (package! org-roam-ui)
 
+;; Xeft search
+(package! xeft)
+
 ;; Config for lsp-bridge
 ;; (package! yasnippet)
 

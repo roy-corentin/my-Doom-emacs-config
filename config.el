@@ -7,9 +7,8 @@
   (gcmh-mode 1))
 
 ;; Setting garbage collection threshold
-(after! lsp-mode
-  (setq gc-cons-threshold 402653184
-        gc-cons-percentage 0.6))
+(setq! gc-cons-threshold 402653184
+       gc-cons-percentage 0.6)
 
 ;; Profile emacs startup
 (add-hook 'emacs-startup-hook
@@ -24,7 +23,6 @@
 ;; Prefer newer files
 (setq! load-prefer-newer noninteractive)
 
-;; (setq! fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
@@ -42,7 +40,7 @@
 ;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
 (setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-       doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13))
+       doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 13 :weight 'medium))
 (setq! doom-font-increment 1)
 
 (after! doom-themes
@@ -126,19 +124,13 @@
 
 ;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
-;; Set reusable font name variables
-(defvar my/fixed-width-font "JetBrainsMono Nerd Font Mono"
-  "The font to use for monospaced (fixed width) text.")
-
-(defvar my/variable-width-font "Source Sans Pro"
-  "The font to use for variable-pitch (document) text.")
-
-;; NOTE: These settings might not be ideal for your machine, tweak them as needed!
-;; (set-face-attribute 'default nil :font my/fixed-width-font :weight 'medium :height 90)
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
-  ;; (variable-pitch-mode 1)
+  ;;(variable-pitch-mode 1)
+  (mixed-pitch-mode 1)
+  ;; (visual-fill-column-mode) ;; To center buffer as word text
+  (centered-window-mode) ;; To center buffer as word text
   (visual-line-mode 1))
 
 (defun efs/org-font-setup ()
@@ -217,8 +209,8 @@
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (use-package! org-fancy-priorities
-  :hook
-  (org-mode . org-fancy-priorities-mode)
+  :after org
+  :hook (org-mode . org-fancy-priorities-mode)
   :config
   (setq! org-fancy-priorities-list '((?A . "[‼]")
                                      (?B . "[❗]")
@@ -301,7 +293,6 @@
                         (org-agenda-start-on-weekday nil))))))))
 
 (after! org
-
   (defvar holiday-french-holidays nil
     "French holidays")
 
@@ -360,12 +351,12 @@
 
 (use-package! org-roam-ui
   :after org-roam ;; or :after org
-  ;; :hook (after-init . org-roam-ui-mode) ;; to launch server at start
+  :hook (after-init . org-roam-ui-mode)
   :config
   (setq! org-roam-ui-follow t
          org-roam-ui-sync-theme t
          org-roam-ui-update-on-save t
-         org-roam-ui-open-on-start t))
+         org-roam-ui-open-on-start nil))
 
 (setq! org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
        org-gcal-client-secret "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"
@@ -484,8 +475,7 @@
 
 (setq! projectile-create-missing-test-files t)
 
-(setq! svg-tag-tags
-      '((":TODO:" . ((lambda (tag) (svg-tag-make "TODO"))))))
+(setq! xeft-directory "~/RoamNotes")
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "crystal-settings.el" doom-user-dir))

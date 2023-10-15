@@ -4,7 +4,7 @@
 #+STARTUP: showeverything
 #+EXPORT_FILE_NAME: ~/Org/html/config.html
 
-* TABLE OF CONTENTS                                                            :TOC:
+* TABLE OF CONTENTS  :TOC:
 - [[#init][INIT]]
 - [[#about-this-config][ABOUT THIS CONFIG]]
 - [[#startup-performance][STARTUP PERFORMANCE]]
@@ -62,6 +62,7 @@
 - [[#lsp-mode][LSP-MODE]]
 - [[#lsp-bridge][LSP-BRIDGE]]
 - [[#projectile][PROJECTILE]]
+- [[#xeft][XEFT]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -92,9 +93,8 @@ Makes startup faster by reducing the frequency of garbage collection
   (gcmh-mode 1))
 
 ;; Setting garbage collection threshold
-(after! lsp-mode
-  (setq gc-cons-threshold 402653184
-        gc-cons-percentage 0.6))
+(setq! gc-cons-threshold 402653184
+       gc-cons-percentage 0.6)
 
 ;; Profile emacs startup
 (add-hook 'emacs-startup-hook
@@ -118,7 +118,6 @@ Emacs Dashboard is an extensible startup screen showing you recent files, bookma
 
 ** Splash Screen
 #+begin_src elisp :results silent
-;; (setq! fancy-splash-image "~/Pictures/Fox.png")
 ;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
@@ -159,7 +158,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 ;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
 (setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-       doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13))
+       doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 13 :weight 'medium))
 (setq! doom-font-increment 1)
 #+end_src
 
@@ -337,19 +336,13 @@ change `org-directory'. It must be set before org loads!
 #+begin_src elisp :results silent
 ;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
-;; Set reusable font name variables
-(defvar my/fixed-width-font "JetBrainsMono Nerd Font Mono"
-  "The font to use for monospaced (fixed width) text.")
-
-(defvar my/variable-width-font "Source Sans Pro"
-  "The font to use for variable-pitch (document) text.")
-
-;; NOTE: These settings might not be ideal for your machine, tweak them as needed!
-;; (set-face-attribute 'default nil :font my/fixed-width-font :weight 'medium :height 90)
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
-  ;; (variable-pitch-mode 1)
+  ;;(variable-pitch-mode 1)
+  (mixed-pitch-mode 1)
+  ;; (visual-fill-column-mode) ;; To center buffer as word text
+  (centered-window-mode) ;; To center buffer as word text
   (visual-line-mode 1))
 
 (defun efs/org-font-setup ()
@@ -451,8 +444,8 @@ Org-fancy-priorities give us some prettier priorities
 
 #+begin_src elisp :results silent
 (use-package! org-fancy-priorities
-  :hook
-  (org-mode . org-fancy-priorities-mode)
+  :after org
+  :hook (org-mode . org-fancy-priorities-mode)
   :config
   (setq! org-fancy-priorities-list '((?A . "[‼]")
                                      (?B . "[❗]")
@@ -563,7 +556,6 @@ Change agenda view:
 ** French Holidays
 #+begin_src elisp :results silent
 (after! org
-
   (defvar holiday-french-holidays nil
     "French holidays")
 
@@ -637,12 +629,12 @@ Configuration for org-roam:
 
 (use-package! org-roam-ui
   :after org-roam ;; or :after org
-  ;; :hook (after-init . org-roam-ui-mode) ;; to launch server at start
+  :hook (after-init . org-roam-ui-mode)
   :config
   (setq! org-roam-ui-follow t
          org-roam-ui-sync-theme t
          org-roam-ui-update-on-save t
-         org-roam-ui-open-on-start t))
+         org-roam-ui-open-on-start nil))
 #+end_src
 
 * ORG-GCAL
@@ -830,6 +822,12 @@ Permit projectile to create the file if missing
 
 #+begin_src elisp :results silent
 (setq! projectile-create-missing-test-files t)
+#+end_src
+
+* XEFT
+Usefull for looking throught notes
+#+begin_src elisp :results silent
+(setq! xeft-directory "~/RoamNotes")
 #+end_src
 
 * IMPORT OTHER CONFIG
