@@ -7,10 +7,8 @@
 ;; use 'M-x doom/reload'.
 
 (package! company-tabnine)
-(package! lsp-tailwindcss)
 (package! org-bullets)
 (package! org-roam)
-(package! all-the-icons)
 (package! csv-mode)
 (package! dired-open)
 (package! peep-dired)
@@ -22,8 +20,7 @@
 ;; Org-AI
 (package! org-ai)
 
-;; To use OrgRoam-UI, need last version of OrgRoam so unpin and add OrgRoamUi
-(unpin! org-roam)
+;; Org-roam-ui
 (package! org-roam-ui)
 
 ;; Config for lsp-bridge

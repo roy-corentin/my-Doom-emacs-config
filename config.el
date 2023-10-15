@@ -1,5 +1,5 @@
 (setq! user-full-name "Corentin Roy"
-      user-mail-address "corentin.roy02@laposte.net")
+       user-mail-address "corentin.roy02@laposte.net")
 
 ;; Using garbage magic hack.
 (use-package! gcmh
@@ -9,7 +9,7 @@
 ;; Setting garbage collection threshold
 (after! lsp-mode
   (setq gc-cons-threshold 402653184
-         gc-cons-percentage 0.6))
+        gc-cons-percentage 0.6))
 
 ;; Profile emacs startup
 (add-hook 'emacs-startup-hook
@@ -28,7 +28,7 @@
 ;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
-(setq! fancy-splash-image "~/Pictures/blackhole.svg")
+;; (setq! fancy-splash-image "~/Pictures/blackhole.svg")
 
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
@@ -42,7 +42,7 @@
 ;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
 (setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13))
+       doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13))
 (setq! doom-font-increment 1)
 
 (after! doom-themes
@@ -74,7 +74,7 @@
 (add-to-list 'company-backends #'company-tabnine)
 
 (setq! company-idle-delay 0
-      company-minimum-prefix-length 1)
+       company-minimum-prefix-length 1)
 (setq! company-tooltip-margin 1)
 (setq! company-format-margin-function 'company-text-icons-margin)
 (setq! company-text-icons-add-background t)
@@ -108,10 +108,10 @@
 ;; ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
 (setq! dired-open-extensions '(("gif" . "sxiv")
-                              ("jpg" . "sxiv")
-                              ("png" . "sxiv")
-                              ("mkv" . "mpv")
-                              ("mp4" . "mpv")))
+                               ("jpg" . "sxiv")
+                               ("png" . "sxiv")
+                               ("mkv" . "mpv")
+                               ("mp4" . "mpv")))
 
 (setq! evil-move-beyond-eol t)
 (setq! evil-move-cursor-back nil)
@@ -193,12 +193,12 @@
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
 
 (setq! org-emphasis-alist
-      '(("*" my-org-emphasis-bold)
-        ("/" italic)
-        ("_" underline)
-        ("=" org-verbatim verbatim)
-        ("~" org-code verbatim)
-        ("+" (:strike-through t))))
+       '(("*" my-org-emphasis-bold)
+         ("/" italic)
+         ("_" underline)
+         ("=" org-verbatim verbatim)
+         ("~" org-code verbatim)
+         ("+" (:strike-through t))))
 
 (defface my-org-emphasis-bold
   '((default :inherit extra-bold)
@@ -231,21 +231,21 @@
                                      (?I . "[IMPORTANT]"))))
 
 (after! org
-    (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+  (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
         '((sequence
-            "TODO(t)"             ; A task that is ready to be tackled
-            "IN-PROGRESS(i)"      ; A task that is in progress
-            "HOLD(h)"             ; Something is holding up this task
-            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
-            "DONE(d)"             ; Task has been completed
-            "CANCELLED(c)" )      ; Task has been cancelled
+           "TODO(t)"             ; A task that is ready to be tackled
+           "IN-PROGRESS(i)"      ; A task that is in progress
+           "HOLD(h)"             ; Something is holding up this task
+           "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+           "DONE(d)"             ; Task has been completed
+           "CANCELLED(c)" )      ; Task has been cancelled
           (sequence
-            "🚩TODO(f)"           ; A task that is ready to be tackled
-            "👷🏻IN-PROGRESS(w)"    ; A task that is in progress
-            "🔒HOLD(l)"           ; Something is holding up this task
-            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
-            "✔DONE(e)"           ; Task has been completed
-            "❌CANCELLED(x)" )
+           "🚩TODO(f)"           ; A task that is ready to be tackled
+           "👷🏻IN-PROGRESS(w)"    ; A task that is in progress
+           "🔒HOLD(l)"           ; Something is holding up this task
+           "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+           "✔DONE(e)"           ; Task has been completed
+           "❌CANCELLED(x)" )
           (sequence
            "[ ](T)"               ; A task that is ready tobe tackled
            "[-](I)"               ; A task that is already started
@@ -255,10 +255,10 @@
 
 (after! org
   (setq org-todo-keyword-faces
-    '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
-      ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
-      ("[?]" . org-warning)
-      ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
+        '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
+          ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
+          ("[?]" . org-warning)
+          ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
 
 (after! org
   (setq org-agenda-start-with-log-mode t)
@@ -306,29 +306,29 @@
     "French holidays")
 
   (setq! holiday-french-holidays
-        `((holiday-fixed 1 1 "Jour de l'an")
-          (holiday-fixed 1 6 "Épiphanie")
-          (holiday-fixed 2 2 "Chandeleur")
-          (holiday-fixed 2 14 "Saint Valentin")
-          (holiday-fixed 5 1 "Fête du travail")
-          (holiday-fixed 5 8 "Commémoration de la capitulation de l'Allemagne en 1945")
-          (holiday-fixed 6 21 "Fête de la musique")
-          (holiday-fixed 7 14 "Fête nationale - Prise de la Bastille")
-          (holiday-fixed 8 15 "Assomption (Religieux)")
-          (holiday-fixed 11 11 "Armistice de 1918")
-          (holiday-fixed 11 1 "Toussaint")
-          (holiday-fixed 11 2 "Commémoration des fidèles défunts")
-          (holiday-fixed 12 25 "Noël")
-          ;; fetes a date variable
-          (holiday-easter-etc 0 "Pâques")
-          (holiday-easter-etc 1 "Lundi de Pâques")
-          (holiday-easter-etc 39 "Ascension")
-          (holiday-easter-etc 49 "Pentecôte")
-          (holiday-easter-etc -47 "Mardi gras")
-          (holiday-float 5 0 4 "Fête des mères")
-          ;; dernier dimanche de mai ou premier dimanche de juin si c'est le
-          ;; même jour que la pentecôte TODO
-          (holiday-float 6 0 3 "Fête des pères"))) ;; troisième dimanche de juin
+         `((holiday-fixed 1 1 "Jour de l'an")
+           (holiday-fixed 1 6 "Épiphanie")
+           (holiday-fixed 2 2 "Chandeleur")
+           (holiday-fixed 2 14 "Saint Valentin")
+           (holiday-fixed 5 1 "Fête du travail")
+           (holiday-fixed 5 8 "Commémoration de la capitulation de l'Allemagne en 1945")
+           (holiday-fixed 6 21 "Fête de la musique")
+           (holiday-fixed 7 14 "Fête nationale - Prise de la Bastille")
+           (holiday-fixed 8 15 "Assomption (Religieux)")
+           (holiday-fixed 11 11 "Armistice de 1918")
+           (holiday-fixed 11 1 "Toussaint")
+           (holiday-fixed 11 2 "Commémoration des fidèles défunts")
+           (holiday-fixed 12 25 "Noël")
+           ;; fetes a date variable
+           (holiday-easter-etc 0 "Pâques")
+           (holiday-easter-etc 1 "Lundi de Pâques")
+           (holiday-easter-etc 39 "Ascension")
+           (holiday-easter-etc 49 "Pentecôte")
+           (holiday-easter-etc -47 "Mardi gras")
+           (holiday-float 5 0 4 "Fête des mères")
+           ;; dernier dimanche de mai ou premier dimanche de juin si c'est le
+           ;; même jour que la pentecôte TODO
+           (holiday-float 6 0 3 "Fête des pères"))) ;; troisième dimanche de juin
 
   (setq! calendar-holidays holiday-french-holidays))
 
@@ -363,13 +363,13 @@
   ;; :hook (after-init . org-roam-ui-mode) ;; to launch server at start
   :config
   (setq! org-roam-ui-follow t
-        org-roam-ui-sync-theme t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
+         org-roam-ui-sync-theme t
+         org-roam-ui-update-on-save t
+         org-roam-ui-open-on-start t))
 
 (setq! org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
-      org-gcal-client-secret "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"
-      org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
+       org-gcal-client-secret "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"
+       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
 (require 'org-gcal)
 
 (use-package! org-ai
@@ -381,16 +381,16 @@
   :config
   (setq! org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
   (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
-)
+  )
 
 (require 'ivy)
 (require 'counsel)
 
 (setq! ivy-re-builders-alist
-      '((counsel-rg . ivy--regex-plus)
-        (swiper . ivy--regex-plus)
-        (swiper-isearch . ivy--regex-plus)
-        (t . ivy--regex-ignore-order)))
+       '((counsel-rg . ivy--regex-plus)
+         (swiper . ivy--regex-plus)
+         (swiper-isearch . ivy--regex-plus)
+         (t . ivy--regex-ignore-order)))
 
 (setq! scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq! mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
@@ -455,9 +455,9 @@
 (map! :ni "C-;" #'tabs:next-or-goto)
 
 (eval-after-load 'centaur-tabs
-    (map! :ni "C-," #'centaur-tabs-backward))
+  (map! :ni "C-," #'centaur-tabs-backward))
 (eval-after-load 'centaur-tabs
-    (map! :ni "C-;" #'centaur-tabs-forward))
+  (map! :ni "C-;" #'centaur-tabs-forward))
 
 (after! lsp-mode
   (setq lsp-log-io nil)
@@ -465,7 +465,7 @@
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 
-  ;; (setq! gc-cons-threshold 100000000))
+;; (setq! gc-cons-threshold 100000000))
 
 ;; (require 'yasnippet)
 ;; (yas-global-mode 1)
@@ -483,6 +483,9 @@
 ;; (add-hook 'acm-mode-hook 'evil-normalize-keymaps)
 
 (setq! projectile-create-missing-test-files t)
+
+(setq! svg-tag-tags
+      '((":TODO:" . ((lambda (tag) (svg-tag-make "TODO"))))))
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "crystal-settings.el" doom-user-dir))

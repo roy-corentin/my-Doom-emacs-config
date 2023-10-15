@@ -66,21 +66,21 @@
 - [[#information][INFORMATION]]
 
 * INIT
- Place your private configuration here! Remember, you do not need to run 'doom sync' after modifying this file!
+Place your private configuration here! Remember, you do not need to run 'doom sync' after modifying this file!
 
 
- Some functionality uses this to identify you, e.g. GPG configuration, email
- clients, file templates and snippets. It is optional.
+Some functionality uses this to identify you, e.g. GPG configuration, email
+clients, file templates and snippets. It is optional.
 #+begin_src elisp :results silent
 (setq! user-full-name "Corentin Roy"
-      user-mail-address "corentin.roy02@laposte.net")
+       user-mail-address "corentin.roy02@laposte.net")
 #+end_src
 
 * ABOUT THIS CONFIG
 This is my personal Doom Emacs config. I use Doom Emacs for all my project so I need some configuration to be exactly like I want
 
 * STARTUP PERFORMANCE
-  This section is where it make Emacs faster to load.
+This section is where it make Emacs faster to load.
 
 ** Garbage collection
 Makes startup faster by reducing the frequency of garbage collection
@@ -94,7 +94,7 @@ Makes startup faster by reducing the frequency of garbage collection
 ;; Setting garbage collection threshold
 (after! lsp-mode
   (setq gc-cons-threshold 402653184
-         gc-cons-percentage 0.6))
+        gc-cons-percentage 0.6))
 
 ;; Profile emacs startup
 (add-hook 'emacs-startup-hook
@@ -122,7 +122,7 @@ Emacs Dashboard is an extensible startup screen showing you recent files, bookma
 ;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
-(setq! fancy-splash-image "~/Pictures/blackhole.svg")
+;; (setq! fancy-splash-image "~/Pictures/blackhole.svg")
 #+end_src
 
 ** Dashboard in Emacsclient
@@ -149,8 +149,8 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 - `doom-unicode-font' -- for unicode glyphs
 - `doom-serif-font' -- for the `fixed-pitch-serif' face
 
- See 'C-h v doom-font' for documentation and more examples of what they
- accept. For example:
+  See 'C-h v doom-font' for documentation and more examples of what they
+  accept. For example:
 
 #+begin_src elisp :results silent
 ;;(setq!doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
@@ -159,7 +159,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 ;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
 (setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-      doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13))
+       doom-variable-pitch-font (font-spec :family "Source Sans Pro" :size 13))
 (setq! doom-font-increment 1)
 #+end_src
 
@@ -235,7 +235,7 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 + Use Text Icon instead of vscode icons
 #+begin_src elisp :results silent
 (setq! company-idle-delay 0
-      company-minimum-prefix-length 1)
+       company-minimum-prefix-length 1)
 (setq! company-tooltip-margin 1)
 (setq! company-format-margin-function 'company-text-icons-margin)
 (setq! company-text-icons-add-background t)
@@ -296,10 +296,10 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 ;; ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
 (setq! dired-open-extensions '(("gif" . "sxiv")
-                              ("jpg" . "sxiv")
-                              ("png" . "sxiv")
-                              ("mkv" . "mpv")
-                              ("mp4" . "mpv")))
+                               ("jpg" . "sxiv")
+                               ("png" . "sxiv")
+                               ("mkv" . "mpv")
+                               ("mp4" . "mpv")))
 #+end_src
 
 * CURSOR
@@ -380,7 +380,7 @@ change `org-directory'. It must be set before org loads!
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
- #+end_src
+#+end_src
 
 Function to auto pass parent node to done if all children are done
 #+begin_src elisp :results silent
@@ -393,9 +393,9 @@ Function to auto pass parent node to done if all children are done
     (when (member todo-state org-todo-keywords-1) ; only operate on entries with the TODO keyword
       (let ((new-state (if (= n-not-done 0) "DONE" "TODO")))
         (org-todo new-state)))))
- #+end_src
+#+end_src
 
- #+begin_src elisp :results silent
+#+begin_src elisp :results silent
 (use-package! org
   :hook (org-mode . efs/org-mode-setup)
   :config
@@ -407,17 +407,17 @@ Function to auto pass parent node to done if all children are done
   (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
- #+end_src
+#+end_src
 
 ** Org-Emphasis
 #+begin_src elisp :results silent
 (setq! org-emphasis-alist
-      '(("*" my-org-emphasis-bold)
-        ("/" italic)
-        ("_" underline)
-        ("=" org-verbatim verbatim)
-        ("~" org-code verbatim)
-        ("+" (:strike-through t))))
+       '(("*" my-org-emphasis-bold)
+         ("/" italic)
+         ("_" underline)
+         ("=" org-verbatim verbatim)
+         ("~" org-code verbatim)
+         ("+" (:strike-through t))))
 
 (defface my-org-emphasis-bold
   '((default :inherit extra-bold)
@@ -426,7 +426,7 @@ Function to auto pass parent node to done if all children are done
     (((class color) (min-colors 88) (background dark))
      :foreground "#ff8059"))
   "My bold emphasis for Org.")
- #+end_src
+#+end_src
 
 ** Image
 Use the actual width of image in org files
@@ -468,27 +468,27 @@ Org-fancy-priorities give us some prettier priorities
 ** Keyword TODO
 Use custom TODO keywords for Org files.
 Three different sequences:
-    + Text
-    + Emoji + Text
-    + Items
++ Text
++ Emoji + Text
++ Items
 
 #+begin_src elisp :results silent
 (after! org
-    (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+  (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
         '((sequence
-            "TODO(t)"             ; A task that is ready to be tackled
-            "IN-PROGRESS(i)"      ; A task that is in progress
-            "HOLD(h)"             ; Something is holding up this task
-            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
-            "DONE(d)"             ; Task has been completed
-            "CANCELLED(c)" )      ; Task has been cancelled
+           "TODO(t)"             ; A task that is ready to be tackled
+           "IN-PROGRESS(i)"      ; A task that is in progress
+           "HOLD(h)"             ; Something is holding up this task
+           "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+           "DONE(d)"             ; Task has been completed
+           "CANCELLED(c)" )      ; Task has been cancelled
           (sequence
-            "🚩TODO(f)"           ; A task that is ready to be tackled
-            "👷🏻IN-PROGRESS(w)"    ; A task that is in progress
-            "🔒HOLD(l)"           ; Something is holding up this task
-            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
-            "✔DONE(e)"           ; Task has been completed
-            "❌CANCELLED(x)" )
+           "🚩TODO(f)"           ; A task that is ready to be tackled
+           "👷🏻IN-PROGRESS(w)"    ; A task that is in progress
+           "🔒HOLD(l)"           ; Something is holding up this task
+           "|"                   ; The pipe necessary to separate "active" states and "inactive" states
+           "✔DONE(e)"           ; Task has been completed
+           "❌CANCELLED(x)" )
           (sequence
            "[ ](T)"               ; A task that is ready tobe tackled
            "[-](I)"               ; A task that is already started
@@ -502,21 +502,21 @@ Configure style of TODO keywords
 #+begin_src elisp :results silent
 (after! org
   (setq org-todo-keyword-faces
-    '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
-      ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
-      ("[?]" . org-warning)
-      ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
+        '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
+          ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
+          ("[?]" . org-warning)
+          ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
 #+end_src
 
 
 * ORG-AGENDA
 ** View
 Change agenda view:
-    - At top, the #A Priority
-    - The #B Priority
-    - In the middle the week view
-    - Today logs
-    - At the bottom list of all todo task
+- At top, the #A Priority
+- The #B Priority
+- In the middle the week view
+- Today logs
+- At the bottom list of all todo task
 
 #+begin_src elisp :results silent
 (after! org
@@ -568,29 +568,29 @@ Change agenda view:
     "French holidays")
 
   (setq! holiday-french-holidays
-        `((holiday-fixed 1 1 "Jour de l'an")
-          (holiday-fixed 1 6 "Épiphanie")
-          (holiday-fixed 2 2 "Chandeleur")
-          (holiday-fixed 2 14 "Saint Valentin")
-          (holiday-fixed 5 1 "Fête du travail")
-          (holiday-fixed 5 8 "Commémoration de la capitulation de l'Allemagne en 1945")
-          (holiday-fixed 6 21 "Fête de la musique")
-          (holiday-fixed 7 14 "Fête nationale - Prise de la Bastille")
-          (holiday-fixed 8 15 "Assomption (Religieux)")
-          (holiday-fixed 11 11 "Armistice de 1918")
-          (holiday-fixed 11 1 "Toussaint")
-          (holiday-fixed 11 2 "Commémoration des fidèles défunts")
-          (holiday-fixed 12 25 "Noël")
-          ;; fetes a date variable
-          (holiday-easter-etc 0 "Pâques")
-          (holiday-easter-etc 1 "Lundi de Pâques")
-          (holiday-easter-etc 39 "Ascension")
-          (holiday-easter-etc 49 "Pentecôte")
-          (holiday-easter-etc -47 "Mardi gras")
-          (holiday-float 5 0 4 "Fête des mères")
-          ;; dernier dimanche de mai ou premier dimanche de juin si c'est le
-          ;; même jour que la pentecôte TODO
-          (holiday-float 6 0 3 "Fête des pères"))) ;; troisième dimanche de juin
+         `((holiday-fixed 1 1 "Jour de l'an")
+           (holiday-fixed 1 6 "Épiphanie")
+           (holiday-fixed 2 2 "Chandeleur")
+           (holiday-fixed 2 14 "Saint Valentin")
+           (holiday-fixed 5 1 "Fête du travail")
+           (holiday-fixed 5 8 "Commémoration de la capitulation de l'Allemagne en 1945")
+           (holiday-fixed 6 21 "Fête de la musique")
+           (holiday-fixed 7 14 "Fête nationale - Prise de la Bastille")
+           (holiday-fixed 8 15 "Assomption (Religieux)")
+           (holiday-fixed 11 11 "Armistice de 1918")
+           (holiday-fixed 11 1 "Toussaint")
+           (holiday-fixed 11 2 "Commémoration des fidèles défunts")
+           (holiday-fixed 12 25 "Noël")
+           ;; fetes a date variable
+           (holiday-easter-etc 0 "Pâques")
+           (holiday-easter-etc 1 "Lundi de Pâques")
+           (holiday-easter-etc 39 "Ascension")
+           (holiday-easter-etc 49 "Pentecôte")
+           (holiday-easter-etc -47 "Mardi gras")
+           (holiday-float 5 0 4 "Fête des mères")
+           ;; dernier dimanche de mai ou premier dimanche de juin si c'est le
+           ;; même jour que la pentecôte TODO
+           (holiday-float 6 0 3 "Fête des pères"))) ;; troisième dimanche de juin
 
   (setq! calendar-holidays holiday-french-holidays))
 #+end_src
@@ -613,8 +613,8 @@ Auto refresh =Org Agenda= buffer when org file updated
 
 * ORG-ROAM
 Configuration for org-roam:
- + Private location
- + New Capture templates
++ Private location
++ New Capture templates
 
 #+begin_src elisp :results silent
 (after! org
@@ -640,9 +640,9 @@ Configuration for org-roam:
   ;; :hook (after-init . org-roam-ui-mode) ;; to launch server at start
   :config
   (setq! org-roam-ui-follow t
-        org-roam-ui-sync-theme t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
+         org-roam-ui-sync-theme t
+         org-roam-ui-update-on-save t
+         org-roam-ui-open-on-start t))
 #+end_src
 
 * ORG-GCAL
@@ -650,8 +650,8 @@ Synchronize google calendar with org
 
 #+begin_src elisp :results silent
 (setq! org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
-      org-gcal-client-secret "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"
-      org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
+       org-gcal-client-secret "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"
+       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
 (require 'org-gcal)
 #+end_src
 
@@ -666,7 +666,7 @@ Synchronize google calendar with org
   :config
   (setq! org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
   (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
-)
+  )
 #+end_src
 
 * SEARCH WITH REGEX
@@ -677,10 +677,10 @@ Specify can search via regex
 (require 'counsel)
 
 (setq! ivy-re-builders-alist
-      '((counsel-rg . ivy--regex-plus)
-        (swiper . ivy--regex-plus)
-        (swiper-isearch . ivy--regex-plus)
-        (t . ivy--regex-ignore-order)))
+       '((counsel-rg . ivy--regex-plus)
+         (swiper . ivy--regex-plus)
+         (swiper-isearch . ivy--regex-plus)
+         (t . ivy--regex-ignore-order)))
 #+end_src
 
 * MOUSE SCROLLING
@@ -789,9 +789,9 @@ If Centaur Tabs is loaded map this key to switch between tabs instead of buffers
 
 #+begin_src elisp :results silent
 (eval-after-load 'centaur-tabs
-    (map! :ni "C-," #'centaur-tabs-backward))
+  (map! :ni "C-," #'centaur-tabs-backward))
 (eval-after-load 'centaur-tabs
-    (map! :ni "C-;" #'centaur-tabs-forward))
+  (map! :ni "C-;" #'centaur-tabs-forward))
 #+end_src
 
 * LSP-MODE
@@ -804,7 +804,7 @@ Refresh less often =lsp-idle= for performance
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 
-  ;; (setq! gc-cons-threshold 100000000))
+;; (setq! gc-cons-threshold 100000000))
 #+end_src
 
 * LSP-BRIDGE
@@ -832,7 +832,6 @@ Permit projectile to create the file if missing
 (setq! projectile-create-missing-test-files t)
 #+end_src
 
-
 * IMPORT OTHER CONFIG
 Use external rails config, for snippet and method to navigate easily in rails project
 
@@ -842,34 +841,34 @@ Use external rails config, for snippet and method to navigate easily in rails pr
 #+end_src
 
 * INFORMATION
- Whenever you reconfigure a package, make sure to wrap your config in an
- `after!' block, otherwise Doom's defaults may override your settings. E.g.
+Whenever you reconfigure a package, make sure to wrap your config in an
+`after!' block, otherwise Doom's defaults may override your settings. E.g.
 
-   (after! PACKAGE
-     (setq x y))
+(after! PACKAGE
+(setq x y))
 
- The exceptions to this rule:
+The exceptions to this rule:
 
-   - Setting file/directory variables (like `org-directory')
-   - Setting variables which explicitly tell you to set them before their
-     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-   - Setting doom variables (which start with 'doom-' or '+').
+- Setting file/directory variables (like `org-directory')
+- Setting variables which explicitly tell you to set them before their
+  package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+- Setting doom variables (which start with 'doom-' or '+').
 
- Here are some additional functions/macros that will help you configure Doom.
+  Here are some additional functions/macros that will help you configure Doom.
 
- - `load!' for loading external *.el files relative to this one
- - `use-package!' for configuring packages
- - `after!' for running code after a package has loaded
- - `add-load-path!' for adding directories to the `load-path', relative to
-   this file. Emacs searches the `load-path' when you load packages with
-   `require' or `use-package'.
- - `map!' for binding new keys
+  - `load!' for loading external *.el files relative to this one
+  - `use-package!' for configuring packages
+  - `after!' for running code after a package has loaded
+  - `add-load-path!' for adding directories to the `load-path', relative to
+    this file. Emacs searches the `load-path' when you load packages with
+    `require' or `use-package'.
+  - `map!' for binding new keys
 
- To get information about any of these functions/macros, move the cursor over
- the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
- This will open documentation for it, including demos of how they are used.
- Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
- etc).
- You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+  To get information about any of these functions/macros, move the cursor over
+  the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+  This will open documentation for it, including demos of how they are used.
+  Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+  etc).
+  You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 
- they are implemented.
+  they are implemented.

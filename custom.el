@@ -16,14 +16,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))
  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100"))))
  '(company-tooltip-common ((t (:foreground "#c3ac43"))))
  '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))
- '(company-tooltip-scrollbar-thumb ((t (:background "white"))))
- '(company-tooltip-scrollbar-track ((t (:background "gray10"))))
- '(company-tooltip-selection ((t ((:background companyBackground)))))
  '(font-lock-comment-face ((t (:slant italic))))
  '(font-lock-function-name-face ((t (:slant italic))))
  '(font-lock-keyword-face ((t (:slant italic))))
