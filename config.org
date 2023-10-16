@@ -346,9 +346,8 @@ Set a bigger width for Olivetti mode
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
-  ;;(variable-pitch-mode 1)
   (mixed-pitch-mode 1)
-  ;; (visual-fill-column-mode) ;; To center buffer as word text
+  ;; (visual-fill-column-mode)
   (olivetti-mode 1) ;; To center buffer as word text
   (visual-line-mode 1))
 
