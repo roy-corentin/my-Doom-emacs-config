@@ -27,6 +27,9 @@
 ;; Xeft search
 (package! xeft)
 
+;; Olivetti to center buffer
+(package! olivetti)
+
 ;; Config for lsp-bridge
 ;; (package! yasnippet)
 

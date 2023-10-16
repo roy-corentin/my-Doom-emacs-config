@@ -122,6 +122,8 @@
 (after! org
   (setq org-clock-sound "~/Music/ding.wav"))
 
+(setq! olivetti-body-width 100)
+
 ;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
 
@@ -130,7 +132,7 @@
   ;;(variable-pitch-mode 1)
   (mixed-pitch-mode 1)
   ;; (visual-fill-column-mode) ;; To center buffer as word text
-  (centered-window-mode) ;; To center buffer as word text
+  (olivetti-mode 1) ;; To center buffer as word text
   (visual-line-mode 1))
 
 (defun efs/org-font-setup ()

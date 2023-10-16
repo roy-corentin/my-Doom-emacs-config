@@ -33,6 +33,7 @@
 - [[#org][ORG]]
   - [[#org-location][Org location]]
   - [[#clock-sound-for-org-timer][Clock sound for org timer]]
+  - [[#olivetti][Olivetti]]
   - [[#defining-a-few-things][Defining A Few Things]]
   - [[#org-emphasis][Org-Emphasis]]
   - [[#image][Image]]
@@ -332,6 +333,12 @@ change `org-directory'. It must be set before org loads!
   (setq org-clock-sound "~/Music/ding.wav"))
 #+end_src
 
+** Olivetti
+Set a bigger width for Olivetti mode
+#+begin_src elisp :results silent
+(setq! olivetti-body-width 100)
+#+end_src
+
 ** Defining A Few Things
 #+begin_src elisp :results silent
 ;; Load org-faces to make sure we can set appropriate faces
@@ -342,7 +349,7 @@ change `org-directory'. It must be set before org loads!
   ;;(variable-pitch-mode 1)
   (mixed-pitch-mode 1)
   ;; (visual-fill-column-mode) ;; To center buffer as word text
-  (centered-window-mode) ;; To center buffer as word text
+  (olivetti-mode 1) ;; To center buffer as word text
   (visual-line-mode 1))
 
 (defun efs/org-font-setup ()
