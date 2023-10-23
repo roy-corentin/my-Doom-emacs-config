@@ -90,6 +90,7 @@ Makes startup faster by reducing the frequency of garbage collection
 #+begin_src emacs-lisp :results silent
 ;; Using garbage magic hack.
 (use-package! gcmh
+  :defer t
   :config
   (gcmh-mode 1))
 
@@ -138,6 +139,7 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 
 #+begin_src emacs-lisp :results silent
 (use-package! emojify
+  :defer t
   :hook (after-init . global-emojify-mode))
 #+end_src
 
@@ -292,7 +294,7 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
   (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
   (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
 
-(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+(add-hook! 'peep-dired-hook 'evil-normalize-keymaps)
 ;; ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
 (setq! dired-open-extensions '(("gif" . "sxiv")
@@ -396,6 +398,7 @@ Function to auto pass parent node to done if all children are done
 
 #+begin_src elisp :results silent
 (use-package! org
+  :defer t
   :hook (org-mode . efs/org-mode-setup)
   :config
   (setq! org-ellipsis " ▼ ")
@@ -403,6 +406,7 @@ Function to auto pass parent node to done if all children are done
   (setq! org-default-priority 67)
   (setq! org-hide-emphasis-markers t)
   (setq! org-hierarchical-todo-statistics nil)
+  ;; (setq! display-line-numbers-type visual)
   (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
@@ -439,6 +443,7 @@ Org-bullets gives us attractive bullets rather than asterisks.
 
 #+begin_src elisp :results silent
 (use-package! org-bullets
+  :defer t
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
@@ -450,6 +455,7 @@ Org-fancy-priorities give us some prettier priorities
 
 #+begin_src elisp :results silent
 (use-package! org-fancy-priorities
+  :defer t
   :after org
   :hook (org-mode . org-fancy-priorities-mode)
   :config
@@ -631,9 +637,11 @@ Configuration for org-roam:
 ** Org-Roam UI
 #+begin_src elisp :results silent
 (use-package! websocket
+  :defer t
   :after org-roam)
 
 (use-package! org-roam-ui
+  :defer t
   :after org-roam ;; or :after org
   :hook (after-init . org-roam-ui-mode)
   :config
@@ -656,6 +664,7 @@ Synchronize google calendar with org
 * ORG-AI
 #+begin_src elisp :results silent
 (use-package! org-ai
+  :defer t
   :commands (org-ai-mode
              org-ai-global-mode)
   :init
@@ -739,6 +748,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 ** CUSTOM WEB-MODE
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package! web-mode
+  :defer t
   :config
   (setq! web-mode-markup-indent-offset 2)
   (setq! web-mode-css-indent-offset 2)
@@ -776,20 +786,9 @@ Keymap to turn ON/OFF centaur tabs
 ** Move Between Buffer
 Key mapping to move previous and next buffer with and without centaur-tabs
 
-*** Default
 #+begin_src elisp :results silent
-(map! :ni "C-," #'tabs:previous-or-goto)
-(map! :ni "C-;" #'tabs:next-or-goto)
-#+end_src
-
-*** Centaur Tabs
-If Centaur Tabs is loaded map this key to switch between tabs instead of buffers
-
-#+begin_src elisp :results silent
-(eval-after-load 'centaur-tabs
-  (map! :ni "C-," #'centaur-tabs-backward))
-(eval-after-load 'centaur-tabs
-  (map! :ni "C-;" #'centaur-tabs-forward))
+(map! :ni "C-," #'+tabs:previous-or-goto)
+(map! :ni "C-;" #'+tabs:next-or-goto)
 #+end_src
 
 * LSP-MODE
@@ -797,8 +796,9 @@ If =lsp-log-io= set to true can cause a performance hit
 Refresh less often =lsp-idle= for performance
 #+begin_src elisp :results silent
 (after! lsp-mode
-  (setq lsp-log-io nil)
+  (setq lsp-log-io t)
   (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-show-with-cursor t)
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 
@@ -810,7 +810,7 @@ Refresh less often =lsp-idle= for performance
 ;; (require 'yasnippet)
 ;; (yas-global-mode 1)
 
-;; (after! lsp
+;; (after! lsp-mode
 ;;   (setq lsp-enable-completion nil))
 
 ;; (add-to-list 'load-path "~/Application/lsp-bridge")

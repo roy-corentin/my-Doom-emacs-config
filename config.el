@@ -3,6 +3,7 @@
 
 ;; Using garbage magic hack.
 (use-package! gcmh
+  :defer t
   :config
   (gcmh-mode 1))
 
@@ -32,6 +33,7 @@
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
 (use-package! emojify
+  :defer t
   :hook (after-init . global-emojify-mode))
 
 ;;(setq!doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
@@ -102,7 +104,7 @@
   (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
   (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
 
-(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+(add-hook! 'peep-dired-hook 'evil-normalize-keymaps)
 ;; ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
 (setq! dired-open-extensions '(("gif" . "sxiv")
@@ -129,9 +131,8 @@
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
-  ;;(variable-pitch-mode 1)
   (mixed-pitch-mode 1)
-  ;; (visual-fill-column-mode) ;; To center buffer as word text
+  ;; (visual-fill-column-mode)
   (olivetti-mode 1) ;; To center buffer as word text
   (visual-line-mode 1))
 
@@ -175,6 +176,7 @@
         (org-todo new-state)))))
 
 (use-package! org
+  :defer t
   :hook (org-mode . efs/org-mode-setup)
   :config
   (setq! org-ellipsis " ▼ ")
@@ -182,6 +184,7 @@
   (setq! org-default-priority 67)
   (setq! org-hide-emphasis-markers t)
   (setq! org-hierarchical-todo-statistics nil)
+  ;; (setq! display-line-numbers-type visual)
   (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
@@ -205,12 +208,14 @@
 (setq! org-image-actual-width nil)
 
 (use-package! org-bullets
+  :defer t
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (use-package! org-fancy-priorities
+  :defer t
   :after org
   :hook (org-mode . org-fancy-priorities-mode)
   :config
@@ -349,9 +354,11 @@
                                                          "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
 
 (use-package! websocket
+  :defer t
   :after org-roam)
 
 (use-package! org-roam-ui
+  :defer t
   :after org-roam ;; or :after org
   :hook (after-init . org-roam-ui-mode)
   :config
@@ -366,6 +373,7 @@
 (require 'org-gcal)
 
 (use-package! org-ai
+  :defer t
   :commands (org-ai-mode
              org-ai-global-mode)
   :init
@@ -420,6 +428,7 @@
     (setq! +format-with :none)))
 
 (use-package! web-mode
+  :defer t
   :config
   (setq! web-mode-markup-indent-offset 2)
   (setq! web-mode-css-indent-offset 2)
@@ -444,17 +453,13 @@
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
 
-(map! :ni "C-," #'tabs:previous-or-goto)
-(map! :ni "C-;" #'tabs:next-or-goto)
-
-(eval-after-load 'centaur-tabs
-  (map! :ni "C-," #'centaur-tabs-backward))
-(eval-after-load 'centaur-tabs
-  (map! :ni "C-;" #'centaur-tabs-forward))
+(map! :ni "C-," #'+tabs:previous-or-goto)
+(map! :ni "C-;" #'+tabs:next-or-goto)
 
 (after! lsp-mode
   (setq lsp-log-io nil)
   (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-show-with-cursor t)
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 
@@ -463,7 +468,7 @@
 ;; (require 'yasnippet)
 ;; (yas-global-mode 1)
 
-;; (after! lsp
+;; (after! lsp-mode
 ;;   (setq lsp-enable-completion nil))
 
 ;; (add-to-list 'load-path "~/Application/lsp-bridge")
