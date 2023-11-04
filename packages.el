@@ -30,6 +30,9 @@
 ;; Olivetti to center buffer
 (package! olivetti)
 
+;; Spell-fu
+(package! spell-fu)
+
 ;; Config for lsp-bridge
 ;; (package! yasnippet)
 

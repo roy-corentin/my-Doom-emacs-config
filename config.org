@@ -28,9 +28,12 @@
   - [[#keybindings-to-open-dired][Keybindings To Open Dired]]
   - [[#keybindings-within-dired][Keybindings Within Dired]]
   - [[#keybindings-for-peep-dired-mode][Keybindings For Peep-Dired-Mode]]
-- [[#cursor][CURSOR]]
+- [[#evil][EVIL]]
+  - [[#cursor][Cursor]]
+  - [[#killing][Killing]]
 - [[#drag-stuff][DRAG STUFF]]
 - [[#org][ORG]]
+  - [[#org-buffer-creation][Org buffer creation]]
   - [[#org-location][Org location]]
   - [[#clock-sound-for-org-timer][Clock sound for org timer]]
   - [[#olivetti][Olivetti]]
@@ -48,17 +51,18 @@
   - [[#org-roam-ui][Org-Roam UI]]
 - [[#org-gcal][ORG-GCAL]]
 - [[#org-ai][ORG-AI]]
+- [[#emacs-everywhere][EMACS-EVERYWHERE]]
+- [[#which-key][WHICH-KEY]]
 - [[#search-with-regex][SEARCH WITH REGEX]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
   - [[#config][Config]]
 - [[#web][WEB]]
-  - [[#astro][ASTRO]]
   - [[#htmlerb][HTML.ERB]]
   - [[#custom-web-mode][CUSTOM WEB-MODE]]
 - [[#centaur-tabs][CENTAUR-TABS]]
   - [[#to-fix-centaur-tabs-in-emacsclient][To fix centaur tabs in emacsclient]]
-  - [[#add-custom-map][Add Custom map]]
+  - [[#toggle-centaur-tabs][Toggle Centaur-Tabs]]
   - [[#move-between-buffer][Move Between Buffer]]
 - [[#lsp-mode][LSP-MODE]]
 - [[#lsp-bridge][LSP-BRIDGE]]
@@ -160,9 +164,57 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 ;; (setq!doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
 ;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
+
 (setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-       doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 13 :weight 'medium))
+       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24 :weight 'medium)
+       doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
+
 (setq! doom-font-increment 1)
+#+end_src
+
+Font from config of tecosaur (Jetbrains adapt)
+#+begin_src elisp :results silent
+;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13)
+;;       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24)
+;;       doom-variable-pitch-font (font-spec :family "Overpass" :size 26)
+;;       doom-unicode-font (font-spec :family "JuliaMono")
+;;       doom-emoji-font (font-spec :family "Twitter Color Emoji") ; Just used by me
+;;       doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
+#+end_src
+
+Method to check missing fonts from tecosaur
+#+begin_src elisp :results silent
+(defvar required-fonts '("JetBrainsMono.*" "Overpass" "JuliaMono" "IBM Plex Mono"
+                         "Merriweather" "Alegreya" "Twitter Color Emoji"))
+
+(defvar available-fonts
+  (delete-dups (or (font-family-list)
+                   (split-string (shell-command-to-string "fc-list : family")
+                                 "[,\n]"))))
+
+(defvar missing-fonts
+  (delq nil (mapcar
+             (lambda (font)
+               (unless (delq nil (mapcar (lambda (f)
+                                           (string-match-p (format "^%s$" font) f))
+                                         available-fonts))
+                 font))
+             required-fonts)))
+
+(if missing-fonts
+    (pp-to-string
+     `(unless noninteractive
+        (add-hook! 'doom-init-ui-hook
+          (run-at-time nil nil
+                       (lambda ()
+                         (message "%s missing the following fonts: %s"
+                                  (propertize "Warning!" 'face '(bold warning))
+                                  (mapconcat (lambda (font)
+                                               (propertize font 'face 'font-lock-variable-name-face))
+                                             ',missing-fonts
+                                             ", "))
+                         (sleep-for 0.5))))))
+  ";; No missing fonts detected")
 #+end_src
 
 If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -221,7 +273,7 @@ It Do not override transparency made by window compositor (ex: Hyprland)
 This determines the style of line numbers in effect. If set to `nil', line
 numbers are disabled. For relative line numbers, set this to `relative'.
 #+begin_src elisp :results silent
-(setq! display-line-numbers-type `relative)
+(setq! display-line-numbers-type `visual)
 #+end_src
 
 * COMPANY
@@ -236,12 +288,14 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 + Show when only one character is pressed
 + Use Text Icon instead of vscode icons
 #+begin_src elisp :results silent
-(setq! company-idle-delay 0
-       company-minimum-prefix-length 1)
-(setq! company-tooltip-margin 1)
-(setq! company-format-margin-function 'company-text-icons-margin)
-(setq! company-text-icons-add-background t)
-(setq! company-text-face-extra-attributes '(:weight bold))
+(after! company
+  (setq company-idle-delay 0.5
+         company-minimum-prefix-length 1)
+  (setq company-tooltip-margin 1)
+  (setq company-format-margin-function 'company-text-icons-margin)
+  (setq company-text-icons-add-background t)
+  (setq company-text-face-extra-attributes '(:weight bold))
+  (add-hook 'evil-normal-state-entry-hook #'company-abort))
 #+end_src
 
 ** Customize the faces of Company mode
@@ -304,13 +358,20 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
                                ("mp4" . "mpv")))
 #+end_src
 
-* CURSOR
+* EVIL
+** Cursor
 - Enable cursor can move at the end of line
 - Disable the cursor going back off when switch between Insert an Normal mode
 
 #+begin_src elisp :results silent
-(setq! evil-move-beyond-eol t)
-(setq! evil-move-cursor-back nil)
+(setq! evil-move-beyond-eol t
+       evil-move-cursor-back nil)
+#+end_src
+
+** Killing
+Don't put overwritten text by paste in the kill ring
+#+begin_src elisp :results silent
+(setq! evil-kill-on-visual-paste nil)
 #+end_src
 
 * DRAG STUFF
@@ -322,6 +383,27 @@ To move a all the line up and down
 #+end_src
 
 * ORG
+** Org buffer creation
+From tecosaur. Let's make creating an Org buffer just that little bit easier
+#+begin_src elisp :results silent
+(evil-define-command +evil-buffer-org-new (count file)
+  "Creates a new ORG buffer replacing the current window, optionally
+   editing a certain FILE"
+  :repeat nil
+  (interactive "P<f>")
+  (if file
+      (evil-edit file)
+    (let ((buffer (generate-new-buffer "*new org*")))
+      (set-window-buffer nil buffer)
+      (with-current-buffer buffer
+        (org-mode)
+        (setq-local doom-real-buffer-p t)))))
+
+(map! :leader
+      (:prefix "b"
+       :desc "New empty Org buffer" "o" #'+evil-buffer-org-new))
+#+end_src
+
 ** Org location
 If you use `org' and don't want your org files in the default location below,
 change `org-directory'. It must be set before org loads!
@@ -423,7 +505,7 @@ Function to auto pass parent node to done if all children are done
          ("+" (:strike-through t))))
 
 (defface my-org-emphasis-bold
-  '((default :inherit extra-bold)
+  '((default :inherit bold)
     (((class color) (min-colors 88) (background light))
      :foreground "#a60000")
     (((class color) (min-colors 88) (background dark))
@@ -512,7 +594,6 @@ Configure style of TODO keywords
           ("[?]" . org-warning)
           ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
 #+end_src
-
 
 * ORG-AGENDA
 ** View
@@ -626,10 +707,12 @@ Configuration for org-roam:
   :custom
   (setq org-roam-directory "~/RoamNotes")
   (setq org-roam-index-file "~/RoamNotes/index.org")
-  (setq org-roam-capture-templates '(("d" "default" plain "%?"
+  (setq org-roam-capture-templates '(("d" "Default" plain "* %?"
+                                      :icon ("nf-oct-checklist" :set "octicon" :color "green")
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n") :unnarrowed t)
-                                     ("p" "problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
+                                     ("p" "Problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
+                                      :icon ("nf-fa-eye" :set "faicon" :color "lcyan")
                                       :target (file+head "problems/%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
 #+end_src
@@ -676,6 +759,42 @@ Synchronize google calendar with org
   )
 #+end_src
 
+* TODO EMACS-EVERYWHERE
+From tecosaur. Additionally, I’m going to make some personal choices that aren’t made in the Doom module.
+
+#+begin_src elisp :results silent
+(use-package! emacs-everywhere
+  :if (daemonp)
+  :config
+  (require 'spell-fu)
+  (setq emacs-everywhere-major-mode-function #'org-mode
+        emacs-everywhere-frame-name-format "Edit ∷ %s — %s")
+  (defadvice! emacs-everywhere-raise-frame ()
+    :after #'emacs-everywhere-set-frame-name
+    (setq emacs-everywhere-frame-name (format emacs-everywhere-frame-name-format
+                                (emacs-everywhere-app-class emacs-everywhere-current-app)
+                                (truncate-string-to-width
+                                 (emacs-everywhere-app-title emacs-everywhere-current-app)
+                                 45 nil nil "…")))
+    ;; need to wait till frame refresh happen before really set
+    (run-with-timer 0.1 nil #'emacs-everywhere-raise-frame-1))
+  (defun emacs-everywhere-raise-frame-1 ()
+    (call-process "wmctrl" nil nil nil "-a" emacs-everywhere-frame-name)))
+#+end_src
+
+* TODO WHICH-KEY
+I also think that having evil- appear in so many popups is a bit too verbose, let’s change that, and do a few other similar tweaks while we’re at it.
+
+#+begin_src elisp :results silent
+(setq! which-key-allow-multiple-replacements t)
+(after! which-key
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
+   ))
+#+end_src
+
 * SEARCH WITH REGEX
 Specify can search via regex
 
@@ -707,7 +826,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   :defer t
   :config
   ;; Add ignored files and file extensions
-  (setq! treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
+  (setq treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
          treemacs-file-ignore-globs nil)
   (defun my-treemacs-ignore-filter (file full-path)
     "Ignore files specified by `treemacs-file-ignore-extensions' and globs."
@@ -720,16 +839,10 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   (treemacs-follow-mode t)
 
   ;; Set treemacs theme
-  (setq! doom-themes-treemacs-theme "doom-colors"))
+  (setq doom-themes-treemacs-theme "doom-colors"))
 #+end_src
 
 * WEB
-** ASTRO
-*** Add Web Mode To Astro File
-#+BEGIN_SRC emacs-lisp :results silent
-(add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
-#+END_SRC
-
 ** HTML.ERB
 *** Add ERB to lsp-mode
 #+BEGIN_SRC emacs-lisp :results silent
@@ -775,7 +888,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 ;;   (add-hook 'after-make-frame-functions #'centaur-tabs-daemon-mode))
 #+end_src
 
-** Add Custom map
+** Toggle Centaur-Tabs
 Keymap to turn ON/OFF centaur tabs
 
 #+begin_src elisp :results silent
@@ -797,8 +910,6 @@ Refresh less often =lsp-idle= for performance
 #+begin_src elisp :results silent
 (after! lsp-mode
   (setq lsp-log-io t)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-show-with-cursor t)
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 

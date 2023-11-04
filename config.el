@@ -41,9 +41,51 @@
 ;; (setq!doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
 ;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
 ;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
+
 (setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-       doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 13 :weight 'medium))
+       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24 :weight 'medium)
+       doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
+
 (setq! doom-font-increment 1)
+
+;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13)
+;;       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24)
+;;       doom-variable-pitch-font (font-spec :family "Overpass" :size 26)
+;;       doom-unicode-font (font-spec :family "JuliaMono")
+;;       doom-emoji-font (font-spec :family "Twitter Color Emoji") ; Just used by me
+;;       doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
+
+(defvar required-fonts '("JetBrainsMono.*" "Overpass" "JuliaMono" "IBM Plex Mono"
+                         "Merriweather" "Alegreya" "Twitter Color Emoji"))
+
+(defvar available-fonts
+  (delete-dups (or (font-family-list)
+                   (split-string (shell-command-to-string "fc-list : family")
+                                 "[,\n]"))))
+
+(defvar missing-fonts
+  (delq nil (mapcar
+             (lambda (font)
+               (unless (delq nil (mapcar (lambda (f)
+                                           (string-match-p (format "^%s$" font) f))
+                                         available-fonts))
+                 font))
+             required-fonts)))
+
+(if missing-fonts
+    (pp-to-string
+     `(unless noninteractive
+        (add-hook! 'doom-init-ui-hook
+          (run-at-time nil nil
+                       (lambda ()
+                         (message "%s missing the following fonts: %s"
+                                  (propertize "Warning!" 'face '(bold warning))
+                                  (mapconcat (lambda (font)
+                                               (propertize font 'face 'font-lock-variable-name-face))
+                                             ',missing-fonts
+                                             ", "))
+                         (sleep-for 0.5))))))
+  ";; No missing fonts detected")
 
 (after! doom-themes
   (setq doom-themes-enable-bold t)
@@ -68,17 +110,19 @@
 
 (setq! tab-width 2)
 
-(setq! display-line-numbers-type `relative)
+(setq! display-line-numbers-type `visual)
 
 (require 'company-tabnine)
 (add-to-list 'company-backends #'company-tabnine)
 
-(setq! company-idle-delay 0
-       company-minimum-prefix-length 1)
-(setq! company-tooltip-margin 1)
-(setq! company-format-margin-function 'company-text-icons-margin)
-(setq! company-text-icons-add-background t)
-(setq! company-text-face-extra-attributes '(:weight bold))
+(after! company
+  (setq company-idle-delay 0.5
+         company-minimum-prefix-length 1)
+  (setq company-tooltip-margin 1)
+  (setq company-format-margin-function 'company-text-icons-margin)
+  (setq company-text-icons-add-background t)
+  (setq company-text-face-extra-attributes '(:weight bold))
+  (add-hook 'evil-normal-state-entry-hook #'company-abort))
 
 (defvar companyBackground (face-attribute 'default :background) "background color for company faces")
 (defvar companyFontColor (face-attribute 'default :foreground) "font color for company")
@@ -113,11 +157,30 @@
                                ("mkv" . "mpv")
                                ("mp4" . "mpv")))
 
-(setq! evil-move-beyond-eol t)
-(setq! evil-move-cursor-back nil)
+(setq! evil-move-beyond-eol t
+       evil-move-cursor-back nil)
+
+(setq! evil-kill-on-visual-paste nil)
 
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
+
+(evil-define-command +evil-buffer-org-new (count file)
+  "Creates a new ORG buffer replacing the current window, optionally
+   editing a certain FILE"
+  :repeat nil
+  (interactive "P<f>")
+  (if file
+      (evil-edit file)
+    (let ((buffer (generate-new-buffer "*new org*")))
+      (set-window-buffer nil buffer)
+      (with-current-buffer buffer
+        (org-mode)
+        (setq-local doom-real-buffer-p t)))))
+
+(map! :leader
+      (:prefix "b"
+       :desc "New empty Org buffer" "o" #'+evil-buffer-org-new))
 
 (setq! org-directory "~/org/")
 
@@ -198,7 +261,7 @@
          ("+" (:strike-through t))))
 
 (defface my-org-emphasis-bold
-  '((default :inherit extra-bold)
+  '((default :inherit bold)
     (((class color) (min-colors 88) (background light))
      :foreground "#a60000")
     (((class color) (min-colors 88) (background dark))
@@ -346,10 +409,12 @@
   :custom
   (setq org-roam-directory "~/RoamNotes")
   (setq org-roam-index-file "~/RoamNotes/index.org")
-  (setq org-roam-capture-templates '(("d" "default" plain "%?"
+  (setq org-roam-capture-templates '(("d" "Default" plain "* %?"
+                                      :icon ("nf-oct-checklist" :set "octicon" :color "green")
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n") :unnarrowed t)
-                                     ("p" "problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
+                                     ("p" "Problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
+                                      :icon ("nf-fa-eye" :set "faicon" :color "lcyan")
                                       :target (file+head "problems/%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
 
@@ -384,6 +449,32 @@
   (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
   )
 
+(use-package! emacs-everywhere
+  :if (daemonp)
+  :config
+  (require 'spell-fu)
+  (setq emacs-everywhere-major-mode-function #'org-mode
+        emacs-everywhere-frame-name-format "Edit ∷ %s — %s")
+  (defadvice! emacs-everywhere-raise-frame ()
+    :after #'emacs-everywhere-set-frame-name
+    (setq emacs-everywhere-frame-name (format emacs-everywhere-frame-name-format
+                                (emacs-everywhere-app-class emacs-everywhere-current-app)
+                                (truncate-string-to-width
+                                 (emacs-everywhere-app-title emacs-everywhere-current-app)
+                                 45 nil nil "…")))
+    ;; need to wait till frame refresh happen before really set
+    (run-with-timer 0.1 nil #'emacs-everywhere-raise-frame-1))
+  (defun emacs-everywhere-raise-frame-1 ()
+    (call-process "wmctrl" nil nil nil "-a" emacs-everywhere-frame-name)))
+
+(setq! which-key-allow-multiple-replacements t)
+(after! which-key
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
+   ))
+
 (require 'ivy)
 (require 'counsel)
 
@@ -402,7 +493,7 @@
   :defer t
   :config
   ;; Add ignored files and file extensions
-  (setq! treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
+  (setq treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
          treemacs-file-ignore-globs nil)
   (defun my-treemacs-ignore-filter (file full-path)
     "Ignore files specified by `treemacs-file-ignore-extensions' and globs."
@@ -415,9 +506,7 @@
   (treemacs-follow-mode t)
 
   ;; Set treemacs theme
-  (setq! doom-themes-treemacs-theme "doom-colors"))
-
-(add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
+  (setq doom-themes-treemacs-theme "doom-colors"))
 
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
@@ -457,9 +546,7 @@
 (map! :ni "C-;" #'+tabs:next-or-goto)
 
 (after! lsp-mode
-  (setq lsp-log-io nil)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-show-with-cursor t)
+  (setq lsp-log-io t)
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 

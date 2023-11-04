@@ -6,7 +6,7 @@
  '(auth-source-save-behavior nil)
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(package-selected-packages
-   '(olivetti xeft treemacs-nerd-icons nerd-icons-dired docker-tramp inf-crystal lsp-tailwindcss magit-stats org-inline-anim))
+   '(spell-fu olivetti xeft treemacs-nerd-icons nerd-icons-dired docker-tramp inf-crystal lsp-tailwindcss magit-stats org-inline-anim))
  '(warning-suppress-log-types '((lsp-mode) (defvaralias))))
 ;;  '(package-selected-packages
 ;;    '(projectile-rails projectile python-black lsp-python-ms vterm lsp-mode))
