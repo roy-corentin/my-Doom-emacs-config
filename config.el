@@ -21,13 +21,9 @@
                      gcs-done)))
 ;; Silence compiler warnings as they can be pretty disruptive (setq!comp-async-report-warnings-errors nil)
 
-;; Prefer newer files
 (setq! load-prefer-newer noninteractive)
 
-;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
-;; (setq! fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
-;; (setq! fancy-splash-image "~/Pictures/blackhole.svg")
 
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
@@ -92,7 +88,7 @@
   (setq doom-themes-enable-italic t))
 
 (custom-set-faces!
-  '(font-lock-comment-face :slant italic)
+  '(font-lock-comment-face :slant italic :background "inherit")
   '(font-lock-keyword-face :slant italic)
   '(font-lock-function-name-face :slant italic))
 

@@ -114,8 +114,8 @@ Makes startup faster by reducing the frequency of garbage collection
 #+end_src
 
 ** Native Compil Priority
+Prefer newer files
 #+begin_src emacs-lisp :results silent
-;; Prefer newer files
 (setq! load-prefer-newer noninteractive)
 #+end_src
 
@@ -123,11 +123,11 @@ Makes startup faster by reducing the frequency of garbage collection
 Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
 
 ** Splash Screen
+How to set the img to show on dashboard
+Example:
+  ~(setq! fancy-splash-image "~/Pictures/Doom_Logo.png")~
 #+begin_src elisp :results silent
-;; (setq! fancy-splash-image "~/Pictures/Doom_Logo.png")
-;; (setq! fancy-splash-image "~/Pictures/cyberpunk_logo.png")
 ;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
-;; (setq! fancy-splash-image "~/Pictures/blackhole.svg")
 #+end_src
 
 ** Dashboard in Emacsclient
@@ -169,6 +169,10 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
        doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24 :weight 'medium)
        doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
 
+#+end_src
+
+To fix the font incrementation I increment by 1 instead of 2
+#+begin_src elisp :results silent
 (setq! doom-font-increment 1)
 #+end_src
 
@@ -232,7 +236,7 @@ Enable bold and italic
 Comment and keyword in Italic for example "for"
 #+begin_src elisp :results silent
 (custom-set-faces!
-  '(font-lock-comment-face :slant italic)
+  '(font-lock-comment-face :slant italic :background "inherit")
   '(font-lock-keyword-face :slant italic)
   '(font-lock-function-name-face :slant italic))
 
