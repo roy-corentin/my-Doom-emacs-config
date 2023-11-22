@@ -33,6 +33,8 @@
 ;; Spell-fu
 (package! spell-fu)
 
+(unpin! lsp-mode)
+
 ;; Config for lsp-bridge
 ;; (package! yasnippet)
 
