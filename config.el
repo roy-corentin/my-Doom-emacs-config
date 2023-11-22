@@ -88,9 +88,9 @@
   (setq doom-themes-enable-italic t))
 
 (custom-set-faces!
-  '(font-lock-comment-face :slant italic :background "inherit")
-  '(font-lock-keyword-face :slant italic)
-  '(font-lock-function-name-face :slant italic))
+  '(font-lock-comment-face nil :foreground "#5B6268" :slant 'italic)
+  '(font-lock-function-name-face nil :foreground "#c678dd" :slant 'italic)
+  '(font-lock-variable-name-face nil :foreground "#dcaeea" :slant 'italic))
 
 ;; (setq global-prettify-symbols-mode t)
 
@@ -101,8 +101,8 @@
 ;; (setq! doom-theme 'doom-dracula)
 (setq! doom-theme 'doom-nord-aurora)
 
-(set-frame-parameter (selected-frame) 'alpha '(95 95))
-(add-to-list 'default-frame-alist '(alpha 95 . 95))
+(set-frame-parameter (selected-frame) 'alpha '(97 97))
+(add-to-list 'default-frame-alist '(alpha 97 97))
 
 (setq! tab-width 2)
 
