@@ -23,10 +23,10 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       company           ; the ultimate code completion backend
-       ;;(helm +childframe +icons)              ; the *other* search engine for love and life
+       (company +childframe)           ; the ultimate code completion backend
+       (helm +icons)              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       (ivy +childframe +icons +prescient)               ; a search engine for love and life
+       ;; (ivy +childframe +icons +prescient)               ; a search engine for love and life
        ;; vertico           ; the search engine of the future
 
        :ui
@@ -164,10 +164,10 @@
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
-       ;;rest              ; Emacs as a REST client
+       rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
        (ruby +lsp +rails +tree-sitter)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       ;;(rust +lsp +tree-sitter)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       (rust +lsp +tree-sitter)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
        (sh +lsp +tree-sitter)                ; she sells {ba,z,fi}sh shells on the C xor
@@ -177,7 +177,7 @@
        ;;terra             ; Earth and Moon in alignment for performance.
        (web +lsp +tree-sitter)               ; the tubes
        (yaml +lsp +tree-sitter)              ; JSON, but readable
-       ;;zig               ; C, but simpler
+       (zig +lsp +tree-sitter)               ; C, but simpler
 
        :email
        ;;(mu4e +org +gmail)
