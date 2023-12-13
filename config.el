@@ -88,9 +88,9 @@
   (setq doom-themes-enable-italic t))
 
 (custom-set-faces!
-  '(font-lock-comment-face nil :foreground "#5B6268" :slant 'italic)
-  '(font-lock-function-name-face nil :foreground "#c678dd" :slant 'italic)
-  '(font-lock-variable-name-face nil :foreground "#dcaeea" :slant 'italic))
+  '(font-lock-comment-face nil :slant 'italic)
+  '(font-lock-function-name-face nil :slant 'italic)
+  '(font-lock-variable-name-face nil :slant 'italic))
 
 ;; (setq global-prettify-symbols-mode t)
 
@@ -409,11 +409,11 @@
   :custom
   (setq org-roam-directory "~/RoamNotes")
   (setq org-roam-index-file "~/RoamNotes/index.org")
-  (setq org-roam-capture-templates '(("d" "Default" plain "\n* %?"
-                                      :icon ("nf-oct-checklist" :set "octicon" :color "green")
+  (setq org-roam-capture-templates `(("d" " Default" plain "\n\n* %?"
+                                      :icon ("nf-fa-file_text_o" :set "faicon" :color "lcyan")
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n") :unnarrowed t)
-                                     ("p" "Problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
+                                     ("p" " Problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
                                       :icon ("nf-fa-eye" :set "faicon" :color "lcyan")
                                       :target (file+head "problems/%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
