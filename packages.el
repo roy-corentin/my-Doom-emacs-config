@@ -6,7 +6,7 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
 
-(package! company-tabnine)
+;; (package! company-tabnine)
 (package! lsp-tailwindcss)
 (package! org-bullets)
 (package! org-roam)
@@ -32,6 +32,10 @@
 
 ;; Spell-fu
 (package! spell-fu)
+
+;; Copilot
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 
 (unpin! lsp-mode)
 
