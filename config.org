@@ -21,7 +21,6 @@
   - [[#tab-width][Tab Width]]
 - [[#line-setup][LINE SETUP]]
 - [[#company][COMPANY]]
-  - [[#add-tabnine-as-company-backends][Add TabNine As Company Backends]]
   - [[#configuration][Configuration]]
   - [[#customize-the-faces-of-company-mode][Customize the faces of Company mode]]
 - [[#company-box][COMPANY-BOX]]
@@ -284,12 +283,6 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 #+end_src
 
 * COMPANY
-** Add TabNine As Company Backends
-#+begin_src elisp :results silent
-;; (require 'company-tabnine)
-;; (add-to-list 'company-backends #'company-tabnine)
-#+end_src
-
 ** Configuration
 + Show faster
 + Use Text Icon in bold instead of vscode icons
@@ -977,6 +970,14 @@ Usefull for looking through notes
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+#+end_src
+
+* HELM
+#+begin_src elisp :results silent
+(setq helm-display-function #'pop-to-buffer)
+
+(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
+(shackle-mode)
 #+end_src
 
 * IMPORT OTHER CONFIG

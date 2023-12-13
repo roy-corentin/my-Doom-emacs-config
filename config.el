@@ -108,9 +108,6 @@
 
 (setq! display-line-numbers-type `visual)
 
-;; (require 'company-tabnine)
-;; (add-to-list 'company-backends #'company-tabnine)
-
 (after! company
   (setq company-idle-delay 0.2
          company-minimum-prefix-length 2)
@@ -579,5 +576,10 @@
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+(setq helm-display-function #'pop-to-buffer)
+
+(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
+(shackle-mode)
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
