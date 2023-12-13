@@ -23,4 +23,6 @@
  '(font-lock-comment-face ((t (:slant italic))))
  '(font-lock-function-name-face ((t (:slant italic))))
  '(font-lock-keyword-face ((t (:slant italic))))
+ '(font-lock-variable-name-face (nil :foreground "#dcaeea" :slant 'italic))
  '(ts-fold-replacement-face ((t (:foreground unspecified :box nil :inherit font-lock-comment-face :weight light)))))
+(put 'downcase-region 'disabled nil)
