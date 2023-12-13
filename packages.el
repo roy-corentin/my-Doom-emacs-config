@@ -33,6 +33,8 @@
 ;; Spell-fu
 (package! spell-fu)
 
+(package! shackle)
+
 ;; Copilot
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
