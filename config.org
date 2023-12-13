@@ -24,6 +24,8 @@
   - [[#add-tabnine-as-company-backends][Add TabNine As Company Backends]]
   - [[#configuration][Configuration]]
   - [[#customize-the-faces-of-company-mode][Customize the faces of Company mode]]
+- [[#company-box][COMPANY-BOX]]
+  - [[#disbale-quick-help][Disbale quick-help]]
 - [[#file-manager-dired][FILE MANAGER (DIRED)]]
   - [[#keybindings-to-open-dired][Keybindings To Open Dired]]
   - [[#keybindings-within-dired][Keybindings Within Dired]]
@@ -32,11 +34,13 @@
   - [[#cursor][Cursor]]
   - [[#killing][Killing]]
 - [[#drag-stuff][DRAG STUFF]]
+- [[#olivetti][OLIVETTI]]
+  - [[#default-width][Default Width]]
+  - [[#keybinding][Keybinding]]
 - [[#org][ORG]]
   - [[#org-buffer-creation][Org buffer creation]]
   - [[#org-location][Org location]]
   - [[#clock-sound-for-org-timer][Clock sound for org timer]]
-  - [[#olivetti][Olivetti]]
   - [[#defining-a-few-things][Defining A Few Things]]
   - [[#org-emphasis][Org-Emphasis]]
   - [[#image][Image]]
@@ -68,6 +72,7 @@
 - [[#lsp-bridge][LSP-BRIDGE]]
 - [[#projectile][PROJECTILE]]
 - [[#xeft][XEFT]]
+- [[#copilot][COPILOT]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -168,7 +173,6 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 (setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
        doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24 :weight 'medium)
        doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
-
 #+end_src
 
 To fix the font incrementation I increment by 1 instead of 2
@@ -317,6 +321,13 @@ numbers are disabled. For relative line numbers, set this to `relative'.
  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))   ;; Same Yellow as above
 #+end_src
 
+* COMPANY-BOX
+** Disbale quick-help
+I need to disale it because it made me disappear company-box
+#+begin_src elisp :results silent
+(setq! company-box-doc-enable nil)
+#+end_src
+
 * FILE MANAGER (DIRED)
 Dired is the file manager within Emacs.  Below, I setup keybindings for image previews (peep-dired).
 
@@ -384,6 +395,20 @@ To move a all the line up and down
 (map! "C-M-j" #'drag-stuff-down)
 #+end_src
 
+
+* OLIVETTI
+** Default Width
+Set a bigger width for Olivetti mode (original 90)
+#+begin_src elisp :results silent
+(setq! olivetti-body-width 120)
+#+end_src
+
+** Keybinding
+#+begin_src elisp :results silent
+(map! :leader
+      :desc "Toggle Olivetti Mode" "t o" #'olivetti-mode)
+#+end_src
+
 * ORG
 ** Org buffer creation
 From tecosaur. Let's make creating an Org buffer just that little bit easier
@@ -419,12 +444,6 @@ change `org-directory'. It must be set before org loads!
   (setq org-clock-sound "~/Music/ding.wav"))
 #+end_src
 
-** Olivetti
-Set a bigger width for Olivetti mode
-#+begin_src elisp :results silent
-(setq! olivetti-body-width 100)
-#+end_src
-
 ** Defining A Few Things
 #+begin_src elisp :results silent
 ;; Load org-faces to make sure we can set appropriate faces
@@ -433,9 +452,9 @@ Set a bigger width for Olivetti mode
 (defun efs/org-mode-setup ()
   (org-indent-mode)
   (mixed-pitch-mode 1)
-  ;; (visual-fill-column-mode)
+  ;; (visual-fill-column-mode) ;; restrict lines size
   (olivetti-mode 1) ;; To center buffer as word text
-  (visual-line-mode 1))
+  (visual-line-mode 1)) ;; Use visual line mode
 
 (defun efs/org-font-setup ()
   ;; Replace list hyphen with dot
@@ -490,7 +509,6 @@ Function to auto pass parent node to done if all children are done
   (setq! org-default-priority 67)
   (setq! org-hide-emphasis-markers t)
   (setq! org-hierarchical-todo-statistics nil)
-  ;; (setq! display-line-numbers-type visual)
   (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
@@ -709,7 +727,7 @@ Configuration for org-roam:
   :custom
   (setq org-roam-directory "~/RoamNotes")
   (setq org-roam-index-file "~/RoamNotes/index.org")
-  (setq org-roam-capture-templates '(("d" "Default" plain "* %?"
+  (setq org-roam-capture-templates '(("d" "Default" plain "\n* %?"
                                       :icon ("nf-oct-checklist" :set "octicon" :color "green")
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n") :unnarrowed t)
@@ -798,17 +816,17 @@ I also think that having evil- appear in so many popups is a bit too verbose, le
 #+end_src
 
 * SEARCH WITH REGEX
-Specify can search via regex
+Specify can ivy search via regex. To decomment if ivy is used
 
 #+begin_src elisp :results silent
-(require 'ivy)
-(require 'counsel)
+;; (require 'ivy)
+;; (require 'counsel)
 
-(setq! ivy-re-builders-alist
-       '((counsel-rg . ivy--regex-plus)
-         (swiper . ivy--regex-plus)
-         (swiper-isearch . ivy--regex-plus)
-         (t . ivy--regex-ignore-order)))
+;; (setq! ivy-re-builders-alist
+;;        '((counsel-rg . ivy--regex-plus)
+;;          (swiper . ivy--regex-plus)
+;;          (swiper-isearch . ivy--regex-plus)
+;;          (t . ivy--regex-ignore-order)))
 #+end_src
 
 * MOUSE SCROLLING
@@ -944,9 +962,21 @@ Permit projectile to create the file if missing
 #+end_src
 
 * XEFT
-Usefull for looking throught notes
+Usefull for looking through notes
 #+begin_src elisp :results silent
 (setq! xeft-directory "~/RoamNotes")
+#+end_src
+
+* COPILOT
+#+begin_src elisp :results silent
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
 #+end_src
 
 * IMPORT OTHER CONFIG
@@ -954,7 +984,6 @@ Use external rails config, for snippet and method to navigate easily in rails pr
 
 #+begin_src elisp :results silent
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
-(load! (expand-file-name "crystal-settings.el" doom-user-dir))
 #+end_src
 
 * INFORMATION

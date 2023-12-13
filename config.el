@@ -134,6 +134,8 @@
  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))              ;; Kind of Green
  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))   ;; Same Yellow as above
 
+(setq! company-box-doc-enable nil)
+
 (with-eval-after-load 'dired
   (map! :leader
         (:prefix-map ("d" . "dired")
@@ -161,6 +163,11 @@
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
+(setq! olivetti-body-width 120)
+
+(map! :leader
+      :desc "Toggle Olivetti Mode" "t o" #'olivetti-mode)
+
 (evil-define-command +evil-buffer-org-new (count file)
   "Creates a new ORG buffer replacing the current window, optionally
    editing a certain FILE"
@@ -183,17 +190,15 @@
 (after! org
   (setq org-clock-sound "~/Music/ding.wav"))
 
-(setq! olivetti-body-width 100)
-
 ;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
   (mixed-pitch-mode 1)
-  ;; (visual-fill-column-mode)
+  ;; (visual-fill-column-mode) ;; restrict lines size
   (olivetti-mode 1) ;; To center buffer as word text
-  (visual-line-mode 1))
+  (visual-line-mode 1)) ;; Use visual line mode
 
 (defun efs/org-font-setup ()
   ;; Replace list hyphen with dot
@@ -243,7 +248,6 @@
   (setq! org-default-priority 67)
   (setq! org-hide-emphasis-markers t)
   (setq! org-hierarchical-todo-statistics nil)
-  ;; (setq! display-line-numbers-type visual)
   (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
@@ -405,7 +409,7 @@
   :custom
   (setq org-roam-directory "~/RoamNotes")
   (setq org-roam-index-file "~/RoamNotes/index.org")
-  (setq org-roam-capture-templates '(("d" "Default" plain "* %?"
+  (setq org-roam-capture-templates '(("d" "Default" plain "\n* %?"
                                       :icon ("nf-oct-checklist" :set "octicon" :color "green")
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n") :unnarrowed t)
@@ -471,14 +475,14 @@
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
    ))
 
-(require 'ivy)
-(require 'counsel)
+;; (require 'ivy)
+;; (require 'counsel)
 
-(setq! ivy-re-builders-alist
-       '((counsel-rg . ivy--regex-plus)
-         (swiper . ivy--regex-plus)
-         (swiper-isearch . ivy--regex-plus)
-         (t . ivy--regex-ignore-order)))
+;; (setq! ivy-re-builders-alist
+;;        '((counsel-rg . ivy--regex-plus)
+;;          (swiper . ivy--regex-plus)
+;;          (swiper-isearch . ivy--regex-plus)
+;;          (t . ivy--regex-ignore-order)))
 
 (setq! scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq! mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
@@ -567,5 +571,13 @@
 
 (setq! xeft-directory "~/RoamNotes")
 
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
-(load! (expand-file-name "crystal-settings.el" doom-user-dir))
