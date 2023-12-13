@@ -99,7 +99,7 @@ Makes startup faster by reducing the frequency of garbage collection
   (gcmh-mode 1))
 
 ;; Setting garbage collection threshold
-(setq! gc-cons-threshold 402653184
+(setq! gc-cons-threshold 100000000
        gc-cons-percentage 0.6)
 
 ;; Profile emacs startup
@@ -282,18 +282,17 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 * COMPANY
 ** Add TabNine As Company Backends
 #+begin_src elisp :results silent
-(require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
+;; (require 'company-tabnine)
+;; (add-to-list 'company-backends #'company-tabnine)
 #+end_src
 
 ** Configuration
 + Show faster
-+ Show when only one character is pressed
-+ Use Text Icon instead of vscode icons
++ Use Text Icon in bold instead of vscode icons
 #+begin_src elisp :results silent
 (after! company
-  (setq company-idle-delay 0.5
-         company-minimum-prefix-length 1)
+  (setq company-idle-delay 0.2
+         company-minimum-prefix-length 2)
   (setq company-tooltip-margin 1)
   (setq company-format-margin-function 'company-text-icons-margin)
   (setq company-text-icons-add-background t)
@@ -912,7 +911,7 @@ If =lsp-log-io= set to true can cause a performance hit
 Refresh less often =lsp-idle= for performance
 #+begin_src elisp :results silent
 (after! lsp-mode
-  (setq lsp-log-io t)
+  (setq lsp-log-io nil)
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 

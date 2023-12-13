@@ -8,7 +8,7 @@
   (gcmh-mode 1))
 
 ;; Setting garbage collection threshold
-(setq! gc-cons-threshold 402653184
+(setq! gc-cons-threshold 100000000
        gc-cons-percentage 0.6)
 
 ;; Profile emacs startup
@@ -108,12 +108,12 @@
 
 (setq! display-line-numbers-type `visual)
 
-(require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
+;; (require 'company-tabnine)
+;; (add-to-list 'company-backends #'company-tabnine)
 
 (after! company
-  (setq company-idle-delay 0.5
-         company-minimum-prefix-length 1)
+  (setq company-idle-delay 0.2
+         company-minimum-prefix-length 2)
   (setq company-tooltip-margin 1)
   (setq company-format-margin-function 'company-text-icons-margin)
   (setq company-text-icons-add-background t)
@@ -542,7 +542,7 @@
 (map! :ni "C-;" #'+tabs:next-or-goto)
 
 (after! lsp-mode
-  (setq lsp-log-io t)
+  (setq lsp-log-io nil)
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 
