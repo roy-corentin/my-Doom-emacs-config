@@ -52,10 +52,11 @@
 
 ;; (setq! doom-theme 'doom-monokai-machine)
 ;; (setq! doom-theme 'doom-henna)
-(setq! doom-theme 'doom-one)
+;; (setq! doom-theme 'doom-one)
 ;; (setq! doom-theme 'doom-acario-dark)
 ;; (setq! doom-theme 'doom-dracula)
 ;; (setq! doom-theme 'doom-nord-aurora)
+(setq! doom-theme 'ewal-doom-one)
 
 (set-frame-parameter (selected-frame) 'alpha '(97 97))
 (add-to-list 'default-frame-alist '(alpha 97 97))
