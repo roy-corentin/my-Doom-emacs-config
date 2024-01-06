@@ -21,6 +21,7 @@
 - [[#line-setup][LINE SETUP]]
 - [[#company][COMPANY]]
   - [[#configuration][Configuration]]
+  - [[#disable-tab-bind][Disable TAB Bind]]
   - [[#customize-the-faces-of-company-mode][Customize the faces of Company mode]]
 - [[#company-box][COMPANY-BOX]]
   - [[#disbale-quick-help][Disbale quick-help]]
@@ -197,11 +198,6 @@ Comment and keyword in Italic for example "for"
   '(font-lock-variable-name-face nil :slant 'italic))
 #+end_src
 
-Changes certain keywords to symbols, such as lambda!
-#+begin_src elisp :results silent
-;; (setq global-prettify-symbols-mode t)
-#+end_src
-
 * THEME
 ** Doom Theme
 There are two ways to load a theme. Both assume the theme is installed and
@@ -250,6 +246,11 @@ numbers are disabled. For relative line numbers, set this to `relative'.
   (add-hook 'evil-normal-state-entry-hook #'company-abort))
 #+end_src
 
+** Disable TAB Bind
+#+begin_src elisp :results silent
+(define-key company-active-map 'company-complete-common nil)
+#+end_src
+
 ** Customize the faces of Company mode
 #+begin_src elisp :results silent
 (defvar companyBackground (face-attribute 'default :background) "background color for company faces")
@@ -269,7 +270,7 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 
 * COMPANY-BOX
 ** Disbale quick-help
-I need to disale it because it made me disappear company-box
+I need to disable it because it made the box disappear
 #+begin_src elisp :results silent
 (setq! company-box-doc-enable nil)
 #+end_src

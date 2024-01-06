@@ -50,8 +50,6 @@
   '(font-lock-function-name-face nil :slant 'italic)
   '(font-lock-variable-name-face nil :slant 'italic))
 
-;; (setq global-prettify-symbols-mode t)
-
 ;; (setq! doom-theme 'doom-monokai-machine)
 ;; (setq! doom-theme 'doom-henna)
 (setq! doom-theme 'doom-one)
@@ -74,6 +72,8 @@
   (setq company-text-icons-add-background t)
   (setq company-text-face-extra-attributes '(:weight bold))
   (add-hook 'evil-normal-state-entry-hook #'company-abort))
+
+(define-key company-active-map 'company-complete-common nil)
 
 (defvar companyBackground (face-attribute 'default :background) "background color for company faces")
 (defvar companyFontColor (face-attribute 'default :foreground) "font color for company")
