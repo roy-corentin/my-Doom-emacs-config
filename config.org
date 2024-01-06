@@ -13,7 +13,6 @@
 - [[#dashboard][DASHBOARD]]
   - [[#splash-screen][Splash Screen]]
   - [[#dashboard-in-emacsclient][Dashboard in Emacsclient]]
-- [[#emojis][EMOJIS]]
 - [[#font][FONT]]
 - [[#theme][THEME]]
   - [[#doom-theme][Doom Theme]]
@@ -141,15 +140,6 @@ This setting ensures that emacsclient always opens on *dashboard* rather than *s
 #+begin_src emacs-lisp :results silent
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
-#+end_src
-
-* EMOJIS
-Emojify is an Emacs extension to display emojis. It can display github style emojis like :smile: or plain ascii ones like :).
-
-#+begin_src emacs-lisp :results silent
-(use-package! emojify
-  :defer t
-  :hook (after-init . global-emojify-mode))
 #+end_src
 
 * FONT

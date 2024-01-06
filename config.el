@@ -28,18 +28,8 @@
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
-(use-package! emojify
-  :defer t
-  :hook (after-init . global-emojify-mode))
-
-;;(setq!doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;; (setq!doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
-;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
-;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
-
-(setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24 :weight 'medium)
+(setq! doom-font (font-spec :family "JetBrainsMonoNerdFont" :size 13 :weight 'medium)
+       doom-big-font (font-spec :family "JetBrainsMonoNerdFont" :size 24 :weight 'medium)
        doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
 
 (setq! doom-font-increment 1)
