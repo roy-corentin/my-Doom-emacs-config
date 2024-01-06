@@ -41,38 +41,6 @@
 ;;       doom-emoji-font (font-spec :family "Twitter Color Emoji") ; Just used by me
 ;;       doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
 
-(defvar required-fonts '("JetBrainsMono.*" "Overpass" "JuliaMono" "IBM Plex Mono"
-                         "Merriweather" "Alegreya" "Twitter Color Emoji"))
-
-(defvar available-fonts
-  (delete-dups (or (font-family-list)
-                   (split-string (shell-command-to-string "fc-list : family")
-                                 "[,\n]"))))
-
-(defvar missing-fonts
-  (delq nil (mapcar
-             (lambda (font)
-               (unless (delq nil (mapcar (lambda (f)
-                                           (string-match-p (format "^%s$" font) f))
-                                         available-fonts))
-                 font))
-             required-fonts)))
-
-(if missing-fonts
-    (pp-to-string
-     `(unless noninteractive
-        (add-hook! 'doom-init-ui-hook
-          (run-at-time nil nil
-                       (lambda ()
-                         (message "%s missing the following fonts: %s"
-                                  (propertize "Warning!" 'face '(bold warning))
-                                  (mapconcat (lambda (font)
-                                               (propertize font 'face 'font-lock-variable-name-face))
-                                             ',missing-fonts
-                                             ", "))
-                         (sleep-for 0.5))))))
-  ";; No missing fonts detected")
-
 (after! doom-themes
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t))
@@ -204,7 +172,7 @@
                   (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font doom-variable-pitch-font :weight 'medium :height (cdr face)))
   ;; Make the document title a bit bigger
-  (set-face-attribute 'org-document-title nil :font doom-variable-pitch-font :weight 'bold :height 1.3)
+  (set-face-attribute 'org-document-title nil :font doom-variable-pitch-font :weight 'bold :height 1.4)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground 'unspecified :inherit 'fixed-pitch)

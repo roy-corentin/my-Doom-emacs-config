@@ -152,16 +152,13 @@ This setting ensures that emacsclient always opens on *dashboard* rather than *s
 
   See 'C-h v doom-font' for documentation and more examples of what they
   accept. For example:
+  ~(setq!doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)~
+        ~doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))~
+ ~(setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))~
 
 #+begin_src elisp :results silent
-;;(setq!doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;; (setq!doom-font (font-spec :family "JetBrainsMono NF" :size 13 :weight 'light))
-;; (setq!doom-font (font-spec :family "JetBrains Mono" :size 13 :weight 'light))
-;; (setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))
-
-(setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13 :weight 'medium)
-       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24 :weight 'medium)
+(setq! doom-font (font-spec :family "JetBrainsMonoNerdFont" :size 13 :weight 'medium)
+       doom-big-font (font-spec :family "JetBrainsMonoNerdFont" :size 24 :weight 'medium)
        doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
 #+end_src
 
@@ -178,41 +175,6 @@ Font from config of tecosaur (Jetbrains adapt)
 ;;       doom-unicode-font (font-spec :family "JuliaMono")
 ;;       doom-emoji-font (font-spec :family "Twitter Color Emoji") ; Just used by me
 ;;       doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
-#+end_src
-
-Method to check missing fonts from tecosaur
-#+begin_src elisp :results silent
-(defvar required-fonts '("JetBrainsMono.*" "Overpass" "JuliaMono" "IBM Plex Mono"
-                         "Merriweather" "Alegreya" "Twitter Color Emoji"))
-
-(defvar available-fonts
-  (delete-dups (or (font-family-list)
-                   (split-string (shell-command-to-string "fc-list : family")
-                                 "[,\n]"))))
-
-(defvar missing-fonts
-  (delq nil (mapcar
-             (lambda (font)
-               (unless (delq nil (mapcar (lambda (f)
-                                           (string-match-p (format "^%s$" font) f))
-                                         available-fonts))
-                 font))
-             required-fonts)))
-
-(if missing-fonts
-    (pp-to-string
-     `(unless noninteractive
-        (add-hook! 'doom-init-ui-hook
-          (run-at-time nil nil
-                       (lambda ()
-                         (message "%s missing the following fonts: %s"
-                                  (propertize "Warning!" 'face '(bold warning))
-                                  (mapconcat (lambda (font)
-                                               (propertize font 'face 'font-lock-variable-name-face))
-                                             ',missing-fonts
-                                             ", "))
-                         (sleep-for 0.5))))))
-  ";; No missing fonts detected")
 #+end_src
 
 If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -235,7 +197,7 @@ Comment and keyword in Italic for example "for"
   '(font-lock-variable-name-face nil :slant 'italic))
 #+end_src
 
-Changes certain keywords to symbols, such as lamda!
+Changes certain keywords to symbols, such as lambda!
 #+begin_src elisp :results silent
 ;; (setq global-prettify-symbols-mode t)
 #+end_src
