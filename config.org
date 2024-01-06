@@ -249,7 +249,7 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 
 ** Disable TAB Bind
 #+begin_src elisp :results silent
-(define-key company-active-map 'company-complete-common nil)
+;; (define-key company-active-map 'company-complete-common nil)
 #+end_src
 
 ** Customize the faces of Company mode
