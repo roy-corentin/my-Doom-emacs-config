@@ -36,6 +36,7 @@
 
 ;; Copilot
 (package! copilot
+  :pin "653fe7b12990b5b7a050971bed4579022ce4b4f8"
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 
 ;; Ewal
