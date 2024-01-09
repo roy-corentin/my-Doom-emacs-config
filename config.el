@@ -173,7 +173,7 @@
                   (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font doom-variable-pitch-font :weight 'medium :height (cdr face)))
   ;; Make the document title a bit bigger
-  (set-face-attribute 'org-document-title nil :font doom-variable-pitch-font :weight 'bold :height 1.4)
+  (set-face-attribute 'org-document-title nil :font doom-variable-pitch-font :weight 'bold :height 2.1)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground 'unspecified :inherit 'fixed-pitch)
