@@ -193,9 +193,9 @@ Enable bold and italic
 Comment and keyword in Italic for example "for"
 #+begin_src elisp :results silent
 (custom-set-faces!
-  '(font-lock-comment-face nil :slant 'italic)
-  '(font-lock-function-name-face nil :slant 'italic)
-  '(font-lock-variable-name-face nil :slant 'italic))
+  '(font-lock-comment-face nil :slant 'italic))
+;;   '(font-lock-function-name-face nil :slant 'italic)
+;;   '(font-lock-variable-name-face nil :slant 'italic))
 #+end_src
 
 * THEME

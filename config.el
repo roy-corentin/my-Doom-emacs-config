@@ -46,9 +46,9 @@
   (setq doom-themes-enable-italic t))
 
 (custom-set-faces!
-  '(font-lock-comment-face nil :slant 'italic)
-  '(font-lock-function-name-face nil :slant 'italic)
-  '(font-lock-variable-name-face nil :slant 'italic))
+  '(font-lock-comment-face nil :slant 'italic))
+;;   '(font-lock-function-name-face nil :slant 'italic)
+;;   '(font-lock-variable-name-face nil :slant 'italic))
 
 ;; (setq! doom-theme 'doom-monokai-machine)
 ;; (setq! doom-theme 'doom-henna)
