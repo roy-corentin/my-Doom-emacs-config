@@ -141,7 +141,7 @@
       (:prefix "b"
        :desc "New empty Org buffer" "o" #'+evil-buffer-org-new))
 
-(setq! org-directory "~/org/")
+(setq! org-directory "~/Org/")
 
 (after! org
   (setq org-clock-sound "~/Music/ding.wav"))
@@ -371,7 +371,7 @@
                                                          "#+title: ${title}\n") :unnarrowed t)
                                      ("p" " Problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
                                       :icon ("nf-fa-eye" :set "faicon" :color "lcyan")
-                                      :target (file+head "problems/%<%Y%m%d%H%M%S>-${slug}.org"
+                                      :target (file+head "problems/content/%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
 
 (use-package! websocket

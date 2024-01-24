@@ -383,7 +383,7 @@ From tecosaur. Let's make creating an Org buffer just that little bit easier
 If you use `org' and don't want your org files in the default location below,
 change `org-directory'. It must be set before org loads!
 #+begin_src elisp :results silent
-(setq! org-directory "~/org/")
+(setq! org-directory "~/Org/")
 #+end_src
 
 ** Clock sound for org timer
@@ -681,7 +681,7 @@ Configuration for org-roam:
                                                          "#+title: ${title}\n") :unnarrowed t)
                                      ("p" " Problems" plain "\n* [[id:f23824a1-0515-47c6-b386-21d83a9aec21][PROBLEM]]\n%?\n* SOLVING"
                                       :icon ("nf-fa-eye" :set "faicon" :color "lcyan")
-                                      :target (file+head "problems/%<%Y%m%d%H%M%S>-${slug}.org"
+                                      :target (file+head "problems/content/%<%Y%m%d%H%M%S>-${slug}.org"
                                                          "#+title: ${title}\n#+filetags: :Problem:\n") :unnarrowed t))))
 #+end_src
 
