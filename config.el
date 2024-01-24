@@ -58,11 +58,6 @@
 ;; (setq! doom-theme 'doom-nord-aurora)
 (setq! doom-theme 'ewal-doom-one)
 
-(set-frame-parameter (selected-frame) 'alpha '(97 97))
-(add-to-list 'default-frame-alist '(alpha 97 97))
-
-(setq! tab-width 2)
-
 (setq! display-line-numbers-type `visual)
 
 (after! company
@@ -73,8 +68,6 @@
   (setq company-text-icons-add-background t)
   (setq company-text-face-extra-attributes '(:weight bold))
   (add-hook 'evil-normal-state-entry-hook #'company-abort))
-
-;; (define-key company-active-map 'company-complete-common nil)
 
 (defvar companyBackground (face-attribute 'default :background) "background color for company faces")
 (defvar companyFontColor (face-attribute 'default :foreground) "font color for company")
@@ -146,7 +139,6 @@
 (after! org
   (setq org-clock-sound "~/Music/ding.wav"))
 
-;; Load org-faces to make sure we can set appropriate faces
 (require 'org-faces)
 
 (defun efs/org-mode-setup ()
@@ -204,6 +196,7 @@
   (setq! org-default-priority 67)
   (setq! org-hide-emphasis-markers t)
   (setq! org-hierarchical-todo-statistics nil)
+  (setq! org-image-actual-width nil) ;; Use the actual image's size in org files
   (efs/org-font-setup)
   :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
@@ -224,29 +217,12 @@
      :foreground "#ff8059"))
   "My bold emphasis for Org.")
 
-(setq! org-image-actual-width nil)
-
 (use-package! org-bullets
   :defer t
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-
-(use-package! org-fancy-priorities
-  :defer t
-  :after org
-  :hook (org-mode . org-fancy-priorities-mode)
-  :config
-  (setq! org-fancy-priorities-list '((?A . "[‼]")
-                                     (?B . "[❗]")
-                                     (?C . "[☕]")
-                                     (?D . "[♨]")
-                                     (?1 . "[⚡]")
-                                     (?2 . "[⮬]")
-                                     (?3 . "[⮮]")
-                                     (?4 . "[☕]")
-                                     (?I . "[IMPORTANT]"))))
 
 (after! org
   (setq org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
@@ -344,7 +320,7 @@
            (holiday-easter-etc -47 "Mardi gras")
            (holiday-float 5 0 4 "Fête des mères")
            ;; dernier dimanche de mai ou premier dimanche de juin si c'est le
-           ;; même jour que la pentecôte TODO
+           ;; même jour que la pentecôte
            (holiday-float 6 0 3 "Fête des pères"))) ;; troisième dimanche de juin
 
   (setq! calendar-holidays holiday-french-holidays))
@@ -405,24 +381,6 @@
   (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
   )
 
-(use-package! emacs-everywhere
-  :if (daemonp)
-  :config
-  (require 'spell-fu)
-  (setq emacs-everywhere-major-mode-function #'org-mode
-        emacs-everywhere-frame-name-format "Edit ∷ %s — %s")
-  (defadvice! emacs-everywhere-raise-frame ()
-    :after #'emacs-everywhere-set-frame-name
-    (setq emacs-everywhere-frame-name (format emacs-everywhere-frame-name-format
-                                (emacs-everywhere-app-class emacs-everywhere-current-app)
-                                (truncate-string-to-width
-                                 (emacs-everywhere-app-title emacs-everywhere-current-app)
-                                 45 nil nil "…")))
-    ;; need to wait till frame refresh happen before really set
-    (run-with-timer 0.1 nil #'emacs-everywhere-raise-frame-1))
-  (defun emacs-everywhere-raise-frame-1 ()
-    (call-process "wmctrl" nil nil nil "-a" emacs-everywhere-frame-name)))
-
 (setq! which-key-allow-multiple-replacements t)
 (after! which-key
   (pushnew!
@@ -460,6 +418,7 @@
 
   ;; Enable follow mode
   (treemacs-follow-mode t)
+  (lsp-treemacs-sync-mode t)
 
   ;; Set treemacs theme
   (setq doom-themes-treemacs-theme "doom-colors"))
@@ -481,20 +440,6 @@
   (setq! web-mode-auto-close-style 2)
   (setq! web-mode-enable-auto-closing 2))
 
-;; (after! centaur-tabs
-;;   (centaur-tabs-group-by-projectile-project))
-;; (after! centaur-tabs
-;;   (setq! centaur-tabs-set-bar 'right))
-;; (add-hook 'server-after-make-frame-hook 'centaur-tabs-mode)
-;; Enable centaur-tabs without faulty theming in daemon mode.
-;; (if (not (daemonp))
-;;         (centaur-tabs-mode)
-
-;;   (defun centaur-tabs-daemon-mode (frame)
-;;     (unless (and (featurep 'centaur-tabs) (centaur-tabs-mode-on-p))
-;;       (run-at-time nil nil (lambda () (centaur-tabs-mode)))))
-;;   (add-hook 'after-make-frame-functions #'centaur-tabs-daemon-mode))
-
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
 
@@ -506,28 +451,10 @@
   (setq lsp-idle-delay 0.200)
   (setq read-process-output-max (* 1024 1024)))
 
-;; (setq! gc-cons-threshold 100000000))
-
-;; (require 'yasnippet)
-;; (yas-global-mode 1)
-
-;; (after! lsp-mode
-;;   (setq lsp-enable-completion nil))
-
-;; (add-to-list 'load-path "~/Application/lsp-bridge")
-
-;; (require 'lsp-bridge)
-;; (global-lsp-bridge-mode)
-;; (setq acm-menu-length 15)
-;; (evil-define-key 'insert acm-mode-map (kbd "C-j") 'acm-select-next)
-;; (evil-define-key 'insert acm-mode-map (kbd "C-k") 'acm-select-prev)
-;; (add-hook 'acm-mode-hook 'evil-normalize-keymaps)
-
 (setq! projectile-create-missing-test-files t)
 
 (setq! xeft-directory "~/RoamNotes")
 
-;; accept completion from copilot and fallback to company
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map

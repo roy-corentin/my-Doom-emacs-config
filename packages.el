@@ -12,7 +12,6 @@
 (package! csv-mode)
 (package! dired-open)
 (package! peep-dired)
-(package! org-fancy-priorities)
 
 ;; OrgRoam GCalendar
 (package! org-gcal)
@@ -29,9 +28,6 @@
 ;; Olivetti to center buffer
 (package! olivetti)
 
-;; Spell-fu
-(package! spell-fu)
-
 (package! shackle)
 
 ;; Copilot
@@ -42,21 +38,6 @@
 (package! ewal-doom-themes)
 
 (unpin! lsp-mode)
-
-;; Config for lsp-bridge
-;; (package! yasnippet)
-
-;; (package! lsp-bridge
-;;   :recipe (:host github
-;;            :repo "manateelazycat/lsp-bridge"
-;;            :files ("*.el" "*.py" "acm" "core" "langserver"
-;;                    "multiserver" "resources")))
-
-;; To use ACM in terminal
-;; (package! popon
-;;   :recipe (:host nil :repo "https://codeberg.org/akib/emacs-popon.git"))
-;; (package! acm-terminal
-;;   :recipe (:host github :repo "twlz0ne/acm-terminal"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
