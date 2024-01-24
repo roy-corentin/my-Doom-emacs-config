@@ -3,3 +3,10 @@
 * PRESENTATION
     Here is my personal configuration for [[https://github.com/doomemacs/doomemacs][Doom Emacs]], that I use daily
 It needs to be improved and optimized to be more clear. I'm still working on it
+
+** Fix Emacsclient Tabs
+Use the file ~tab_config.el~ to fix this issue
+
+#+begin_src shell
+cp ~/.doom.d/tabs_config.el ~/.emacs.modules.ui/tabs/config.el
+#+end_src
