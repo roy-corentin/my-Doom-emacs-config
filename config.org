@@ -822,10 +822,10 @@ Accept completion from copilot and fallback to company
 Fix issue that helm close other buffer than current one when poping
 
 #+begin_src elisp :results silent
-(setq helm-display-function #'pop-to-buffer)
+;; (setq helm-display-function #'pop-to-buffer)
 
-(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
-(shackle-mode)
+;; (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
+;; (shackle-mode)
 #+end_src
 
 * IMPORT OTHER CONFIG

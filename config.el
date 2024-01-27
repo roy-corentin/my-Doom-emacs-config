@@ -64,7 +64,7 @@
 
 (after! company
   (setq company-idle-delay 0.2
-         company-minimum-prefix-length 2)
+        company-minimum-prefix-length 2)
   (setq company-tooltip-margin 1)
   (setq company-format-margin-function 'company-text-icons-margin)
   (setq company-text-icons-add-background t)
@@ -406,7 +406,7 @@
   :config
   ;; Add ignored files and file extensions
   (setq treemacs-file-ignore-extensions '("o" "gcna" "gcdo" "vscode" "idea")
-         treemacs-file-ignore-globs nil)
+        treemacs-file-ignore-globs nil)
   (defun my-treemacs-ignore-filter (file full-path)
     "Ignore files specified by `treemacs-file-ignore-extensions' and globs."
     (or (member (file-name-extension file) treemacs-file-ignore-extensions)
@@ -461,9 +461,9 @@
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
-(setq helm-display-function #'pop-to-buffer)
+;; (setq helm-display-function #'pop-to-buffer)
 
-(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
-(shackle-mode)
+;; (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
+;; (shackle-mode)
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
