@@ -7,8 +7,10 @@
   :config
   (gcmh-mode 1))
 
-;; Setting garbage collection threshold
-(setq! gc-cons-threshold 100000000
+;; Increase the GC threshold for faster startup
+;; The default is 800 kilobytes.  Measured in bytes.
+;; Set garbage collection threshold to 1GB.
+(setq! gc-cons-threshold #x40000000
        gc-cons-percentage 0.6)
 
 ;; Profile emacs startup
@@ -149,11 +151,6 @@
   (visual-line-mode 1)) ;; Use visual line mode
 
 (defun efs/org-font-setup ()
-  ;; Replace list hyphen with dot
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
   ;; Set faces for heading levels
   (dolist (face '((org-level-1 . 1.6)
                   (org-level-2 . 1.4)
@@ -164,7 +161,8 @@
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font doom-variable-pitch-font :weight 'medium :height (cdr face)))
-  ;; Make the document title a bit bigger
+
+  ;; Make the document title bigger
   (set-face-attribute 'org-document-title nil :font doom-variable-pitch-font :weight 'bold :height 2.1)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
