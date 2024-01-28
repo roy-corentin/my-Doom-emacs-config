@@ -32,7 +32,8 @@
 
 (setq! doom-font (font-spec :family "JetBrainsMonoNerdFont" :size 13 :weight 'medium)
        doom-big-font (font-spec :family "JetBrainsMonoNerdFont" :size 24 :weight 'medium)
-       doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
+       doom-variable-pitch-font (font-spec :family "C059" :size 14 :weight 'medium))
+       ;; doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
 
 (setq! doom-font-increment 1)
 
@@ -58,6 +59,7 @@
 ;; (setq! doom-theme 'doom-acario-dark)
 ;; (setq! doom-theme 'doom-dracula)
 ;; (setq! doom-theme 'doom-nord-aurora)
+;; (setq! doom-theme 'doom-gruvbox)
 (setq! doom-theme 'ewal-doom-one)
 
 (setq! display-line-numbers-type `visual)
@@ -136,7 +138,7 @@
       (:prefix "b"
        :desc "New empty Org buffer" "o" #'+evil-buffer-org-new))
 
-(setq! org-directory "~/Org/")
+(setq! org-directory "~/Dropbox/Org/")
 
 (after! org
   (setq org-clock-sound "~/Music/ding.wav"))
@@ -337,8 +339,8 @@
 (after! org
   :ensure-t
   :custom
-  (setq org-roam-directory "~/RoamNotes")
-  (setq org-roam-index-file "~/RoamNotes/index.org")
+  (setq org-roam-directory "~/Dropbox/RoamNotes")
+  (setq org-roam-index-file "~/Dropbox/RoamNotes/index.org")
   (setq org-roam-capture-templates `(("d" " Default" plain "\n\n* %?"
                                       :icon ("nf-fa-file_text_o" :set "faicon" :color "lcyan")
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -451,7 +453,7 @@
 
 (setq! projectile-create-missing-test-files t)
 
-(setq! xeft-directory "~/RoamNotes")
+(setq! xeft-directory "~/Dropbox/RoamNotes")
 
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
