@@ -32,17 +32,10 @@
 
 (setq! doom-font (font-spec :family "JetBrainsMonoNerdFont" :size 13 :weight 'medium)
        doom-big-font (font-spec :family "JetBrainsMonoNerdFont" :size 24 :weight 'medium)
-       doom-variable-pitch-font (font-spec :family "C059" :size 14 :weight 'medium))
+       doom-variable-pitch-font (font-spec :family "C059" :size 15 :weight 'regular))
        ;; doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
 
 (setq! doom-font-increment 1)
-
-;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13)
-;;       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24)
-;;       doom-variable-pitch-font (font-spec :family "Overpass" :size 26)
-;;       doom-unicode-font (font-spec :family "JuliaMono")
-;;       doom-emoji-font (font-spec :family "Twitter Color Emoji") ; Just used by me
-;;       doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
 
 (after! doom-themes
   (setq doom-themes-enable-bold t)

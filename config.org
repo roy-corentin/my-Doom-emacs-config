@@ -154,23 +154,13 @@ This setting ensures that emacsclient always opens on *dashboard* rather than *s
 #+begin_src elisp :results silent
 (setq! doom-font (font-spec :family "JetBrainsMonoNerdFont" :size 13 :weight 'medium)
        doom-big-font (font-spec :family "JetBrainsMonoNerdFont" :size 24 :weight 'medium)
-       doom-variable-pitch-font (font-spec :family "C059" :size 14 :weight 'medium))
+       doom-variable-pitch-font (font-spec :family "C059" :size 15 :weight 'regular))
        ;; doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
 #+end_src
 
 To fix the font incrementation I increment by 1 instead of 2
 #+begin_src elisp :results silent
 (setq! doom-font-increment 1)
-#+end_src
-
-Font from config of tecosaur (Jetbrains adapt)
-#+begin_src elisp :results silent
-;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13)
-;;       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 24)
-;;       doom-variable-pitch-font (font-spec :family "Overpass" :size 26)
-;;       doom-unicode-font (font-spec :family "JuliaMono")
-;;       doom-emoji-font (font-spec :family "Twitter Color Emoji") ; Just used by me
-;;       doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
 #+end_src
 
 If you or Emacs can't find your font, use 'M-x describe-font' to look them
