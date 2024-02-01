@@ -4,6 +4,14 @@
     Here is my personal configuration for [[https://github.com/doomemacs/doomemacs][Doom Emacs]], that I use daily
 It needs to be improved and optimized to be more clear. I'm still working on it
 
+** Emacs Compile Config
+I compile emacs myself and I use those flags to improve the experience
+ + ~--with-pgtk~ To build with pure GTK
+ + ~--with-native-compilation~  To build natively
+ + ~--with-json~ To build with a better support of json
+ + ~--with-x-toolkit=no~ To build without any x toolkit
+ + ~--with-tree-sitter~ To build with tree-sitter
+
 ** Fix Emacsclient Tabs
 Use the file ~tab_config.el~ to fix this issue
 
