@@ -1,10 +1,9 @@
-#+title: README
+#+title: PRESENTATION
 
-* PRESENTATION
     Here is my personal configuration for [[https://github.com/doomemacs/doomemacs][Doom Emacs]], that I use daily
 It needs to be improved and optimized to be more clear. I'm still working on it
 
-** Emacs Compile Config
+* Emacs Compile Config
 I compile emacs myself and I use those flags to improve the experience
  + ~--with-pgtk~ To build with pure GTK (only for pure wayland user)
  + ~--with-native-compilation~  To build natively
@@ -12,7 +11,7 @@ I compile emacs myself and I use those flags to improve the experience
  + ~--with-x-toolkit=no~ To build without any x toolkit
  + ~--with-tree-sitter~ To build with tree-sitter (only for pure wayland user)
 
-** Fix Emacsclient Tabs
+* Fix Emacsclient Tabs
 Use the file ~tab_config.el~ to fix this issue
 
 #+begin_src shell
