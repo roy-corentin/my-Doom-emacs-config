@@ -18,3 +18,7 @@ Use the file ~tab_config.el~ to fix this issue
 #+begin_src shell
 cp ~/.doom.d/tabs_config.el ~/.emacs.modules.ui/tabs/config.el
 #+end_src
+or
+#+begin_src shell
+cp .config/doom/tabs_config.el .config/emacs/modules/ui/tabs/config.el
+#+end_src
