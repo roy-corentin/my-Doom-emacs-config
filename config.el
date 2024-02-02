@@ -39,29 +39,18 @@
 ;;   '(font-lock-function-name-face nil :slant 'italic)
 ;;   '(font-lock-variable-name-face nil :slant 'italic))
 
-;; (setq! doom-theme 'doom-monokai-machine)
-;; (setq! doom-theme 'doom-henna)
-;; (setq! doom-theme 'doom-one)
-;; (setq! doom-theme 'doom-acario-dark)
-;; (setq! doom-theme 'doom-dracula)
-;; (setq! doom-theme 'doom-nord-aurora)
-;; (setq! doom-theme 'doom-gruvbox)
 (setq! doom-theme 'ewal-doom-one)
 
 (setq! display-line-numbers-type `visual)
 
 (after! company
-  (setq company-idle-delay 0.2
+  (setq company-idle-delay 0.1
         company-minimum-prefix-length 2)
   (setq company-tooltip-margin 1)
   (setq company-format-margin-function 'company-text-icons-margin)
   (setq company-text-icons-add-background t)
   (setq company-text-face-extra-attributes '(:weight bold))
   (add-hook 'evil-normal-state-entry-hook #'company-abort))
-
-(defvar companyBackground (face-attribute 'default :background) "background color for company faces")
-(defvar companyFontColor (face-attribute 'default :foreground) "font color for company")
-(defvar companySelectedBackground (face-attribute 'tool-bar :background) "background color for seletec item in company faces")
 
 (custom-set-faces
  ;; '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
@@ -106,6 +95,8 @@
 
 (map! :leader
       :desc "Toggle Olivetti Mode" "t o" #'olivetti-mode)
+
+(add-hook! 'magit-mode-hook (olivetti-mode 1))
 
 (evil-define-command +evil-buffer-org-new (count file)
   "Creates a new ORG buffer replacing the current window, optionally
@@ -350,11 +341,6 @@
          org-roam-ui-update-on-save t
          org-roam-ui-open-on-start nil))
 
-(setq! org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
-       org-gcal-client-secret "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"
-       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
-(require 'org-gcal)
-
 (use-package! org-ai
   :defer t
   :commands (org-ai-mode
@@ -455,8 +441,4 @@
 ;; (shackle-mode)
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
-
-(setenv "GITLAB_ACCESS_TOKEN" "KeWiswGQb8kkt-Xqpr-T")
-(setenv "GEM_HOME" "/home/croy/.local/share/gem/ruby")
-(add-to-list 'exec-path "/home/croy/.local/bin")
-(add-to-list 'load-path "/home/croy/.local/share/gem/ruby/3.0.0/bin")
+(load! (expand-file-name "perso.el" doom-user-dir))

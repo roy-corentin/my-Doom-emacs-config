@@ -33,6 +33,7 @@
 - [[#olivetti][OLIVETTI]]
   - [[#default-width][Default Width]]
   - [[#keybinding][Keybinding]]
+- [[#magit][MAGIT]]
 - [[#org][ORG]]
   - [[#org-buffer-creation][Org buffer creation]]
   - [[#org-location][Org location]]
@@ -47,7 +48,6 @@
   - [[#auto-refresh][Auto Refresh]]
 - [[#org-roam][ORG-ROAM]]
   - [[#org-roam-ui][Org-Roam UI]]
-- [[#org-gcal][ORG-GCAL]]
 - [[#org-ai][ORG-AI]]
 - [[#which-key][WHICH-KEY]]
 - [[#search-with-regex][SEARCH WITH REGEX]]
@@ -181,14 +181,16 @@ Comment and keyword in Italic for example "for"
 There are two ways to load a theme. Both assume the theme is installed and
 available. You can either set `doom-theme' or manually load a theme with the
 `load-theme' function. This is the default:
+
+~(setq! doom-theme 'doom-monokai-machine)~
+~(setq! doom-theme 'doom-henna)~
+~(setq! doom-theme 'doom-one)~
+~(setq! doom-theme 'doom-acario-dark)~
+~(setq! doom-theme 'doom-dracula)~
+~(setq! doom-theme 'doom-nord-aurora)~
+~(setq! doom-theme 'doom-gruvbox)~
+
 #+begin_src elisp :results silent
-;; (setq! doom-theme 'doom-monokai-machine)
-;; (setq! doom-theme 'doom-henna)
-;; (setq! doom-theme 'doom-one)
-;; (setq! doom-theme 'doom-acario-dark)
-;; (setq! doom-theme 'doom-dracula)
-;; (setq! doom-theme 'doom-nord-aurora)
-;; (setq! doom-theme 'doom-gruvbox)
 (setq! doom-theme 'ewal-doom-one)
 #+end_src
 
@@ -205,7 +207,7 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 + Use Text Icon in bold instead of vscode icons
 #+begin_src elisp :results silent
 (after! company
-  (setq company-idle-delay 0.2
+  (setq company-idle-delay 0.1
         company-minimum-prefix-length 2)
   (setq company-tooltip-margin 1)
   (setq company-format-margin-function 'company-text-icons-margin)
@@ -215,11 +217,11 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 #+end_src
 
 ** Customize the faces of Company mode
-#+begin_src elisp :results silent
-(defvar companyBackground (face-attribute 'default :background) "background color for company faces")
-(defvar companyFontColor (face-attribute 'default :foreground) "font color for company")
-(defvar companySelectedBackground (face-attribute 'tool-bar :background) "background color for seletec item in company faces")
+~(defvar companyBackground (face-attribute 'default :background) "background color for company faces")~
+~(defvar companyFontColor (face-attribute 'default :foreground) "font color for company")~
+~(defvar companySelectedBackground (face-attribute 'tool-bar :background) "background color for seletec item in company faces")~
 
+#+begin_src elisp :results silent
 (custom-set-faces
  ;; '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
  ;; '(company-scrollbar-bg ((t (:background "gray10"))))
@@ -318,6 +320,12 @@ Keybinding to toggle olivetti-mode
 #+begin_src elisp :results silent
 (map! :leader
       :desc "Toggle Olivetti Mode" "t o" #'olivetti-mode)
+#+end_src
+
+* MAGIT
+Add olivetti mode to magit buffer
+#+begin_src elisp :results silent
+(add-hook! 'magit-mode-hook (olivetti-mode 1))
 #+end_src
 
 * ORG
@@ -636,16 +644,6 @@ Configuration for org-roam:
          org-roam-ui-open-on-start nil))
 #+end_src
 
-* ORG-GCAL
-Synchronize google calendar with org
-
-#+begin_src elisp :results silent
-(setq! org-gcal-client-id "809125859117-d4lsgmmpri4bmefhrj2n22uqn63gdf42.apps.googleusercontent.com"
-       org-gcal-client-secret "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"
-       org-gcal-fetch-file-alist '(("corentin33210@gmail.com" .  "~/org/schedule.org")))
-(require 'org-gcal)
-#+end_src
-
 * ORG-AI
 #+begin_src elisp :results silent
 (use-package! org-ai
@@ -804,7 +802,7 @@ Accept completion from copilot and fallback to company
 #+end_src
 
 * HELM
-Fix issue that helm close other buffer than current one when poping
+Fix issue that helm close other buffer when poping
 
 #+begin_src elisp :results silent
 ;; (setq helm-display-function #'pop-to-buffer)
@@ -818,11 +816,7 @@ Use external rails config, for snippet and method to navigate easily in rails pr
 
 #+begin_src elisp :results silent
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
-
-(setenv "GITLAB_ACCESS_TOKEN" "KeWiswGQb8kkt-Xqpr-T")
-(setenv "GEM_HOME" "/home/croy/.local/share/gem/ruby")
-(add-to-list 'exec-path "/home/croy/.local/bin")
-(add-to-list 'load-path "/home/croy/.local/share/gem/ruby/3.0.0/bin")
+(load! (expand-file-name "perso.el" doom-user-dir))
 #+end_src
 
 * INFORMATION
