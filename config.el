@@ -7,12 +7,6 @@
   :config
   (gcmh-mode 1))
 
-;; Increase the GC threshold for faster startup
-;; The default is 800 kilobytes.  Measured in bytes.
-;; Set garbage collection threshold to 1GB.
-(setq! gc-cons-threshold #x40000000
-       gc-cons-percentage 0.6)
-
 ;; Profile emacs startup
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -21,7 +15,6 @@
                              (float-time
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
-;; Silence compiler warnings as they can be pretty disruptive (setq!comp-async-report-warnings-errors nil)
 
 (setq! load-prefer-newer noninteractive)
 
@@ -462,3 +455,8 @@
 ;; (shackle-mode)
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
+
+(setenv "GITLAB_ACCESS_TOKEN" "KeWiswGQb8kkt-Xqpr-T")
+(setenv "GEM_HOME" "/home/croy/.local/share/gem/ruby")
+(add-to-list 'exec-path "/home/croy/.local/bin")
+(add-to-list 'load-path "/home/croy/.local/share/gem/ruby/3.0.0/bin")
