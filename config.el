@@ -420,7 +420,7 @@
 
 (after! lsp-mode
   (setq lsp-log-io nil)
-  (setq lsp-idle-delay 0.200)
+  (setq lsp-idle-delay 0.5)
   (setq read-process-output-max (* 1024 1024)))
 
 (setq! projectile-create-missing-test-files t)
