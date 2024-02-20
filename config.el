@@ -8,17 +8,15 @@
   (gcmh-mode 1))
 
 ;; Profile emacs startup
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "*** Emacs loaded in %s with %d garbage collections."
-                     (format "%.2f seconds"
-                             (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
+(add-hook! 'emacs-startup-hook
+  (lambda ()
+    (message "*** Emacs loaded in %s with %d garbage collections."
+             (format "%.2f seconds"
+                     (float-time
+                      (time-subtract after-init-time before-init-time)))
+             gcs-done)))
 
 (setq! load-prefer-newer noninteractive)
-
-;; (setq! fancy-splash-image "~/Pictures/blackhole-lines.svg")
 
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
@@ -30,29 +28,34 @@
 
 (setq! doom-font-increment 1)
 
-(after! doom-themes
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t))
+(use-package! doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
 
 (custom-set-faces!
-  '(font-lock-comment-face nil :slant 'italic))
+  '(font-lock-comment-face nil :slant 'italic)
 ;;   '(font-lock-function-name-face nil :slant 'italic)
-;;   '(font-lock-variable-name-face nil :slant 'italic))
+  '(font-lock-variable-name-face nil :slant 'italic))
 
 (setq! doom-theme 'ewal-doom-one)
 
 (setq! display-line-numbers-type `visual)
 
-(after! company
+(use-package! company
+  :after evil
+  :init
   (setq company-idle-delay 0.1
-        company-minimum-prefix-length 2)
-  (setq company-tooltip-margin 1)
-  (setq company-format-margin-function 'company-text-icons-margin)
-  (setq company-text-icons-add-background t)
-  (setq company-text-face-extra-attributes '(:weight bold))
-  (add-hook 'evil-normal-state-entry-hook #'company-abort))
+        company-minimum-prefix-length 2
+        company-tooltip-margin 1
+        company-tooltip-limit 10
+        company-format-margin-function 'company-text-icons-margin
+        company-text-icons-add-background t
+        company-text-face-extra-attributes '(:weight bold))
+  :config
+  (add-hook 'evil-normal-state-entry-hook 'company-abort))
 
-(custom-set-faces
+(custom-set-faces!
  ;; '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
  ;; '(company-scrollbar-bg ((t (:background "gray10"))))
  ;; '(company-scrollbar-fg ((t (:background "white"))))
@@ -62,7 +65,8 @@
  '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))              ;; Kind of Green
  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))   ;; Same Yellow as above
 
-(setq! company-box-doc-enable nil)
+(after! company-box
+  (setq company-box-doc-enable nil))
 
 (with-eval-after-load 'dired
   (map! :leader
@@ -168,14 +172,13 @@
   :defer t
   :hook (org-mode . efs/org-mode-setup)
   :config
-  (setq! org-ellipsis " ▼ ")
-  (setq! org-log-done 'time)
-  (setq! org-default-priority 67)
-  (setq! org-hide-emphasis-markers t)
-  (setq! org-hierarchical-todo-statistics nil)
-  (setq! org-image-actual-width nil) ;; Use the actual image's size in org files
+  (setq! org-ellipsis " ▼ "
+         org-log-done 'time
+         org-default-priority 67
+         org-hide-emphasis-markers t
+         org-hierarchical-todo-statistics nil
+         org-image-actual-width nil) ;; Use the actual image's size in org files
   (efs/org-font-setup)
-  :init
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
 
 (setq! org-emphasis-alist
@@ -275,7 +278,7 @@
   (defvar holiday-french-holidays nil
     "French holidays")
 
-  (setq! holiday-french-holidays
+  (setq holiday-french-holidays
          `((holiday-fixed 1 1 "Jour de l'an")
            (holiday-fixed 1 6 "Épiphanie")
            (holiday-fixed 2 2 "Chandeleur")
@@ -300,7 +303,7 @@
            ;; même jour que la pentecôte
            (holiday-float 6 0 3 "Fête des pères"))) ;; troisième dimanche de juin
 
-  (setq! calendar-holidays holiday-french-holidays))
+  (setq calendar-holidays holiday-french-holidays))
 
 (defun org-agenda-auto-refresh-agenda-buffer ()
   "If we're in an agenda file, and there is an agenda buffer, refresh it."
@@ -342,16 +345,14 @@
          org-roam-ui-open-on-start nil))
 
 (use-package! org-ai
-  :defer t
   :commands (org-ai-mode
              org-ai-global-mode)
   :init
   (add-hook 'org-mode-hook #'org-ai-mode) ; enable org-ai in org-mode
   (org-ai-global-mode) ; installs global keybindings on C-c M-a
   :config
-  (setq! org-ai-default-chat-model "gpt-3.5-turbo") ; gpt-4 if you are on the gpt-4 beta:
-  (org-ai-install-yasnippets) ; if you are using yasnippet and want `ai` snippets
-  )
+  (setq org-ai-default-chat-model "gpt-3.5-turbo") ; if you are on the gpt-4 beta:
+  (org-ai-install-yasnippets)) ; if you are using yasnippet and want `ai` snippets
 
 (setq! which-key-allow-multiple-replacements t)
 (after! which-key
@@ -406,11 +407,11 @@
 (use-package! web-mode
   :defer t
   :config
-  (setq! web-mode-markup-indent-offset 2)
-  (setq! web-mode-css-indent-offset 2)
-  (setq! web-mode-code-indent-offset 2)
-  (setq! web-mode-auto-close-style 2)
-  (setq! web-mode-enable-auto-closing 2))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-auto-close-style 2)
+  (setq web-mode-enable-auto-closing 2))
 
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
