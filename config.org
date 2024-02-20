@@ -224,7 +224,7 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 ~(defvar companySelectedBackground (face-attribute 'tool-bar :background) "background color for seletec item in company faces")~
 
 #+begin_src elisp :results silent
-(custom-set-faces!
+(custom-set-faces
  ;; '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
  ;; '(company-scrollbar-bg ((t (:background "gray10"))))
  ;; '(company-scrollbar-fg ((t (:background "white"))))

@@ -55,7 +55,7 @@
   :config
   (add-hook 'evil-normal-state-entry-hook 'company-abort))
 
-(custom-set-faces!
+(custom-set-faces
  ;; '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
  ;; '(company-scrollbar-bg ((t (:background "gray10"))))
  ;; '(company-scrollbar-fg ((t (:background "white"))))
