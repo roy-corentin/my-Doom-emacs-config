@@ -12,9 +12,15 @@
 (package! csv-mode)
 (package! dired-open)
 (package! peep-dired)
+(package! treesit-auto)
+(package! spell-fu)
+(package! xeft)
+(package! magit-stats)
+(package! org-inline-anim)
+
 
 ;; OrgRoam GCalendar
-(package! org-gcal)
+;; (package! org-gcal)
 
 ;; Org-AI
 (package! org-ai)
@@ -28,7 +34,8 @@
 ;; Olivetti to center buffer
 (package! olivetti)
 
-(package! shackle)
+;; Package to fix some popup rules
+;; (package! shackle)
 
 ;; Copilot
 (package! copilot :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist")))
@@ -37,6 +44,7 @@
 (package! ewal)
 (package! ewal-doom-themes)
 
+;; Devdoc
 (package! devdocs)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
