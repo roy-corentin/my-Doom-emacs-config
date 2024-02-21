@@ -676,15 +676,15 @@ I also think that having evil- appear in so many popups is a bit too verbose, le
 * SEARCH WITH REGEX
 Specify can ivy search via regex. To decomment if ivy is used
 
-#+begin_src elisp :results silent
-;; (require 'ivy)
-;; (require 'counsel)
+#+begin_src elisp :results silent :tangle no
+(require 'ivy)
+(require 'counsel)
 
-;; (setq! ivy-re-builders-alist
-;;        '((counsel-rg . ivy--regex-plus)
-;;          (swiper . ivy--regex-plus)
-;;          (swiper-isearch . ivy--regex-plus)
-;;          (t . ivy--regex-ignore-order)))
+(setq! ivy-re-builders-alist
+       '((counsel-rg . ivy--regex-plus)
+         (swiper . ivy--regex-plus)
+         (swiper-isearch . ivy--regex-plus)
+         (t . ivy--regex-ignore-order)))
 #+end_src
 
 * MOUSE SCROLLING
@@ -806,11 +806,11 @@ Accept completion from copilot and fallback to company
 * HELM
 Fix issue that helm close other buffer when poping
 
-#+begin_src elisp :results silent
-;; (setq helm-display-function #'pop-to-buffer)
+#+begin_src elisp :results silent :tangle no
+(setq helm-display-function #'pop-to-buffer)
 
-;; (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
-;; (shackle-mode)
+(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
+(shackle-mode)
 #+end_src
 
 * IMPORT OTHER CONFIG

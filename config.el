@@ -363,15 +363,6 @@
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
    ))
 
-;; (require 'ivy)
-;; (require 'counsel)
-
-;; (setq! ivy-re-builders-alist
-;;        '((counsel-rg . ivy--regex-plus)
-;;          (swiper . ivy--regex-plus)
-;;          (swiper-isearch . ivy--regex-plus)
-;;          (t . ivy--regex-ignore-order)))
-
 (setq! scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
 (setq! mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
 (setq! mouse-wheel-progressive-speed t) ;; accelerate scrolling
@@ -436,11 +427,6 @@
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
-
-;; (setq helm-display-function #'pop-to-buffer)
-
-;; (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
-;; (shackle-mode)
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "perso.el" doom-user-dir))
