@@ -66,6 +66,7 @@
  '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))   ;; Same Yellow as above
 
 (after! company-box
+  (setq company-box-icons-lsp `company-box-icons-icons-in-terminal)
   (setq company-box-doc-enable nil))
 
 (with-eval-after-load 'dired

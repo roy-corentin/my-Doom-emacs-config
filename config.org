@@ -240,6 +240,7 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 I need to disable it because it made the box disappear
 #+begin_src elisp :results silent
 (after! company-box
+  (setq company-box-icons-lsp `company-box-icons-icons-in-terminal)
   (setq company-box-doc-enable nil))
 #+end_src
 
