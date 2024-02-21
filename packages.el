@@ -38,7 +38,7 @@
 ;; (package! shackle)
 
 ;; Copilot
-(package! copilot :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist")))
+(package! copilot :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist")) :pin "581cadd6f4229223fd5c57984f9595aeb86c84f7"   )
 
 ;; Ewal
 (package! ewal)
