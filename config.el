@@ -48,25 +48,31 @@
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 2
         company-tooltip-margin 1
-        company-tooltip-limit 10
+        company-tooltip-limit 15
         company-format-margin-function 'company-text-icons-margin
-        company-text-icons-add-background t
-        company-text-face-extra-attributes '(:weight bold))
+        company-text-icons-add-background t)
   :config
   (add-hook 'evil-normal-state-entry-hook 'company-abort))
 
 (custom-set-faces
- ;; '(company-tooltip ((t ((:background companyBackground) (:foreground companyFontColor)))))
- ;; '(company-scrollbar-bg ((t (:background "gray10"))))
- ;; '(company-scrollbar-fg ((t (:background "white"))))
- ;; '(company-tooltip-selection ((t ((:background companyBackground)))))
- '(company-tooltip-common ((t (:foreground "#c3ac43"))))                  ;; Kind of Yellow
- '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))        ;; Same Yellow but Lighter
- '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))              ;; Kind of Green
- '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))   ;; Same Yellow as above
+ ;; Tooltip appearance
+ ;; '(company-tooltip ((t (:background "#263238"))))
+ ;; '(company-tooltip-selection ((t (:background "#263238"))))
+ '(company-scrollbar-bg ((t (:background "gray10"))))
+ '(company-scrollbar-fg ((t (:background "white"))))
+ ;; Common completion
+ '(company-tooltip-common ((t (:foreground "#c3ac43"))))
+ '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))
+ ;; Annotation
+ '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))
+ '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))
 
-(after! company-box
-  (setq company-box-icons-lsp `company-box-icons-icons-in-terminal)
+(load! "my-icons")
+
+(use-package! company-box
+  :after company
+  :config
+  (setq company-box-icons-alist 'my-icons)
   (setq company-box-doc-enable nil))
 
 (with-eval-after-load 'dired
