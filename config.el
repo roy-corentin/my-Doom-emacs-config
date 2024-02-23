@@ -21,7 +21,7 @@
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
-(setq! doom-font (font-spec :family "JetBrainsMonoNerdFont" :size 13 :weight 'medium)
+(setq! doom-font (font-spec :family "JetBrainsMonoNerdFont" :size 14 :weight 'medium)
        doom-big-font (font-spec :family "JetBrainsMonoNerdFont" :size 24 :weight 'medium)
        doom-variable-pitch-font (font-spec :family "C059" :size 15 :weight 'regular))
        ;; doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
