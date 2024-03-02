@@ -415,6 +415,36 @@
     (yaml "https://github.com/ikatyang/tree-sitter-yaml")
     (latex "https://github.com/latex-lsp/tree-sitter-latex")))
 
+(use-package! treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (global-treesit-auto-mode))
+
+(add-hook 'bash-ts-mode-hook #'lsp)
+(add-hook 'c-ts-mode-hook #'lsp)
+(add-hook 'cmake-ts-mode-hook #'lsp)
+(add-hook 'c++-ts-mode-hook #'lsp)
+(add-hook 'css-ts-mode-hook #'lsp)
+(add-hook 'elisp-ts-mode-hook #'lsp)
+(add-hook 'elixir-ts-mode-hook #'lsp)
+(add-hook 'go-ts-mode-hook #'lsp)
+(add-hook 'go-mod-ts-mode-hook #'lsp)
+(add-hook 'html-ts-mode-hook #'lsp)
+(add-hook 'javascript-ts-mode-hook #'lsp)
+(add-hook 'json-ts-mode-hook #'lsp)
+(add-hook 'make-ts-mode-hook #'lsp)
+(add-hook 'markdown-ts-mode-hook #'lsp)
+(add-hook 'python-ts-mode-hook #'lsp)
+(add-hook 'rust-ts-mode-hook #'lsp)
+(add-hook 'ruby-ts-mode-hook #'lsp)
+(add-hook 'toml-ts-mode-hook #'lsp)
+(add-hook 'tsx-ts-mode-hook #'lsp)
+(add-hook 'typescript-ts-mode-hook #'lsp)
+(add-hook 'yaml-ts-mode-hook #'lsp)
+(add-hook 'yaml-ts-mode-hook #'lsp)
+(add-hook 'latex-ts-mode-hook #'lsp)
+
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
   (setq lsp-ui-sideline-show-code-actions t))
