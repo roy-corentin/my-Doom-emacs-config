@@ -832,6 +832,11 @@ Refresh less often =lsp-idle= for performance
   (setq read-process-output-max (* 1024 1024)))
 #+end_src
 
+Disable rubocop-ls to use ruby-lsp
+#+begin_src elisp :results silent
+(setq! lsp-disabled-clients '(rubocop-ls))
+#+end_src
+
 * PROJECTILE
 Permit projectile to create file if missing
 

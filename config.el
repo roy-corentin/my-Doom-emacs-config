@@ -473,6 +473,8 @@
   (setq lsp-idle-delay 0.5)
   (setq read-process-output-max (* 1024 1024)))
 
+(setq! lsp-disabled-clients '(rubocop-ls))
+
 (setq! projectile-create-missing-test-files t)
 
 (setq! xeft-directory "~/Dropbox/RoamNotes")
