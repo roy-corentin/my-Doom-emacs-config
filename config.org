@@ -50,7 +50,6 @@
   - [[#org-roam-ui][Org-Roam UI]]
 - [[#org-ai][ORG-AI]]
 - [[#which-key][WHICH-KEY]]
-- [[#search-with-regex][SEARCH WITH REGEX]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
   - [[#config][Config]]
@@ -675,20 +674,6 @@ I also think that having evil- appear in so many popups is a bit too verbose, le
    '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
    ))
-#+end_src
-
-* SEARCH WITH REGEX
-Specify can ivy search via regex. To decomment if ivy is used
-
-#+begin_src elisp :results silent :tangle no
-(require 'ivy)
-(require 'counsel)
-
-(setq! ivy-re-builders-alist
-       '((counsel-rg . ivy--regex-plus)
-         (swiper . ivy--regex-plus)
-         (swiper-isearch . ivy--regex-plus)
-         (t . ivy--regex-ignore-order)))
 #+end_src
 
 * MOUSE SCROLLING
