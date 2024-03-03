@@ -21,3 +21,7 @@ or
 #+begin_src shell
 cp .config/doom/tabs_config.el .config/emacs/modules/ui/tabs/config.el
 #+end_src
+
+* Lsp Boost
+To improve [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] install [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]
+ It really works !!
