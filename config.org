@@ -74,6 +74,7 @@
 - [[#elixir-ts][ELIXIR-TS]]
 - [[#blamer][BLAMER]]
 - [[#arduino][ARDUINO]]
+- [[#elixir-ts][ELIXIR-TS]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -1017,6 +1018,12 @@ Fix issue that helm close other buffer when poping
   :custom
   (arduino-cli-warnings 'all)
   (arduino-cli-verify t))
+#+end_src
+
+* ELIXIR-TS
+#+begin_src elisp :results silent :tangle no
+(use-package elixir-ts-mode
+    :ensure t)
 #+end_src
 
 * IMPORT OTHER CONFIG
