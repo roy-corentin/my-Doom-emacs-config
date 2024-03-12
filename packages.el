@@ -47,6 +47,10 @@
 ;; Devdoc
 (package! devdocs)
 
+;; Elixir-ts
+(package! heex-ts :recipe (:host github :repo "wkirschbaum/heex-ts-mode" :files ("*.el")))
+(package! elixir-ts :recipe (:host github :repo "wkirschbaum/elixir-ts-mode" :files ("*.el")))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
 

@@ -401,6 +401,7 @@
     (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
     (go "https://github.com/tree-sitter/tree-sitter-go")
     (go-mod "https://github.com/camdencheek/tree-sitter-go-mod")
+    (heex "https://github.com/phoenixframework/tree-sitter-heex")
     (html "https://github.com/tree-sitter/tree-sitter-html")
     (js . ("https://github.com/tree-sitter/tree-sitter-javascript" "master" "src"))
     (json "https://github.com/tree-sitter/tree-sitter-json")
@@ -468,12 +469,16 @@
 (map! :ni "C-," #'+tabs:previous-or-goto)
 (map! :ni "C-;" #'+tabs:next-or-goto)
 
-(after! lsp-mode
+(use-package! lsp-mode
+  :init
+  (add-to-list 'exec-path "~/Applications/elixir-ls")
+  :config
   (setq lsp-log-io nil
         lsp-idle-delay 0.5
         read-process-output-max (* 1024 1024)
-        lsp-disabled-clients '(rubocop-ls))
+        lsp-disabled-clients '(rubocop-ls)))
 
+(after! lsp-mode
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
     "Try to parse bytecode instead of json."
     (or

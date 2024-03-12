@@ -69,6 +69,7 @@
 - [[#xeft][XEFT]]
 - [[#copilot][COPILOT]]
 - [[#helm][HELM]]
+- [[#elixir-ts][ELIXIR-TS]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -728,6 +729,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
     (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
     (go "https://github.com/tree-sitter/tree-sitter-go")
     (go-mod "https://github.com/camdencheek/tree-sitter-go-mod")
+    (heex "https://github.com/phoenixframework/tree-sitter-heex")
     (html "https://github.com/tree-sitter/tree-sitter-html")
     (js . ("https://github.com/tree-sitter/tree-sitter-javascript" "master" "src"))
     (json "https://github.com/tree-sitter/tree-sitter-json")
@@ -830,17 +832,21 @@ If =lsp-log-io= set to true can cause a performance hit
 - Disable ~rubocop-ls~ to use ~ruby-lsp~
 
 #+begin_src elisp :results silent
-(after! lsp-mode
+(use-package! lsp-mode
+  :init
+  (add-to-list 'exec-path "~/Applications/elixir-ls")
+  :config
   (setq lsp-log-io nil
         lsp-idle-delay 0.5
         read-process-output-max (* 1024 1024)
-        lsp-disabled-clients '(rubocop-ls))
+        lsp-disabled-clients '(rubocop-ls)))
 #+end_src
 
 ** Emacs-lsp-booster
 Wrap lsp exec by emacs-lsp-booster
 
 #+begin_src elisp :results silent
+(after! lsp-mode
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
     "Try to parse bytecode instead of json."
     (or
@@ -906,6 +912,13 @@ Fix issue that helm close other buffer when poping
 (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
 (shackle-mode)
 #+end_src
+
+* ELIXIR-TS
+#+begin_src elisp :results silent :tangle no
+(use-package elixir-ts-mode
+    :ensure t)
+#+end_src
+
 
 * IMPORT OTHER CONFIG
 Use external rails config, for snippet and method to navigate easily in rails project
