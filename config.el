@@ -292,6 +292,10 @@
                            (push '("#+CLOSE_SPOILER" . "") prettify-symbols-alist)
                            (push '("#+BEGIN_HIDDEN" . "󰘓") prettify-symbols-alist)
                            (push '("#+END_HIDDEN" . "󰘓") prettify-symbols-alist)
+                           (push '("#+author" . "") prettify-symbols-alist)
+                           (push '("#+AUTHOR" . "") prettify-symbols-alist)
+                           (push '("#+property:" . "") prettify-symbols-alist)
+                           (push '("#+PROPERTY:" . "") prettify-symbols-alist)
                            (prettify-symbols-mode)))
 
 (after! org
