@@ -722,6 +722,14 @@ Use of ~Org-Note~ to see notes on phone
   :hook (org-mode . orgnote-sync-mode))
 #+end_src
 
+** Org-Note
+Use of ~Org-Note~ to see notes on phone
+#+begin_src elisp :result silent
+(use-package! orgnote
+  :defer t
+  :hook (org-mode . orgnote-sync-mode))
+#+end_src
+
 * ORG-AI
 #+begin_src elisp :results silent
 (use-package! org-ai

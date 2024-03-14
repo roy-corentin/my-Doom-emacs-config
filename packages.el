@@ -69,6 +69,8 @@
 (package! heex-ts :recipe (:host github :repo "wkirschbaum/heex-ts-mode" :files ("*.el")))
 (package! elixir-ts :recipe (:host github :repo "wkirschbaum/elixir-ts-mode" :files ("*.el")))
 
+;; Org-Note
+(package! orgnote :recipe (:host github :repo "artawower/orgnote.el"))
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
 
