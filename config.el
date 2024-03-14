@@ -216,14 +216,14 @@
            "HOLD(h)"             ; Something is holding up this task
            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
            "DONE(d)"             ; Task has been completed
-           "CANCELLED(c)" )      ; Task has been cancelled
+           "CANCELED(c)" )      ; Task has been canceled
           (sequence
            "🚩TODO(f)"           ; A task that is ready to be tackled
            "👷🏻IN-PROGRESS(w)"    ; A task that is in progress
            "🔒HOLD(l)"           ; Something is holding up this task
            "|"                   ; The pipe necessary to separate "active" states and "inactive" states
            "✔DONE(e)"           ; Task has been completed
-           "❌CANCELLED(x)" )
+           "❌CANCELED(x)" )
           (sequence
            "[ ](T)"               ; A task that is ready tobe tackled
            "[-](I)"               ; A task that is already started
@@ -233,10 +233,10 @@
 
 (after! org
   (setq org-todo-keyword-faces
-        '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("HOLD" . org-warning)
-          ("[ ]" . (:foreground "#82b66a" :weight: bold)) ("[-]" . (:foreground "#b7a1f5" :weight: bold ))
+        '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight bold )) ("HOLD" . org-warning)
+          ("[ ]" . (:foreground "#82b66a" :weight bold)) ("[-]" . (:foreground "#b7a1f5" :weight bold ))
           ("[?]" . org-warning)
-          ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight: bold )) ("🔒HOLD" . org-warning))))
+          ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight bold )) ("🔒HOLD" . org-warning))))
 
 (after! org
   (setq org-agenda-start-with-log-mode t)
