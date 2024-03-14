@@ -48,6 +48,7 @@
   - [[#auto-refresh][Auto Refresh]]
 - [[#org-roam][ORG-ROAM]]
   - [[#org-roam-ui][Org-Roam UI]]
+  - [[#org-note][Org-Note]]
 - [[#org-ai][ORG-AI]]
 - [[#which-key][WHICH-KEY]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
@@ -654,6 +655,14 @@ Configuration for org-roam:
          org-roam-ui-sync-theme t
          org-roam-ui-update-on-save t
          org-roam-ui-open-on-start nil))
+#+end_src
+
+** Org-Note
+Use of ~Org-Note~ to see notes on phone
+#+begin_src elisp :result silent
+(use-package! orgnote
+  :defer t
+  :hook (org-mode . orgnote-sync-mode))
 #+end_src
 
 * ORG-AI

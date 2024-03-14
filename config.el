@@ -348,6 +348,10 @@
          org-roam-ui-update-on-save t
          org-roam-ui-open-on-start nil))
 
+(use-package! orgnote
+  :defer t
+  :hook (org-mode . orgnote-sync-mode))
+
 (use-package! org-ai
   :commands (org-ai-mode
              org-ai-global-mode)
