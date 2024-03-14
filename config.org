@@ -50,6 +50,7 @@
 - [[#org-roam][ORG-ROAM]]
   - [[#org-roam-ui][Org-Roam UI]]
   - [[#org-note][Org-Note]]
+  - [[#org-note-1][Org-Note]]
 - [[#org-ai][ORG-AI]]
 - [[#which-key][WHICH-KEY]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
