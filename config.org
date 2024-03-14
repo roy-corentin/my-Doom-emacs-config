@@ -42,6 +42,8 @@
   - [[#org-emphasis][Org-Emphasis]]
   - [[#enabling-org-bullets][Enabling Org Bullets]]
   - [[#keyword-todo][Keyword TODO]]
+  - [[#pretty-tags][Pretty Tags]]
+  - [[#ligature-for-org-mode][Ligature For Org Mode]]
 - [[#org-agenda][ORG-AGENDA]]
   - [[#view][View]]
   - [[#french-holidays][French Holidays]]
@@ -512,6 +514,68 @@ Configure style of specific TODO keywords
           ("[ ]" . (:foreground "#82b66a" :weight bold)) ("[-]" . (:foreground "#b7a1f5" :weight bold ))
           ("[?]" . org-warning)
           ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight bold )) ("🔒HOLD" . org-warning))))
+#+end_src
+
+** Pretty Tags
+#+begin_src elisp :results silent
+(use-package! svg-tag-mode
+  :defer t
+  :hook (org-mode . svg-tag-mode)
+  :config
+  (plist-put svg-lib-style-default :height 1.2)
+  (plist-put svg-lib-style-default :padding 2)
+  (plist-put svg-lib-style-default :font-size 10)
+  (plist-put svg-lib-style-default :scale 2)
+  (setq svg-tag-tags
+        '(("\\(:[A-Z_]+:\\)" . ((lambda (tag)
+                                  (svg-tag-make tag :beg 1 :end -1 :margin 1.5))))
+          ("\\(:[A-Z]+:\\)$" . ((lambda (tag)
+                                  (svg-tag-make tag :beg 1 :end -1 :margin 1.5))))
+          ("\\(TODO\\)" . ((lambda (tag)
+                             (svg-tag-make tag :inverse t :face 'org-todo))))
+          ("\\(DONE\\)" . ((lambda (tag)
+                             (svg-tag-make tag :inverse t :face 'org-done))))
+          ("\\(IN-PROGRESS\\)" . ((lambda (tag)
+                                    (svg-tag-make tag :inverse t :face '+org-todo-active))))
+          ("\\(HOLD\\)" . ((lambda (tag)
+                                    (svg-tag-make tag :inverse t :face '+org-todo-onhold))))
+          ("\\(CANCELED\\)" . ((lambda (tag)
+                                    (svg-tag-make tag :inverse t :face '+org-todo-cancel)))))))
+#+end_src
+
+** Ligature For Org Mode
+#+begin_src elisp :results silent
+(add-hook 'org-mode-hook (lambda ()
+                           "Beautify Org Checkbox Symbol"
+                           (push '("[ ]" .  "☐") prettify-symbols-alist)
+                           (push '("[X]" . "☑" ) prettify-symbols-alist)
+                           (push '("[-]" . "❍" ) prettify-symbols-alist)
+                           (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
+                           (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
+                           (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
+                           (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
+                           (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
+                           (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
+                           (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+TITLE:" . "") prettify-symbols-alist)
+                           (push '("#+title:" . "") prettify-symbols-alist)
+                           (push '("#+DESCRIPTION:" . "󰦨") prettify-symbols-alist)
+                           (push '("#+ID:" . "") prettify-symbols-alist)
+                           (push '("#+FILETAGS:" . "") prettify-symbols-alist)
+                           (push '("#+filetags:" . "") prettify-symbols-alist)
+                           (push '("#+STARTUP:" . "󰈈") prettify-symbols-alist)
+                           (push '("#+startup:" . "󰈈") prettify-symbols-alist)
+                           (push '("#+ACTIVE:" . "") prettify-symbols-alist)
+                           (push '("#+START_SPOILER" . "") prettify-symbols-alist)
+                           (push '("#+CLOSE_SPOILER" . "") prettify-symbols-alist)
+                           (push '("#+BEGIN_HIDDEN" . "󰘓") prettify-symbols-alist)
+                           (push '("#+END_HIDDEN" . "󰘓") prettify-symbols-alist)
+                           (prettify-symbols-mode)))
 #+end_src
 
 * ORG-AGENDA
