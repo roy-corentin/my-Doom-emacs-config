@@ -143,8 +143,8 @@ This setting ensures that emacsclient always opens on *dashboard* rather than *s
  ~(setq!doom-font (font-spec :family "Hack Nerd Font" :size 13 :weight 'medium))~
 
 #+begin_src elisp :results silent
-(setq! doom-font (font-spec :family "JetBrainsMonoNerdFont" :size 14 :weight 'medium)
-       doom-big-font (font-spec :family "JetBrainsMonoNerdFont" :size 24 :weight 'medium)
+(setq! doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 14 :weight 'medium)
+       doom-big-font (font-spec :family "JetBrains Mono Nerd Font" :size 24 :weight 'medium)
        doom-variable-pitch-font (font-spec :family "C059" :size 15 :weight 'regular))
        ;; doom-variable-pitch-font (font-spec :family "DejaVu Serif" :size 14 :weight 'medium))
 #+end_src
