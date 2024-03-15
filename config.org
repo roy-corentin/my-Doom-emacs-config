@@ -34,6 +34,7 @@
   - [[#default-width][Default Width]]
   - [[#keybinding][Keybinding]]
 - [[#magit][MAGIT]]
+- [[#textmode][TEXTMODE]]
 - [[#org][ORG]]
   - [[#org-buffer-creation][Org buffer creation]]
   - [[#org-location][Org location]]
@@ -339,6 +340,11 @@ Keybinding to toggle olivetti-mode
 Add olivetti mode to magit buffer
 #+begin_src elisp :results silent
 (add-hook! 'magit-mode-hook (olivetti-mode 1))
+#+end_src
+
+* TEXTMODE
+#+begin_src elisp :results silent
+(add-hook! 'text-mode-hook (olivetti-mode 1))
 #+end_src
 
 * ORG

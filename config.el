@@ -107,6 +107,8 @@
 
 (add-hook! 'magit-mode-hook (olivetti-mode 1))
 
+(add-hook! 'text-mode-hook (olivetti-mode 1))
+
 (evil-define-command +evil-buffer-org-new (count file)
   "Creates a new ORG buffer replacing the current window, optionally
    editing a certain FILE"
