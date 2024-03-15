@@ -328,6 +328,13 @@
                         (org-agenda-start-with-log-mode 'only)
                         (org-agenda-log-mode-items '(closed clock state))
                         (org-agenda-overriding-header "Today")))
+            (agenda "" ((org-agenda-prefix-format "%-15T\t%s [ ] ")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
+                        (org-agenda-log-mode-items '(closed state))
+                        (org-agenda-archives-mode t)
+                        (org-agenda-start-day "-7d")
+                        (org-agenda-start-with-log-mode nil)
+                        (org-agenda-overriding-header "Week Done")))
             (alltodo "")))
           ("d" "Done of the month"
            ((agenda "" ((org-agenda-prefix-format "%-15:T\t%t [X] ")
