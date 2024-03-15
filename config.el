@@ -38,7 +38,8 @@
 ;;   '(font-lock-function-name-face nil :slant 'italic)
   '(font-lock-variable-name-face nil :slant 'italic))
 
-(setq! doom-theme 'ewal-doom-one)
+;; (setq! doom-theme 'ewal-doom-one)
+(setq! doom-theme 'doom-moonlight)
 
 (setq! display-line-numbers-type `visual)
 

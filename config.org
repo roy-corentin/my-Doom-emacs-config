@@ -193,7 +193,8 @@ available. You can either set `doom-theme' or manually load a theme with the
 ~(setq! doom-theme 'doom-gruvbox)~
 
 #+begin_src elisp :results silent
-(setq! doom-theme 'ewal-doom-one)
+;; (setq! doom-theme 'ewal-doom-one)
+(setq! doom-theme 'doom-moonlight)
 #+end_src
 
 * LINE SETUP
