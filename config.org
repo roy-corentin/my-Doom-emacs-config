@@ -70,6 +70,7 @@
 - [[#xeft][XEFT]]
 - [[#copilot][COPILOT]]
 - [[#helm][HELM]]
+- [[#blamer][BLAMER]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -933,6 +934,23 @@ Fix issue that helm close other buffer when poping
 
 (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.46)))
 (shackle-mode)
+#+end_src
+
+* BLAMER
+#+begin_src elisp :results silent
+(use-package! blamer
+  :bind (("s-i" . blamer-show-posframe-commit-info)("s-I" . global-blamer-mode))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 80
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
 #+end_src
 
 * IMPORT OTHER CONFIG

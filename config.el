@@ -535,5 +535,19 @@
               ("C-s-TAB" . 'copilot-accept-completion-by-word)
               ("C-s-<tab>" . 'copilot-accept-completion-by-word)))
 
+(use-package! blamer
+  :bind (("s-i" . blamer-show-posframe-commit-info)("s-I" . global-blamer-mode))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 80
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
+
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "perso.el" doom-user-dir))

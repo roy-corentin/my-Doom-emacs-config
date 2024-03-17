@@ -51,6 +51,9 @@
 ;; SVG-Tag-Mode
 (package! svg-tag-mode :recipe (:host github :repo "rougier/svg-tag-mode"))
 
+;; Blamer
+(package! blamer :recipe (:host github :repo "artawower/blamer.el"))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
 
