@@ -275,16 +275,3 @@
           (read-string (concat "name for " argument " expression:  "))))))
 
   (map! :mode ruby-mode :localleader :desc "New method from text at point" "n" #'ruby-new-method-from-symbol-at-point))
-
-;; tailwindcss config
-(use-package! lsp-tailwindcss
-  :after lsp-mode
-  :init
-  (setq lsp-tailwindcss-add-on-mode t)
-  :config
-  (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html"))
-  (setq lsp-tailwindcss-major-modes '(web-mode css-mode rjsx-mode typescript-tsx-mode)
-        lsp-tailwindcss-emmet-completions (featurep 'emmet-mode)))
-
-(set-docsets! '(web-mode css-mode rjsx-mode typescript-tsx-mode)
-              :add "Tailwind_CSS")
