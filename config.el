@@ -38,7 +38,8 @@
 ;;   '(font-lock-function-name-face nil :slant 'italic)
   '(font-lock-variable-name-face nil :slant 'italic))
 
-(setq! doom-theme 'ewal-doom-one)
+;; (setq! doom-theme 'ewal-doom-one)
+(setq! doom-theme 'doom-moonlight)
 
 (setq! display-line-numbers-type `visual)
 
@@ -105,6 +106,8 @@
       :desc "Toggle Olivetti Mode" "t o" #'olivetti-mode)
 
 (add-hook! 'magit-mode-hook (olivetti-mode 1))
+
+(add-hook! 'text-mode-hook (olivetti-mode 1))
 
 (evil-define-command +evil-buffer-org-new (count file)
   "Creates a new ORG buffer replacing the current window, optionally
@@ -325,6 +328,13 @@
                         (org-agenda-start-with-log-mode 'only)
                         (org-agenda-log-mode-items '(closed clock state))
                         (org-agenda-overriding-header "Today")))
+            (agenda "" ((org-agenda-prefix-format "%-15T\t%s [ ] ")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
+                        (org-agenda-log-mode-items '(closed state))
+                        (org-agenda-archives-mode t)
+                        (org-agenda-start-day "-7d")
+                        (org-agenda-start-with-log-mode nil)
+                        (org-agenda-overriding-header "Week Done")))
             (alltodo "")))
           ("d" "Done of the month"
            ((agenda "" ((org-agenda-prefix-format "%-15:T\t%t [X] ")
@@ -579,10 +589,24 @@
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-TAB" . 'copilot-accept-completion)
+              ("C-<tab>" . 'copilot-accept-completion)
+              ("C-s-TAB" . 'copilot-accept-completion-by-word)
+              ("C-s-<tab>" . 'copilot-accept-completion-by-word)))
+
+(use-package! blamer
+  :bind (("s-i" . blamer-show-posframe-commit-info)("s-I" . global-blamer-mode))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 80
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "perso.el" doom-user-dir))

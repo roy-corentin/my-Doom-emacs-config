@@ -34,6 +34,7 @@
   - [[#default-width][Default Width]]
   - [[#keybinding][Keybinding]]
 - [[#magit][MAGIT]]
+- [[#textmode][TEXTMODE]]
 - [[#org][ORG]]
   - [[#org-buffer-creation][Org buffer creation]]
   - [[#org-location][Org location]]
@@ -73,6 +74,7 @@
 - [[#copilot][COPILOT]]
 - [[#helm][HELM]]
 - [[#elixir-ts][ELIXIR-TS]]
+- [[#blamer][BLAMER]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -197,7 +199,8 @@ available. You can either set `doom-theme' or manually load a theme with the
 ~(setq! doom-theme 'doom-gruvbox)~
 
 #+begin_src elisp :results silent
-(setq! doom-theme 'ewal-doom-one)
+;; (setq! doom-theme 'ewal-doom-one)
+(setq! doom-theme 'doom-moonlight)
 #+end_src
 
 * LINE SETUP
@@ -342,6 +345,11 @@ Keybinding to toggle olivetti-mode
 Add olivetti mode to magit buffer
 #+begin_src elisp :results silent
 (add-hook! 'magit-mode-hook (olivetti-mode 1))
+#+end_src
+
+* TEXTMODE
+#+begin_src elisp :results silent
+(add-hook! 'text-mode-hook (olivetti-mode 1))
 #+end_src
 
 * ORG
@@ -588,12 +596,15 @@ Configure style of specific TODO keywords
 
 * ORG-AGENDA
 ** View
-Change agenda view:
-- At top, the =#A= Priority
-- The =#B= Priority
-- In the middle the week view
-- Today logs
-- At the bottom list of all todo task
++ Add curstom agenda view =c=:
+  - At top, the =#A= Priority
+  - The =#B= Priority
+  - In the middle the week view
+  - Today logs
+  - At the bottom list of all todo task
+
++ Add custom agendar view =d=:
+  - Done of the month
 
 #+begin_src elisp :results silent
 (after! org
@@ -623,6 +634,13 @@ Change agenda view:
                         (org-agenda-start-with-log-mode 'only)
                         (org-agenda-log-mode-items '(closed clock state))
                         (org-agenda-overriding-header "Today")))
+            (agenda "" ((org-agenda-prefix-format "%-15T\t%s [ ] ")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
+                        (org-agenda-log-mode-items '(closed state))
+                        (org-agenda-archives-mode t)
+                        (org-agenda-start-day "-7d")
+                        (org-agenda-start-with-log-mode nil)
+                        (org-agenda-overriding-header "Week Done")))
             (alltodo "")))
           ("d" "Done of the month"
            ((agenda "" ((org-agenda-prefix-format "%-15:T\t%t [X] ")
@@ -974,10 +992,10 @@ Accept completion from copilot and fallback to company
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-TAB" . 'copilot-accept-completion)
+              ("C-<tab>" . 'copilot-accept-completion)
+              ("C-s-TAB" . 'copilot-accept-completion-by-word)
+              ("C-s-<tab>" . 'copilot-accept-completion-by-word)))
 #+end_src
 
 * HELM
@@ -996,7 +1014,24 @@ Fix issue that helm close other buffer when poping
     :ensure t)
 #+end_src
 
+* BLAMER
+#+begin_src elisp :results silent
+(use-package! blamer
+  :bind (("s-i" . blamer-show-posframe-commit-info)("s-I" . global-blamer-mode))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 80
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
+#+end_src
 
+>>>>>>> main
 * IMPORT OTHER CONFIG
 Use external rails config, for snippet and method to navigate easily in rails project
 

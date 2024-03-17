@@ -6,7 +6,6 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
 
-(package! lsp-tailwindcss)
 (package! org-bullets)
 (package! org-roam)
 (package! csv-mode)
@@ -17,7 +16,6 @@
 (package! xeft)
 (package! magit-stats)
 (package! org-inline-anim)
-
 
 ;; OrgRoam GCalendar
 ;; (package! org-gcal)
@@ -56,6 +54,9 @@
 
 ;; SVG-Tag-Mode
 (package! svg-tag-mode :recipe (:host github :repo "rougier/svg-tag-mode"))
+
+;; Blamer
+(package! blamer :recipe (:host github :repo "artawower/blamer.el"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
