@@ -54,6 +54,10 @@
 ;; Blamer
 (package! blamer :recipe (:host github :repo "artawower/blamer.el"))
 
+;; Arduiono
+(package! arduino-mode :recipe (:host github :repo "bookest/arduino-mode"))
+(package! arduino-cli-mode :recipe (:host github :repo "motform/arduino-cli-mode"))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
 

@@ -71,6 +71,7 @@
 - [[#copilot][COPILOT]]
 - [[#helm][HELM]]
 - [[#blamer][BLAMER]]
+- [[#arduino][ARDUINO]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -951,6 +952,16 @@ Fix issue that helm close other buffer when poping
                     :italic t)))
   :config
   (global-blamer-mode 1))
+#+end_src
+
+* ARDUINO
+#+begin_src elisp :results silent
+(use-package arduino-cli-mode
+  :hook arduino-mode
+  :mode "\\.ino\\'"
+  :custom
+  (arduino-cli-warnings 'all)
+  (arduino-cli-verify t))
 #+end_src
 
 * IMPORT OTHER CONFIG
