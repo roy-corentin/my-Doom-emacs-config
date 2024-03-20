@@ -17,11 +17,7 @@
 - [[#theme][THEME]]
   - [[#doom-theme][Doom Theme]]
 - [[#line-setup][LINE SETUP]]
-- [[#company][COMPANY]]
-  - [[#configuration][Configuration]]
-  - [[#customize-the-faces-of-company-mode][Customize the faces of Company mode]]
-- [[#company-box][COMPANY-BOX]]
-  - [[#disbale-quick-help][Disbale quick-help]]
+- [[#corfu][CORFU]]
 - [[#file-manager-dired][FILE MANAGER (DIRED)]]
   - [[#keybindings-to-open-dired][Keybindings To Open Dired]]
   - [[#keybindings-within-dired][Keybindings Within Dired]]
@@ -207,56 +203,11 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 (setq! display-line-numbers-type `visual)
 #+end_src
 
-* COMPANY
-** Configuration
-+ Show quicker
-+ Use Text Icon in bold instead of vscode icons
-#+begin_src elisp :results silent
-(use-package! company
-  :after evil
-  :init
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 2
-        company-tooltip-margin 1
-        company-tooltip-limit 15
-        company-format-margin-function 'company-text-icons-margin
-        company-text-icons-add-background t)
-  :config
-  (add-hook 'evil-normal-state-entry-hook 'company-abort))
-#+end_src
+* CORFU
+#+begin_src emacs-lisp :results silent
+(load! "corfu-icons")
 
-** Customize the faces of Company mode
-Colors:
-  - ="#c3ac43"= Kind of yellow
-  - ="#ffd100"= Lighter yellow
-  - ="#8ccf64"= Kind of green
-
-#+begin_src elisp :results silent
-(custom-set-faces
- ;; Tooltip appearance
- ;; '(company-tooltip ((t (:background "#263238"))))
- ;; '(company-tooltip-selection ((t (:background "#263238"))))
- '(company-scrollbar-bg ((t (:background "gray10"))))
- '(company-scrollbar-fg ((t (:background "white"))))
- ;; Common completion
- '(company-tooltip-common ((t (:foreground "#c3ac43"))))
- '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))
- ;; Annotation
- '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))
- '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))
-#+end_src
-
-* COMPANY-BOX
-** Disbale quick-help
-I need to disable it because it made the box disappear
-#+begin_src elisp :results silent
-(load! "my-icons")
-
-(use-package! company-box
-  :after company
-  :config
-  (setq company-box-icons-alist 'my-icons)
-  (setq company-box-doc-enable nil))
+(setq! nerd-icons-corfu-mapping my-corfu-icons)
 #+end_src
 
 * FILE MANAGER (DIRED)
