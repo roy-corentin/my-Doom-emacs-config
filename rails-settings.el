@@ -33,21 +33,21 @@
   (define-key web-mode-map (kbd "C-c o") #'rails-routes-insert)
   (define-key web-mode-map (kbd "C-c C-o") #'rails-routes-insert-no-cache))
 
-(after! ruby-mode
-  (map! :mode ruby-mode "C-c o" #'rails-routes-insert)
-  (map! :mode ruby-mode "C-c C-o" #'rails-routes-insert-no-cache))
+(after! ruby-base-mode
+  (map! :mode ruby-base-mode "C-c o" #'rails-routes-insert)
+  (map! :mode ruby-base-mode "C-c C-o" #'rails-routes-insert-no-cache))
 
 (after! evil
   (define-key evil-normal-state-map (kbd "g a") #'rails-routes-jump)
   (define-key evil-visual-state-map (kbd "g a") #'rails-routes-jump))
 
-(after! ruby-mode
-  (define-key ruby-mode-map (kbd "C-c s") #'rails-http-statues-insert-symbol)
-  (define-key ruby-mode-map (kbd "C-c S") #'rails-http-statues-insert-code))
+(after! ruby-base-mode
+  (define-key ruby-base-mode-map (kbd "C-c s") #'rails-http-statues-insert-symbol)
+  (define-key ruby-base-mode-map (kbd "C-c S") #'rails-http-statues-insert-code))
 
 
 ;; Toggle if singleline and multiline
-(after! ruby-mode
+(after! ruby-base-mode
   (defun otavio/-current-line-empty-p ()
     (save-excursion
       (beginning-of-line)
@@ -123,10 +123,10 @@
     (if (not CHANGED)
         (setq CHANGED (otavio/-swap-search-forward-swap-to-singleline "unless"))))
 
-  (map! :map ruby-mode-map :desc "split or join if/unless" :localleader "i" #'otavio/swap-if-unless-ruby))
+  (map! :map ruby-base-mode-map :desc "split or join if/unless" :localleader "i" #'otavio/swap-if-unless-ruby))
 
 ;; Add parameters
-(after! ruby-mode
+(after! ruby-base-mode
   (defun ruby-add-parameter--with-existing-parameters (args)
     (interactive)
     (forward-char -1)
@@ -149,10 +149,10 @@
               (ruby-add-parameter--with-existing-parameters args)
             (ruby-add-parameter--without-existing-parameters args))))))
 
-  (map! :mode ruby-mode :localleader :desc "Add parameter to def" "a" #'ruby-add-parameter))
+  (map! :mode ruby-base-mode :localleader :desc "Add parameter to def" "a" #'ruby-add-parameter))
 
 ;; Method Refactor
-(after! ruby-mode
+(after! ruby-base-mode
   (defun ruby-extract-function ()
     (interactive)
     (let* ((function-name (read-string "Method name? "))
@@ -199,10 +199,10 @@
       (+evil/reselect-paste)
       (call-interactively 'evil-indent)))
 
-  (map! :mode ruby-mode :localleader :desc "Extract Function" "m" #'ruby-extract-function))
+  (map! :mode ruby-base-mode :localleader :desc "Extract Function" "m" #'ruby-extract-function))
 
 ;; Create method at point
-(after! ruby-mode
+(after! ruby-base-mode
   (defun ruby-new-method-from-symbol-at-point ()
     (interactive)
     (better-jumper-set-jump)
@@ -274,4 +274,4 @@
                 (read-string (concat "name for " argument " boolean:  ")) argument)
           (read-string (concat "name for " argument " expression:  "))))))
 
-  (map! :mode ruby-mode :localleader :desc "New method from text at point" "n" #'ruby-new-method-from-symbol-at-point))
+  (map! :mode ruby-base-mode :localleader :desc "New method from text at point" "n" #'ruby-new-method-from-symbol-at-point))
