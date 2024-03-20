@@ -43,38 +43,9 @@
 
 (setq! display-line-numbers-type `visual)
 
-(use-package! company
-  :after evil
-  :init
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 2
-        company-tooltip-margin 1
-        company-tooltip-limit 15
-        company-format-margin-function 'company-text-icons-margin
-        company-text-icons-add-background t)
-  :config
-  (add-hook 'evil-normal-state-entry-hook 'company-abort))
+(load! "corfu-icons")
 
-(custom-set-faces
- ;; Tooltip appearance
- ;; '(company-tooltip ((t (:background "#263238"))))
- ;; '(company-tooltip-selection ((t (:background "#263238"))))
- '(company-scrollbar-bg ((t (:background "gray10"))))
- '(company-scrollbar-fg ((t (:background "white"))))
- ;; Common completion
- '(company-tooltip-common ((t (:foreground "#c3ac43"))))
- '(company-tooltip-common-selection ((t (:foreground "#ffd100"))))
- ;; Annotation
- '(company-tooltip-annotation ((t (:foreground "#8ccf64"))))
- '(company-tooltip-annotation-selection ((t (:foreground "#ffd100")))))
-
-(load! "my-icons")
-
-(use-package! company-box
-  :after company
-  :config
-  (setq company-box-icons-alist 'my-icons)
-  (setq company-box-doc-enable nil))
+(setq! nerd-icons-corfu-mapping my-corfu-icons)
 
 (with-eval-after-load 'dired
   (map! :leader
@@ -607,6 +578,13 @@
                     :italic t)))
   :config
   (global-blamer-mode 1))
+
+(use-package arduino-cli-mode
+  :hook arduino-mode
+  :mode "\\.ino\\'"
+  :custom
+  (arduino-cli-warnings 'all)
+  (arduino-cli-verify t))
 
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "perso.el" doom-user-dir))
