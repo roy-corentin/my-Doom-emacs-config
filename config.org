@@ -18,6 +18,8 @@
   - [[#doom-theme][Doom Theme]]
 - [[#line-setup][LINE SETUP]]
 - [[#corfu][CORFU]]
+  - [[#keybinding][Keybinding]]
+  - [[#icons][Icons]]
 - [[#file-manager-dired][FILE MANAGER (DIRED)]]
   - [[#keybindings-to-open-dired][Keybindings To Open Dired]]
   - [[#keybindings-within-dired][Keybindings Within Dired]]
@@ -28,7 +30,7 @@
 - [[#drag-stuff][DRAG STUFF]]
 - [[#olivetti][OLIVETTI]]
   - [[#default-width][Default Width]]
-  - [[#keybinding][Keybinding]]
+  - [[#keybinding-1][Keybinding]]
 - [[#magit][MAGIT]]
 - [[#textmode][TEXTMODE]]
 - [[#org][ORG]]
@@ -204,9 +206,29 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 #+end_src
 
 * CORFU
+** Keybinding
+| COMMAND        | DESCRIPTION     | KEYBINDING |
+|----------------+-----------------+------------|
+| corfu-complete | /Open candidates/ | M-TAB      |
+
+#+begin_src emacs-lisp :results silent
+(use-package! corfu
+  :custom
+  (corfu-preselect 'first)
+  :bind ((:map corfu-map
+               ("M-TAB" . corfu-complete)
+               ("M-<tab>" . corfu-complete))))
+#+end_src
+
+Doom emacs with =corfu= remap =evil insert tab= keybinding for =completion-at-point= but I prefer to =indent=
+#+begin_src emacs-lisp :results silent :tangle no
+(with-eval-after-load 'evil-maps
+  (define-key evil-insert-state-map (kbd "<tab>") 'indent-for-tab-command))
+#+end_src
+
+** Icons
 #+begin_src emacs-lisp :results silent
 (load! "corfu-icons")
-
 (setq! nerd-icons-corfu-mapping my-corfu-icons)
 #+end_src
 
