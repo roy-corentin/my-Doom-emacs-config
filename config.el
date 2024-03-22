@@ -142,15 +142,10 @@
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 
-(defun org-summary-todo (n-done n-not-done)
-  "Switch entry to DONE when all subentries are done, to TODO otherwise.
-   Only operates on entries with the TODO keyword."
-  (let ((org-log-done t)
-        (org-log-states nil)
-        (todo-state (org-get-todo-state)))
-    (when (member todo-state org-todo-keywords-1) ; only operate on entries with the TODO keyword
-      (let ((new-state (if (= n-not-done 0) "DONE" "TODO")))
-        (org-todo new-state)))))
+ (defun org-summary-todo (n-done n-not-done)
+   "Switch entry to DONE when all subentries are done, to TODO otherwise."
+   (let (org-log-done org-todo-log-states)   ; turn off logging
+     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
 (use-package! org
   :defer t
@@ -165,14 +160,6 @@
   (efs/org-font-setup)
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
 
-(setq! org-emphasis-alist
-       '(("*" my-org-emphasis-bold)
-         ("/" italic)
-         ("_" underline)
-         ("=" org-verbatim verbatim)
-         ("~" org-code verbatim)
-         ("+" (:strike-through t))))
-
 (defface my-org-emphasis-bold
   '((default :inherit bold)
     (((class color) (min-colors 88) (background light))
@@ -180,6 +167,15 @@
     (((class color) (min-colors 88) (background dark))
      :foreground "#ff8059"))
   "My bold emphasis for Org.")
+
+(after! org
+  (setq org-emphasis-alist
+        '(("*" my-org-emphasis-bold)
+          ("/" italic)
+          ("_" underline)
+          ("=" org-verbatim verbatim)
+          ("~" org-code verbatim)
+          ("+" (:strike-through t)))))
 
 (use-package! org-bullets
   :defer t
@@ -221,6 +217,7 @@
 (use-package! svg-tag-mode
   :defer t
   :hook (org-mode . svg-tag-mode)
+  :after org
   :config
   (plist-put svg-lib-style-default :height 1.2)
   (plist-put svg-lib-style-default :padding 2)
@@ -390,10 +387,9 @@
   :after org-roam ;; or :after org
   :hook (after-init . org-roam-ui-mode)
   :config
-  (setq! org-roam-ui-follow t
-         org-roam-ui-sync-theme t
-         org-roam-ui-update-on-save t
-         org-roam-ui-open-on-start nil))
+  (setq org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start nil))
 
 (use-package! orgnote
   :defer t
