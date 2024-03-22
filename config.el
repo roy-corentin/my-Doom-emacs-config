@@ -43,8 +43,14 @@
 
 (setq! display-line-numbers-type `visual)
 
-(load! "corfu-icons")
+(use-package! corfu
+  :custom
+  (corfu-preselect 'first)
+  :bind ((:map corfu-map
+               ("M-TAB" . corfu-complete)
+               ("M-<tab>" . corfu-complete))))
 
+(load! "corfu-icons")
 (setq! nerd-icons-corfu-mapping my-corfu-icons)
 
 (with-eval-after-load 'dired
