@@ -509,7 +509,7 @@
               ("C-s-<tab>" . 'copilot-accept-completion-by-word)))
 
 (use-package! blamer
-  :bind (("s-i" . blamer-show-posframe-commit-info)("s-I" . global-blamer-mode))
+  :bind (("s-i" . blamer-show-posframe-commit-info))
   :defer 20
   :custom
   (blamer-idle-time 0.3)
@@ -520,7 +520,10 @@
                     :height 80
                     :italic t)))
   :config
-  (global-blamer-mode 1))
+  (global-blamer-mode 0))
+
+(map! :leader
+      :desc "Toggle blamer mode" "g i" #'global-blamer-mode)
 
 (use-package arduino-cli-mode
   :hook arduino-mode

@@ -907,9 +907,14 @@ Fix issue that helm close other buffer when poping
 #+end_src
 
 * BLAMER
+| COMMAND                          | DESCRIPTION                 | KEYBINDING |
+|----------------------------------+-----------------------------+------------|
+| blamer-show-posframe-commit-info | Open Popup with commit info | s-i        |
+| global-blamer-mode               | Toggle blamer mode          | SPC g i    |
+
 #+begin_src elisp :results silent
 (use-package! blamer
-  :bind (("s-i" . blamer-show-posframe-commit-info)("s-I" . global-blamer-mode))
+  :bind (("s-i" . blamer-show-posframe-commit-info))
   :defer 20
   :custom
   (blamer-idle-time 0.3)
@@ -920,7 +925,10 @@ Fix issue that helm close other buffer when poping
                     :height 80
                     :italic t)))
   :config
-  (global-blamer-mode 1))
+  (global-blamer-mode 0))
+
+(map! :leader
+      :desc "Toggle blamer mode" "g i" #'global-blamer-mode)
 #+end_src
 
 * ARDUINO
