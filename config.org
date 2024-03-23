@@ -984,8 +984,7 @@ Fix issue that helm close other buffer when poping
 
 * ELIXIR-TS
 #+begin_src elisp :results silent
-(use-package elixir-ts-mode
-    :ensure t)
+(use-package elixir-ts-mode)
 #+end_src
 
 * BLAMER

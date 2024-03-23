@@ -563,8 +563,7 @@
               ("C-s-TAB" . 'copilot-accept-completion-by-word)
               ("C-s-<tab>" . 'copilot-accept-completion-by-word)))
 
-(use-package elixir-ts-mode
-    :ensure t)
+(use-package elixir-ts-mode)
 
 (use-package! blamer
   :bind (("s-i" . blamer-show-posframe-commit-info))
