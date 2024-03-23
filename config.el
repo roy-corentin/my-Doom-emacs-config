@@ -589,5 +589,12 @@
   (arduino-cli-warnings 'all)
   (arduino-cli-verify t))
 
+(use-package atomic-chrome
+  :demand t
+  :commands (atomic-chrome-start-server)
+  :config
+  (setq-default atomic-chrome-extension-type-list '(atomic-chrome))
+  (atomic-chrome-start-server))
+
 (load! (expand-file-name "rails-settings.el" doom-user-dir))
 (load! (expand-file-name "perso.el" doom-user-dir))

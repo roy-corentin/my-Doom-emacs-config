@@ -75,6 +75,9 @@
 ;; SVG-Tag-Mode
 (package! svg-tag-mode :recipe (:host github :repo "rougier/svg-tag-mode"))
 
+;; Chrome Emacs
+(package! atomic-chrome :recipe (:host github :repo "KarimAziev/atomic-chrome"))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
 

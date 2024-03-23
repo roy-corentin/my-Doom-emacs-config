@@ -74,6 +74,7 @@
 - [[#elixir-ts][ELIXIR-TS]]
 - [[#blamer][BLAMER]]
 - [[#arduino][ARDUINO]]
+- [[#chrome-emacs][CHROME-EMACS]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -1020,6 +1021,16 @@ Fix issue that helm close other buffer when poping
   :custom
   (arduino-cli-warnings 'all)
   (arduino-cli-verify t))
+#+end_src
+
+* CHROME-EMACS
+#+begin_src emacs-lisp :results silent
+(use-package atomic-chrome
+  :demand t
+  :commands (atomic-chrome-start-server)
+  :config
+  (setq-default atomic-chrome-extension-type-list '(atomic-chrome))
+  (atomic-chrome-start-server))
 #+end_src
 
 * IMPORT OTHER CONFIG
