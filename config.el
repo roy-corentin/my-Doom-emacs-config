@@ -234,9 +234,9 @@
           ("\\(IN-PROGRESS\\)" . ((lambda (tag)
                                     (svg-tag-make tag :inverse t :face '+org-todo-active))))
           ("\\(HOLD\\)" . ((lambda (tag)
-                                    (svg-tag-make tag :inverse t :face '+org-todo-onhold))))
+                             (svg-tag-make tag :inverse t :face '+org-todo-onhold))))
           ("\\(CANCELED\\)" . ((lambda (tag)
-                                    (svg-tag-make tag :inverse t :face '+org-todo-cancel)))))))
+                                 (svg-tag-make tag :inverse t :face '+org-todo-cancel)))))))
 
 (add-hook 'org-mode-hook (lambda ()
                            "Beautify Org Checkbox Symbol"

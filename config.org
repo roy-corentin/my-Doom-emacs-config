@@ -520,9 +520,9 @@ Configure style of specific TODO keywords
           ("\\(IN-PROGRESS\\)" . ((lambda (tag)
                                     (svg-tag-make tag :inverse t :face '+org-todo-active))))
           ("\\(HOLD\\)" . ((lambda (tag)
-                                    (svg-tag-make tag :inverse t :face '+org-todo-onhold))))
+                             (svg-tag-make tag :inverse t :face '+org-todo-onhold))))
           ("\\(CANCELED\\)" . ((lambda (tag)
-                                    (svg-tag-make tag :inverse t :face '+org-todo-cancel)))))))
+                                 (svg-tag-make tag :inverse t :face '+org-todo-cancel)))))))
 #+end_src
 
 ** Ligature For Org Mode
@@ -978,7 +978,7 @@ Fix issue that helm close other buffer when poping
 #+end_src
 
 * ELIXIR-TS
-#+begin_src elisp :results silent :tangle no
+#+begin_src elisp :results silent
 (use-package elixir-ts-mode
     :ensure t)
 #+end_src
