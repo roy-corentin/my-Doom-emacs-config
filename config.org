@@ -703,7 +703,6 @@ Configuration for org-roam:
 
 #+begin_src elisp :results silent
 (use-package! org-roam
-  :ensure t
   :custom
   (org-roam-directory "~/Dropbox/RoamNotes")
   (org-roam-index-file "~/Dropbox/RoamNotes/index.org")
