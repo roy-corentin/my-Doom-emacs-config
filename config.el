@@ -243,6 +243,7 @@
     (svg-tag-mode 1)))
 
 (use-package! svg-tag-mode
+  :after org
   :init
   (add-hook 'org-mode-hook  #'royco/set-svg-tag-tags-for-org-mode)
   :config
