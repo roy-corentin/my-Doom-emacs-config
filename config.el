@@ -144,7 +144,7 @@
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 
 (defun org-summary-todo (n-done n-not-done)
-  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  "Switch entry to DONE when all subentries of a TODO are done, to TODO otherwise."
   (when (member (org-get-todo-state) org-todo-keywords-1)
     (let (org-log-done org-todo-log-states)   ; turn off logging
       (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
