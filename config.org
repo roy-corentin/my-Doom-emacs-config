@@ -403,10 +403,11 @@ Load =org-faces= to make sure we can set appropriate faces
 
 Function to automatically get node done if it's children are done
 #+begin_src elisp :results silent
- (defun org-summary-todo (n-done n-not-done)
-   "Switch entry to DONE when all subentries are done, to TODO otherwise."
-   (let (org-log-done org-todo-log-states)   ; turn off logging
-     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries of a TODO are done, to TODO otherwise."
+  (when (member (org-get-todo-state) org-todo-keywords-1)
+    (let (org-log-done org-todo-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
 #+end_src
 
 #+begin_src elisp :results silent

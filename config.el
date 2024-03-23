@@ -142,10 +142,11 @@
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 
- (defun org-summary-todo (n-done n-not-done)
-   "Switch entry to DONE when all subentries are done, to TODO otherwise."
-   (let (org-log-done org-todo-log-states)   ; turn off logging
-     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (when (member (org-get-todo-state) org-todo-keywords-1)
+    (let (org-log-done org-todo-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
 
 (use-package! org
   :defer t
