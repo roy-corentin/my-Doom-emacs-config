@@ -306,8 +306,7 @@ To move the cursor's line or the lines selected with visual-mode up or down
 ** Default Width
 Set a bigger width for Olivetti mode (original 90)
 #+begin_src elisp :results silent
-(setq! olivetti-body-width 120
-       olivetti-style 'fancy)
+(setq! olivetti-body-width 120)
 #+end_src
 
 ** Keybinding

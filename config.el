@@ -77,8 +77,7 @@
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
-(setq! olivetti-body-width 120
-       olivetti-style 'fancy)
+(setq! olivetti-body-width 120)
 
 (map! :leader
       :desc "Toggle Olivetti Mode" "t o" #'olivetti-mode)
