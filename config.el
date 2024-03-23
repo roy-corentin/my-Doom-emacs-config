@@ -225,10 +225,23 @@
   (plist-put svg-lib-style-default :font-size 10)
   (plist-put svg-lib-style-default :scale 2)
   (setq svg-tag-tags
-        '(("\\(:[A-Z_]+:\\)" . ((lambda (tag)
+        '(
+          ;; Org tags
+          ("\\(:[A-Z_]+:\\)" . ((lambda (tag)
                                   (svg-tag-make tag :beg 1 :end -1 :margin 1.5))))
           ("\\(:[A-Z]+:\\)$" . ((lambda (tag)
                                   (svg-tag-make tag :beg 1 :end -1 :margin 1.5))))
+          ;; Task priority
+          ("\\[#[A]\\]" . ((lambda (tag)
+                               (svg-tag-make tag :face 'error
+                                             :beg 2 :end -1 :margin 0))))
+          ("\\[#[B]\\]" . ((lambda (tag)
+                               (svg-tag-make tag :face 'warning
+                                             :beg 2 :end -1 :margin 0))))
+          ("\\[#[C]\\]" . ((lambda (tag)
+                               (svg-tag-make tag :face 'success
+                                             :beg 2 :end -1 :margin 0))))
+          ;; TODOS/DONES
           ("\\(TODO\\)" . ((lambda (tag)
                              (svg-tag-make tag :inverse t :face 'org-todo))))
           ("\\(DONE\\)" . ((lambda (tag)
@@ -238,7 +251,12 @@
           ("\\(HOLD\\)" . ((lambda (tag)
                              (svg-tag-make tag :inverse t :face '+org-todo-onhold))))
           ("\\(CANCELED\\)" . ((lambda (tag)
-                                 (svg-tag-make tag :inverse t :face '+org-todo-cancel)))))))
+                                 (svg-tag-make tag :inverse t :face '+org-todo-cancel))))
+          ;; Log Date
+          ("\\(\\[[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\s[A-Za-z]\\{3\\}\.\s[0-9]\\{2\\}:[0-9]\\{2\\}\\]\\)"
+           . ((lambda (tag)
+                (svg-tag-make tag :beg 0 :end -1 :face 'org-date))))
+          )))
 
 (add-hook 'org-mode-hook (lambda ()
                            "Beautify Org Checkbox Symbol"
@@ -255,8 +273,8 @@
                            (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
                            (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
                            (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
-                           (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
-                           (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+begin_quote" . "󱆧" ) prettify-symbols-alist)
+                           (push '("#+end_quote" . "󱆨⇤" ) prettify-symbols-alist)
                            (push '("#+TITLE:" . "") prettify-symbols-alist)
                            (push '("#+title:" . "") prettify-symbols-alist)
                            (push '("#+DESCRIPTION:" . "󰦨") prettify-symbols-alist)
