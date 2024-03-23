@@ -878,7 +878,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
 ** Keybinding Centaur-Tabs
 Keybinding to turn toggle centaur tabs mode
 
-#+begin_src elisp :results silent
+#+begin_src elisp :results silent :tangle no
 (map! :leader
       :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
 #+end_src

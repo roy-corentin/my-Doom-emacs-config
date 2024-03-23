@@ -509,9 +509,6 @@
   (setq web-mode-auto-close-style 2)
   (setq web-mode-enable-auto-closing 2))
 
-(map! :leader
-      :desc "Toggle Centaur Tabs" "t a" #'centaur-tabs-mode)
-
 (map! :ni "C-," #'+tabs:previous-or-goto)
 (map! :ni "C-;" #'+tabs:next-or-goto)
 
