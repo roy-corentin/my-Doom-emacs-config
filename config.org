@@ -884,9 +884,14 @@ Keybinding to turn toggle centaur tabs mode
 ** Move Between Tabs
 Keybinding to move at previous and next buffer
 
-#+begin_src elisp :results silent
+#+begin_src elisp :results silent :tangle no
 (map! :ni "C-," #'+tabs:previous-or-goto)
 (map! :ni "C-;" #'+tabs:next-or-goto)
+#+end_src
+
+#+begin_src elisp :results silent 
+(map! :ni "C-," #'previous-buffer)
+(map! :ni "C-;" #'next-buffer)
 #+end_src
 
 * LSP-MODE

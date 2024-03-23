@@ -509,8 +509,8 @@
   (setq web-mode-auto-close-style 2)
   (setq web-mode-enable-auto-closing 2))
 
-(map! :ni "C-," #'+tabs:previous-or-goto)
-(map! :ni "C-;" #'+tabs:next-or-goto)
+(map! :ni "C-," #'previous-buffer)
+(map! :ni "C-;" #'next-buffer)
 
 (use-package! lsp-mode
   :init
