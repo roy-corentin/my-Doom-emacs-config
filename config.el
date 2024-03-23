@@ -215,8 +215,8 @@
 
 (use-package! svg-tag-mode
   :defer t
-  :hook (org-mode . svg-tag-mode)
   :after org
+  :hook (org-mode . svg-tag-mode)
   :config
   (plist-put svg-lib-style-default :height 1.2)
   (plist-put svg-lib-style-default :padding 2)
