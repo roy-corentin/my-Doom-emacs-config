@@ -62,9 +62,6 @@
 (package! arduino-mode :recipe (:host github :repo "bookest/arduino-mode"))
 (package! arduino-cli-mode :recipe (:host github :repo "motform/arduino-cli-mode"))
 
-;; Gnuplot
-(package! gnuplot)
-
 ;; Elixir-ts
 (package! heex-ts :recipe (:host github :repo "wkirschbaum/heex-ts-mode" :files ("*.el")))
 (package! elixir-ts :recipe (:host github :repo "wkirschbaum/elixir-ts-mode" :files ("*.el")))
