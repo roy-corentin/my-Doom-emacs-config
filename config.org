@@ -1018,12 +1018,6 @@ Fix issue that helm close other buffer when poping
   (arduino-cli-verify t))
 #+end_src
 
-* ELIXIR-TS
-#+begin_src elisp :results silent :tangle no
-(use-package elixir-ts-mode
-    :ensure t)
-#+end_src
-
 * IMPORT OTHER CONFIG
 Use external rails config, for snippet and method to navigate easily in rails project
 
