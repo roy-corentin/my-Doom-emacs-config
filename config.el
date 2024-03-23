@@ -438,6 +438,61 @@
   ;; Set treemacs theme
   (setq doom-themes-treemacs-theme "doom-colors"))
 
+(setq! treesit-language-source-alist
+  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+    (c "https://github.com/tree-sitter/tree-sitter-c")
+    (cmake "https://github.com/uyha/tree-sitter-cmake")
+    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+    (css "https://github.com/tree-sitter/tree-sitter-css")
+    (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+    (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
+    (go "https://github.com/tree-sitter/tree-sitter-go")
+    (go-mod "https://github.com/camdencheek/tree-sitter-go-mod")
+    (heex "https://github.com/phoenixframework/tree-sitter-heex")
+    (html "https://github.com/tree-sitter/tree-sitter-html")
+    (js . ("https://github.com/tree-sitter/tree-sitter-javascript" "master" "src"))
+    (json "https://github.com/tree-sitter/tree-sitter-json")
+    (make "https://github.com/alemuller/tree-sitter-make")
+    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+    (python "https://github.com/tree-sitter/tree-sitter-python")
+    (rust "https://github.com/tree-sitter/tree-sitter-rust")
+    (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+    (toml "https://github.com/tree-sitter/tree-sitter-toml")
+    (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
+    (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
+    (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+    (latex "https://github.com/latex-lsp/tree-sitter-latex")))
+
+(use-package! treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (global-treesit-auto-mode))
+
+(add-hook 'bash-ts-mode-hook #'lsp)
+(add-hook 'c-ts-mode-hook #'lsp)
+(add-hook 'cmake-ts-mode-hook #'lsp)
+(add-hook 'c++-ts-mode-hook #'lsp)
+(add-hook 'css-ts-mode-hook #'lsp)
+(add-hook 'elisp-ts-mode-hook #'lsp)
+(add-hook 'elixir-ts-mode-hook #'lsp)
+(add-hook 'go-ts-mode-hook #'lsp)
+(add-hook 'go-mod-ts-mode-hook #'lsp)
+(add-hook 'html-ts-mode-hook #'lsp)
+(add-hook 'javascript-ts-mode-hook #'lsp)
+(add-hook 'json-ts-mode-hook #'lsp)
+(add-hook 'make-ts-mode-hook #'lsp)
+(add-hook 'markdown-ts-mode-hook #'lsp)
+(add-hook 'python-ts-mode-hook #'lsp)
+(add-hook 'rust-ts-mode-hook #'lsp)
+(add-hook 'ruby-ts-mode-hook #'lsp)
+(add-hook 'toml-ts-mode-hook #'lsp)
+(add-hook 'tsx-ts-mode-hook #'lsp)
+(add-hook 'typescript-ts-mode-hook #'lsp)
+(add-hook 'yaml-ts-mode-hook #'lsp)
+(add-hook 'yaml-ts-mode-hook #'lsp)
+(add-hook 'latex-ts-mode-hook #'lsp)
+
 (after! lsp-mode
   (add-to-list 'lsp-language-id-configuration '(".*\\.html\\.erb$" . "html"))
   (setq lsp-ui-sideline-show-code-actions t))
@@ -461,12 +516,16 @@
 (map! :ni "C-," #'+tabs:previous-or-goto)
 (map! :ni "C-;" #'+tabs:next-or-goto)
 
-(after! lsp-mode
+(use-package! lsp-mode
+  :init
+  (add-to-list 'exec-path "~/Applications/elixir-ls")
+  :config
   (setq lsp-log-io nil
         lsp-idle-delay 0.5
         read-process-output-max (* 1024 1024)
-        lsp-disabled-clients '(rubocop-ls))
+        lsp-disabled-clients '(rubocop-ls)))
 
+(after! lsp-mode
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
     "Try to parse bytecode instead of json."
     (or

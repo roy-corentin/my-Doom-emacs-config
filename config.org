@@ -50,11 +50,15 @@
 - [[#org-roam][ORG-ROAM]]
   - [[#org-roam-ui][Org-Roam UI]]
   - [[#org-note][Org-Note]]
+  - [[#org-note-1][Org-Note]]
 - [[#org-ai][ORG-AI]]
 - [[#which-key][WHICH-KEY]]
 - [[#mouse-scrolling][MOUSE SCROLLING]]
 - [[#treemacs][TREEMACS]]
   - [[#config][Config]]
+- [[#treesit][TREESIT]]
+  - [[#language-sources][Language Sources]]
+  - [[#treesit-auto][Treesit-Auto]]
 - [[#web][WEB]]
   - [[#htmlerb][HTML.ERB]]
   - [[#custom-web-mode][CUSTOM WEB-MODE]]
@@ -68,8 +72,10 @@
 - [[#xeft][XEFT]]
 - [[#copilot][COPILOT]]
 - [[#helm][HELM]]
+- [[#elixir-ts][ELIXIR-TS]]
 - [[#blamer][BLAMER]]
 - [[#arduino][ARDUINO]]
+- [[#elixir-ts][ELIXIR-TS]]
 - [[#import-other-config][IMPORT OTHER CONFIG]]
 - [[#information][INFORMATION]]
 
@@ -777,6 +783,70 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   (setq doom-themes-treemacs-theme "doom-colors"))
 #+end_src
 
+* TREESIT
+** Language Sources
+#+begin_src elisp :results silent
+(setq! treesit-language-source-alist
+  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+    (c "https://github.com/tree-sitter/tree-sitter-c")
+    (cmake "https://github.com/uyha/tree-sitter-cmake")
+    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+    (css "https://github.com/tree-sitter/tree-sitter-css")
+    (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+    (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
+    (go "https://github.com/tree-sitter/tree-sitter-go")
+    (go-mod "https://github.com/camdencheek/tree-sitter-go-mod")
+    (heex "https://github.com/phoenixframework/tree-sitter-heex")
+    (html "https://github.com/tree-sitter/tree-sitter-html")
+    (js . ("https://github.com/tree-sitter/tree-sitter-javascript" "master" "src"))
+    (json "https://github.com/tree-sitter/tree-sitter-json")
+    (make "https://github.com/alemuller/tree-sitter-make")
+    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+    (python "https://github.com/tree-sitter/tree-sitter-python")
+    (rust "https://github.com/tree-sitter/tree-sitter-rust")
+    (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+    (toml "https://github.com/tree-sitter/tree-sitter-toml")
+    (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
+    (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
+    (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+    (latex "https://github.com/latex-lsp/tree-sitter-latex")))
+#+end_src
+
+** Treesit-Auto
+#+begin_src elisp :results silent
+(use-package! treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (global-treesit-auto-mode))
+#+end_src
+
+#+begin_src elisp :results silent
+(add-hook 'bash-ts-mode-hook #'lsp)
+(add-hook 'c-ts-mode-hook #'lsp)
+(add-hook 'cmake-ts-mode-hook #'lsp)
+(add-hook 'c++-ts-mode-hook #'lsp)
+(add-hook 'css-ts-mode-hook #'lsp)
+(add-hook 'elisp-ts-mode-hook #'lsp)
+(add-hook 'elixir-ts-mode-hook #'lsp)
+(add-hook 'go-ts-mode-hook #'lsp)
+(add-hook 'go-mod-ts-mode-hook #'lsp)
+(add-hook 'html-ts-mode-hook #'lsp)
+(add-hook 'javascript-ts-mode-hook #'lsp)
+(add-hook 'json-ts-mode-hook #'lsp)
+(add-hook 'make-ts-mode-hook #'lsp)
+(add-hook 'markdown-ts-mode-hook #'lsp)
+(add-hook 'python-ts-mode-hook #'lsp)
+(add-hook 'rust-ts-mode-hook #'lsp)
+(add-hook 'ruby-ts-mode-hook #'lsp)
+(add-hook 'toml-ts-mode-hook #'lsp)
+(add-hook 'tsx-ts-mode-hook #'lsp)
+(add-hook 'typescript-ts-mode-hook #'lsp)
+(add-hook 'yaml-ts-mode-hook #'lsp)
+(add-hook 'yaml-ts-mode-hook #'lsp)
+(add-hook 'latex-ts-mode-hook #'lsp)
+#+end_src
+
 * WEB
 ** HTML.ERB
 *** Add ERB to lsp-mode
@@ -829,17 +899,21 @@ If =lsp-log-io= set to true can cause a performance hit
 - Disable ~rubocop-ls~ to use ~ruby-lsp~
 
 #+begin_src elisp :results silent
-(after! lsp-mode
+(use-package! lsp-mode
+  :init
+  (add-to-list 'exec-path "~/Applications/elixir-ls")
+  :config
   (setq lsp-log-io nil
         lsp-idle-delay 0.5
         read-process-output-max (* 1024 1024)
-        lsp-disabled-clients '(rubocop-ls))
+        lsp-disabled-clients '(rubocop-ls)))
 #+end_src
 
 ** Emacs-lsp-booster
 Wrap lsp exec by emacs-lsp-booster
 
 #+begin_src elisp :results silent
+(after! lsp-mode
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
     "Try to parse bytecode instead of json."
     (or
@@ -906,6 +980,12 @@ Fix issue that helm close other buffer when poping
 (shackle-mode)
 #+end_src
 
+* ELIXIR-TS
+#+begin_src elisp :results silent :tangle no
+(use-package elixir-ts-mode
+    :ensure t)
+#+end_src
+
 * BLAMER
 | COMMAND                          | DESCRIPTION                 | KEYBINDING |
 |----------------------------------+-----------------------------+------------|
@@ -939,6 +1019,12 @@ Fix issue that helm close other buffer when poping
   :custom
   (arduino-cli-warnings 'all)
   (arduino-cli-verify t))
+#+end_src
+
+* ELIXIR-TS
+#+begin_src elisp :results silent :tangle no
+(use-package elixir-ts-mode
+    :ensure t)
 #+end_src
 
 * IMPORT OTHER CONFIG
