@@ -149,15 +149,14 @@
 
 (use-package! org
   :defer t
-  :hook (org-mode . efs/org-mode-setup)
+  :hook (org-mode . efs/org-mode-setup) (org-mode . efs/org-font-setup)
   :config
-  (setq! org-ellipsis " ▼ "
-         org-log-done 'time
-         org-default-priority 67
-         org-hide-emphasis-markers t
-         org-hierarchical-todo-statistics nil
-         org-image-actual-width nil) ;; Use the actual image's size in org files
-  (efs/org-font-setup)
+  (setq org-ellipsis " ▼ "
+        org-log-done 'time
+        org-default-priority 67
+        org-hide-emphasis-markers t
+        org-hierarchical-todo-statistics nil
+        org-image-actual-width nil) ;; Use the actual image's size in org files
   (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
 
 (defface my-org-emphasis-bold
