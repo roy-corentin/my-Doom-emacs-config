@@ -41,7 +41,7 @@
 ;; (setq! doom-theme 'ewal-doom-one)
 (setq! doom-theme 'doom-moonlight)
 
-(setq! display-line-numbers-type `visual)
+(setq! display-line-numbers-type 'visual)
 
 (use-package! corfu
   :custom
