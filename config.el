@@ -209,10 +209,10 @@
 
 (after! org
   (setq org-todo-keyword-faces
-        '(("IN-PROGRESS" . (:foreground "#b7a1f5" :weight bold )) ("HOLD" . org-warning)
+        '(("IN-PROGRESS" . (:foreground "#b7a1f5")) ("HOLD" . org-warning)
           ("[ ]" . (:foreground "#82b66a" :weight bold)) ("[-]" . (:foreground "#b7a1f5" :weight bold ))
           ("[?]" . org-warning)
-          ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5" :weight bold )) ("🔒HOLD" . org-warning))))
+          ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5")) ("🔒HOLD" . org-warning))))
 
 (defun royco/set-svg-tag-tags-for-org-mode ()
   "Set the SVG tags for `org-mode'."
