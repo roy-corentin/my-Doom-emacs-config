@@ -144,8 +144,9 @@
 
 (defun org-summary-todo (n-done n-not-done)
   "Switch entry to DONE when all subentries of a TODO are done, to TODO otherwise."
-  (when (member (org-get-todo-state) org-todo-keywords-1)
-    (let (org-log-done org-todo-log-states)   ; turn off logging
+  (let ((org-log-done org-todo-log-states)
+        (todo-state (org-get-todo-state)))   ; turn off logging
+    (when (member todo-state org-todo-keywords-1)
       (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
 
 (use-package! org
