@@ -311,7 +311,6 @@
             (agenda "" ((org-agenda-prefix-format "%-15:T\t%?-12t [X] ")
                         (org-agenda-todo-keyword-format "")
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
-                        (org-agenda-start-on-weekday nil)
                         (org-agenda-archives-mode t)
                         (org-agenda-start-day "0d")
                         (org-agenda-span 1)
