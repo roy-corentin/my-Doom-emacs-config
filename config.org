@@ -27,6 +27,7 @@
 - [[#evil-mode][EVIL-MODE]]
   - [[#cursor][Cursor]]
   - [[#killing][Killing]]
+  - [[#snipe][Snipe]]
 - [[#drag-stuff][DRAG STUFF]]
 - [[#olivetti][OLIVETTI]]
   - [[#default-width][Default Width]]
@@ -628,7 +629,8 @@ Configure style of specific TODO keywords
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'scheduled 'deadline))
                         (org-agenda-log-mode-items '(closed clock state))
                         (org-agenda-archives-mode t)
-                        (org-agenda-start-day "-7d")
+                        (org-agenda-start-day "-8d")
+                        (org-agenda-span 8)
                         (org-agenda-start-with-log-mode nil)
                         (org-agenda-overriding-header "Week Done")))
             (alltodo "")))
@@ -845,6 +847,7 @@ Emacs' default scrolling is annoying because of the sudden half-page jumps.  Als
   (global-treesit-auto-mode))
 #+end_src
 
+To Enable lsp for =*-ts-mode=
 #+begin_src elisp :results silent
 (add-hook 'bash-ts-mode-hook #'lsp)
 (add-hook 'c-ts-mode-hook #'lsp)
