@@ -293,6 +293,11 @@ Don't put overwritten text by paste in the kill ring
 (setq! evil-kill-on-visual-paste nil)
 #+end_src
 
+** Snipe
+#+begin_src elisp :results silent
+(setq! evil-snipe-scope 'buffer)
+#+end_src
+
 * DRAG STUFF
 To move the cursor's line or the lines selected with visual-mode up or down
 

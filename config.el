@@ -74,6 +74,8 @@
 
 (setq! evil-kill-on-visual-paste nil)
 
+(setq! evil-snipe-scope 'buffer)
+
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
