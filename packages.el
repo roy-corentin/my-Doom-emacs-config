@@ -53,7 +53,7 @@
 (package! orgnote :recipe (:host github :repo "artawower/orgnote.el"))
 
 ;; SVG-Tag-Mode
-(package! svg-tag-mode :recipe (:host github :repo "rougier/svg-tag-mode"))
+(package! svg-tag-mode)
 
 ;; Blamer
 (package! blamer :recipe (:host github :repo "artawower/blamer.el"))
@@ -68,9 +68,6 @@
 
 ;; Org-Note
 (package! orgnote :recipe (:host github :repo "artawower/orgnote.el"))
-
-;; SVG-Tag-Mode
-(package! svg-tag-mode :recipe (:host github :repo "rougier/svg-tag-mode"))
 
 ;; Chrome Emacs
 (package! atomic-chrome :recipe (:host github :repo "KarimAziev/atomic-chrome"))

@@ -154,17 +154,16 @@
     (when (member todo-state org-todo-keywords-1)
       (org-todo (if (= n-not-done 0) "DONE" "TODO")))))
 
-(use-package! org
-  :defer t
-  :hook (org-mode . efs/org-mode-setup) (org-mode . efs/org-font-setup)
-  :config
-  (setq org-ellipsis " ▼ "
-        org-log-done 'time
-        org-default-priority 67
-        org-hide-emphasis-markers t
-        org-hierarchical-todo-statistics nil
-        org-image-actual-width nil) ;; Use the actual image's size in org files
-  (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
+(add-hook! 'org-mode-hook #'efs/org-mode-setup)
+(add-hook! 'org-mode-hook #'efs/org-font-setup)
+(add-hook! 'org-after-todo-statistics-hook #'org-summary-todo)
+
+(setq! org-ellipsis " ▼ "
+       org-log-done 'time
+       org-default-priority 67
+       org-hide-emphasis-markers t
+       org-hierarchical-todo-statistics nil
+       org-image-actual-width nil) ;; Use the actual image's size in org files
 
 (defface my-org-emphasis-bold
   '((default :inherit bold)
@@ -220,43 +219,75 @@
           ("[?]" . org-warning)
           ("👷🏻IN-PROGRESS" . (:foreground "#b7a1f5")) ("🔒HOLD" . org-warning))))
 
-(defun royco/set-svg-tag-tags-for-org-mode ()
-  "Set the SVG tags for `org-mode'."
-  (when (display-graphic-p)
-    (setq-local svg-tag-tags
-                '(
-                  ;; Org tags
-                  ("\\(:[A-Z_]+:\\)" . ((lambda (tag)
-                                          (svg-tag-make tag :beg 1 :end -1 :margin 1.5))))
-                  ("\\(:[A-Z_]+:\\)$" . ((lambda (tag)
-                                           (svg-tag-make tag :beg 1 :end -1 :margin 1.5))))
-                  ;; TODOS/DONES
-                  ("\\(TODO\\)" . ((lambda (tag)
-                                     (svg-tag-make tag :inverse t :face 'org-todo))))
-                  ("\\(DONE\\)" . ((lambda (tag)
-                                     (svg-tag-make tag :inverse t :face 'org-done))))
-                  ("\\(IN-PROGRESS\\)" . ((lambda (tag)
-                                            (svg-tag-make tag :inverse t :face '+org-todo-active))))
-                  ("\\(HOLD\\)" . ((lambda (tag)
-                                     (svg-tag-make tag :inverse t :face '+org-todo-onhold))))
-                  ("\\(CANCELED\\)" . ((lambda (tag)
-                                         (svg-tag-make tag :inverse t :face '+org-todo-cancel))))
-                  ;; Log Date
-                  ("\\(\\[[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\s[A-Za-z]\\{3\\}\.\s[0-9]\\{2\\}:[0-9]\\{2\\}\\]\\)"
-                   . ((lambda (tag)
-                        (svg-tag-make tag :beg 0 :end -1 :face 'org-date))))
-                  ))
-    (svg-tag-mode 1)))
+(defun svg-progress-percent (value)
+  (svg-image (svg-lib-concat
+              (svg-lib-progress-bar (/ (string-to-number value) 100.0)
+                                    nil :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+              (svg-lib-tag (concat value "%")
+                           nil :stroke 0 :margin 0)) :ascent 'center))
 
-(use-package! svg-tag-mode
-  :after org
-  :init
-  (add-hook 'org-mode-hook  #'royco/set-svg-tag-tags-for-org-mode)
+(defun svg-progress-count (value)
+  (let* ((seq (mapcar #'string-to-number (split-string value "/")))
+         (count (float (car seq)))
+         (total (float (cadr seq))))
+    (svg-image (svg-lib-concat
+                (svg-lib-progress-bar (/ count total) nil
+                                      :margin 0 :stroke 2 :radius 3 :padding 2 :width 11)
+                (svg-lib-tag value nil
+                             :stroke 0 :margin 0)) :ascent 'center)))
+
+(use-package svg-tag-mode
+  :hook org-mode
   :config
   (plist-put svg-lib-style-default :font-family "JetBrainsMono Nerd Font")
   (plist-put svg-lib-style-default :height 1.2)
   (plist-put svg-lib-style-default :padding 2)
-  (plist-put svg-lib-style-default :font-size 10))
+  (plist-put svg-lib-style-default :font-size 10)
+  (setq! svg-tag-tags
+         '(
+           ;; Org tags
+           ("\\(:[A-Z_]+:\\)" . ((lambda (tag)
+                                   (svg-tag-make tag :beg 1 :end -1 :margin 1.5))))
+           ("\\(:[A-Z_]+:\\)$" . ((lambda (tag)
+                                    (svg-tag-make tag :beg 1 :end -1 :margin 1.5))))
+           ;; TODOS/DONES
+           ("\\(TODO\\)" . ((lambda (tag)
+                              (svg-tag-make tag :inverse t :face 'org-todo))))
+           ("\\(DONE\\)" . ((lambda (tag)
+                              (svg-tag-make tag :inverse t :face 'org-done))))
+           ("\\(IN-PROGRESS\\)" . ((lambda (tag)
+                                     (svg-tag-make tag :inverse t :face '+org-todo-active))))
+           ("\\(HOLD\\)" . ((lambda (tag)
+                              (svg-tag-make tag :inverse t :face '+org-todo-onhold))))
+           ("\\(CANCELED\\)" . ((lambda (tag)
+                                  (svg-tag-make tag :inverse t :face '+org-todo-cancel))))
+           ;; Progress
+           ("\\(\\[[0-9]\\{1,3\\}%\\]\\)" . ((lambda (tag)
+                                               (svg-progress-percent (substring tag 1 -2)))))
+           ("\\(\\[[0-9]+/[0-9]+\\]\\)" . ((lambda (tag)
+                                             (svg-progress-count (substring tag 1 -1)))))
+           ;; Active date (with or without day name, with or without time)
+           ("\\(<[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}>\\)"
+            . ((lambda (tag)
+                 (svg-tag-make tag :beg 1 :end -1 :margin 0))))
+           ("\\(<[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} \\)\\([A-Za-z]\\{3\\}\\.?\\)? ?\\([0-9]\\{2\\}:[0-9]\\{2\\}\\)?>"
+            . ((lambda (tag)
+                 (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0))))
+           ("<[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} \\(\\([A-Za-z]\\{3\\}\\.?\\)? ?\\([0-9]\\{2\\}:[0-9]\\{2\\}\\)?>\\)"
+            . ((lambda (tag)
+                 (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0))))
+
+           ;; Inactive date  (with or without day name, with or without time)
+           ("\\(\\[[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\]\\)"
+            . ((lambda (tag)
+                 (svg-tag-make tag :beg 1 :end -1 :margin 0 :face 'org-date))))
+           ("\\(\\[[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} \\)\\([A-Za-z]\\{3\\}\\.?\\)? ?\\([0-9]\\{2\\}:[0-9]\\{2\\}\\)?\\]"
+            . ((lambda (tag)
+                 (svg-tag-make tag :beg 1 :inverse nil :crop-right t :margin 0 :face 'org-date))))
+           ("\\[[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\} \\(\\([A-Za-z]\\{3\\}\\.?\\)? ?\\([0-9]\\{2\\}:[0-9]\\{2\\}\\)?\\]\\)"
+            . ((lambda               (tag)
+                 (svg-tag-make tag :end -1 :inverse t :crop-left t :margin 0 :face 'org-date))))
+           )))
 
 (add-hook 'org-mode-hook (lambda ()
                            "Beautify Org Checkbox Symbol"
