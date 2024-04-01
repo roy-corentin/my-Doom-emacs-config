@@ -621,6 +621,9 @@
               ("C-s-TAB" . 'copilot-accept-completion-by-word)
               ("C-s-<tab>" . 'copilot-accept-completion-by-word)))
 
+(map! :leader
+      :desc "Toggle Copilot" "t G" #'global-copilot-mode)
+
 (use-package elixir-ts-mode)
 
 (use-package! blamer

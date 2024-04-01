@@ -1041,6 +1041,9 @@ Accept completion from copilot and fallback to company
               ("C-<tab>" . 'copilot-accept-completion)
               ("C-s-TAB" . 'copilot-accept-completion-by-word)
               ("C-s-<tab>" . 'copilot-accept-completion-by-word)))
+
+(map! :leader
+      :desc "Toggle Copilot" "t G" #'global-copilot-mode)
 #+end_src
 
 * HELM
