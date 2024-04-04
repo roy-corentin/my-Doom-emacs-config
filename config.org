@@ -224,9 +224,9 @@ numbers are disabled. For relative line numbers, set this to `relative'.
   (setq corfu-preselect 'first)
   :bind (:map corfu-map
               ("TAB" . nil)
-              ("<tab>" . nil)
+              ([tab] . nil)
               ("M-TAB" . corfu-complete)
-              ("M-<tab>" . corfu-complete)))
+              ([backtab] . corfu-complete)))
 #+end_src
 
 ** Icons

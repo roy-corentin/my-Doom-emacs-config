@@ -49,9 +49,9 @@
   (setq corfu-preselect 'first)
   :bind (:map corfu-map
               ("TAB" . nil)
-              ("<tab>" . nil)
+              ([tab] . nil)
               ("M-TAB" . corfu-complete)
-              ("M-<tab>" . corfu-complete)))
+              ([backtab] . corfu-complete)))
 
 (load! "corfu-icons")
 (setq! nerd-icons-corfu-mapping my-corfu-icons)
