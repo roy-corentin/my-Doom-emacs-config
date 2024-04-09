@@ -30,6 +30,10 @@
   - [[#snipe][Snipe]]
 - [[#drag-stuff][DRAG STUFF]]
 - [[#olivetti][OLIVETTI]]
+  - [[#default-width][Default Width]]
+  - [[#keybinding-1][Keybinding]]
+- [[#magit][MAGIT]]
+- [[#textmode][TEXTMODE]]
 - [[#org][ORG]]
   - [[#org-buffer-creation][Org buffer creation]]
   - [[#org-location][Org location]]
@@ -302,18 +306,28 @@ To move the cursor's line or the lines selected with visual-mode up or down
 
 
 * OLIVETTI
-- Default Width | Set a bigger width for Olivetti mode (original 90)
-- Keybinding | Keybinding to toggle olivetti-mode
-- Hooks | Add olivetti mode to magit and text-mode
-
+** Default Width
+Set a bigger width for Olivetti mode (original 90)
 #+begin_src elisp :results silent
-(use-package! olivetti
-  :custom 
-  (olivetti-body-width 120)
-  :hook (text-mode magit-mode))
+(setq! olivetti-body-width 120)
+#+end_src
 
+** Keybinding
+Keybinding to toggle olivetti-mode
+#+begin_src elisp :results silent
 (map! :leader
       :desc "Toggle Olivetti Mode" "t o" #'olivetti-mode)
+#+end_src
+
+* MAGIT
+Add olivetti mode to magit buffer
+#+begin_src elisp :results silent
+(add-hook! 'magit-mode-hook (olivetti-mode 1))
+#+end_src
+
+* TEXTMODE
+#+begin_src elisp :results silent
+(add-hook! 'text-mode-hook (olivetti-mode 1))
 #+end_src
 
 * ORG
