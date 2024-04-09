@@ -82,14 +82,13 @@
 (map! "C-M-k" #'drag-stuff-up)
 (map! "C-M-j" #'drag-stuff-down)
 
-(setq! olivetti-body-width 120)
+(use-package! olivetti
+  :custom 
+  (olivetti-body-width 120)
+  :hook (text-mode magit-mode))
 
 (map! :leader
       :desc "Toggle Olivetti Mode" "t o" #'olivetti-mode)
-
-(add-hook! 'magit-mode-hook (olivetti-mode 1))
-
-(add-hook! 'text-mode-hook (olivetti-mode 1))
 
 (evil-define-command +evil-buffer-org-new (count file)
   "Creates a new ORG buffer replacing the current window, optionally
